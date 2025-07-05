@@ -5,149 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>matic — Business Process Automation</title>
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: black;
-      color: white;
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
     }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 20px 40px;
-      background-color: black;
-      border-bottom: 2px solid red;
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--accent);
     }
+
     header img {
-      height: 40px;
+      height: 36px;
     }
+
     nav a {
-      color: white;
+      color: var(--text);
       text-decoration: none;
       margin-left: 30px;
-      font-weight: bold;
+      font-weight: 500;
+      transition: color 0.3s ease;
     }
+
     nav a:hover {
-      color: red;
+      color: var(--hover);
     }
+
     .hero {
       text-align: center;
-      padding: 120px 20px;
-      background: black;
+      padding: 140px 20px 100px;
     }
+
     .hero h1 {
-      font-size: 3em;
+      font-size: 3.2em;
+      font-weight: 600;
       margin-bottom: 20px;
-      color: red;
+      color: var(--text);
     }
+
     .hero p {
       font-size: 1.2em;
+      color: var(--gray);
       max-width: 600px;
       margin: 0 auto 30px;
     }
+
     .cta-button {
       display: inline-block;
-      padding: 15px 30px;
-      background-color: red;
-      color: white;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
+      padding: 14px 28px;
+      background-color: white;
+      color: black;
+      font-weight: 600;
       font-size: 1em;
+      border-radius: 12px;
       text-decoration: none;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-      transition: background-color 0.3s ease;
+      box-shadow: 0 5px 10px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
     }
+
     .cta-button:hover {
-      background-color: darkred;
+      background-color: #e5e5e5;
     }
+
     .solutions {
-      padding: 60px 20px;
+      padding: 80px 20px;
       text-align: center;
     }
+
     .solutions h2 {
       font-size: 2.5em;
       margin-bottom: 40px;
-      color: white;
     }
+
     .solution-cards {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 24px;
       flex-wrap: wrap;
     }
+
     .card {
       background: #111;
-      border: 2px solid red;
-      border-radius: 15px;
+      border: 1px solid #333;
+      border-radius: 16px;
       padding: 30px;
       width: 280px;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      text-align: left;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+      transition: transform 0.3s ease;
     }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
     .card h3 {
-      color: red;
+      font-size: 1.4em;
       margin-bottom: 10px;
-    }
-    .card p {
-      font-size: 0.95em;
-      color: #ccc;
-    }
-    #team {
-      background-color: black;
-      padding: 60px 20px;
       color: white;
     }
+
+    .card p {
+      font-size: 0.95em;
+      color: var(--gray);
+    }
+
+    #team {
+      padding: 80px 20px;
+      background-color: var(--bg);
+    }
+
     #team h2 {
       text-align: center;
       font-size: 2.5em;
-      color: white;
       margin-bottom: 50px;
     }
+
+    .team-wrapper {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
     .team-card {
-      position: relative;
-      width: 280px;
-      text-align: center;
-      background: black;
+      background: #111;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      width: 280px;
+      text-align: center;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
       transition: transform 0.3s ease;
     }
+
     .team-card:hover {
       transform: translateY(-10px);
     }
+
     .team-img {
       width: 100%;
       display: block;
-      border-radius: 20px;
     }
+
     .team-role {
-      background: red;
-      color: white;
-      font-weight: bold;
-      padding: 15px 10px;
+      background: #fff;
+      color: #000;
+      font-weight: 600;
+      padding: 15px 0;
       font-size: 1.1em;
-      letter-spacing: 1px;
-      border-top: 3px solid white;
+      border-top: 1px solid #333;
     }
+
     footer {
       text-align: center;
       padding: 40px 20px;
       background-color: #111;
+      color: var(--gray);
       font-size: 0.95em;
-      color: #aaa;
     }
+
     .contact-email {
-      margin-top: 20px;
-      color: white;
+      margin-top: 15px;
     }
+
     .contact-email a {
-      color: red;
-      text-decoration: none;
-    }
-    .contact-email a:hover {
+      color: #fff;
       text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      color: var(--hover);
     }
   </style>
 </head>
@@ -191,7 +239,7 @@
 
   <section id="team">
     <h2>Meet the Team</h2>
-    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+    <div class="team-wrapper">
       <div class="team-card">
         <img src="1.png" alt="Neil Zoleta" class="team-img" />
         <div class="team-role">Lead Architect</div>
