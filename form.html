@@ -11,86 +11,113 @@
     }
 
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #000;
-      color: #fff;
       margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #000;
+      display: flex;
+      flex-direction: row;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: 700px;
-      margin: 3rem auto;
-      padding: 2rem;
-      background-color: #111;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.1);
+    .left-panel {
+      flex: 1;
+      background: url('MATICBG.gif') no-repeat center center;
+      background-size: cover;
     }
 
-    .logo {
-      display: block;
-      margin: 0 auto 2rem auto;
-      max-width: 200px;
+    .form-container {
+      flex: 1;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background-color: #fff;
     }
 
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #fff;
+    .back-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #000;
+      text-decoration: none;
+      margin-bottom: 24px;
+      display: inline-block;
+    }
+
+    .back-link:hover {
+      opacity: 0.6;
     }
 
     label {
       display: block;
-      margin-top: 1rem;
-      margin-bottom: 0.25rem;
+      margin-top: 1.2rem;
+      margin-bottom: 0.5rem;
       font-weight: 500;
     }
 
-    input,
-    select,
-    textarea {
+    input, select, textarea {
       width: 100%;
       padding: 0.75rem;
-      background: #1a1a1a;
-      border: 1px solid #333;
+      background: #f8f8f8;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      color: #fff;
       font-size: 0.95rem;
-      margin-bottom: 0.5rem;
-      box-sizing: border-box;
-    }
-
-    textarea {
-      resize: vertical;
+      color: #000;
+      transition: border 0.2s ease;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
       outline: none;
-      border-color: #f00;
+      border-color: #999;
+    }
+
+    textarea {
+      resize: vertical;
     }
 
     button {
-      margin-top: 1.5rem;
-      background-color: #f00;
+      margin-top: 2rem;
+      background-color: #000;
       color: #fff;
       border: none;
-      padding: 0.75rem 2rem;
+      padding: 0.85rem;
       border-radius: 8px;
       font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
       width: 100%;
+      transition: background-color 0.3s ease;
     }
 
     button:hover {
-      background-color: #c40000;
+      background-color: #333;
+    }
+
+    @media screen and (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .left-panel {
+        height: 240px;
+        width: 100%;
+      }
+
+      .form-container {
+        flex: none;
+        width: 100%;
+        padding: 30px 20px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <img src="MATIC.png" alt="MATIC Logo" class="logo">
+  <div class="left-panel"></div>
+
+  <div class="form-container">
+    <a href="index.html" class="back-link">← Back to homepage</a>
     <form action="https://formspree.io/f/movwbrra" method="POST">
       <label for="name">Full Name</label>
       <input type="text" name="name" id="name" required>
