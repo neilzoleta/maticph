@@ -62,6 +62,23 @@
     ul {
       padding-left: 20px;
     }
+    .privacy-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-20%);
+      font-size: 0.9em;
+    }
+
+    .privacy-link a {
+      color: var(--gray);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .privacy-link a:hover {
+      color: var(--hover);
+    }
 
     footer {
       text-align: center;
@@ -107,7 +124,8 @@
   </main>
 
   <footer>
-    &copy; 2025 MATIC Studio. All rights reserved.
+    <p>&copy; 2025 MATIC Studio. All rights reserved.</p>
+     <p> <a href="privacy.html">Privacy Policy</a></p>
   </footer>
 </body>
 </html>
