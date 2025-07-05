@@ -24,6 +24,9 @@
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 100px;
     }
 
     header {
@@ -177,6 +180,7 @@
     }
 
     footer {
+      position: relative;
       text-align: center;
       padding: 40px 20px;
       background-color: #111;
@@ -197,9 +201,36 @@
     .contact-email a:hover {
       color: var(--hover);
     }
+
+    .privacy-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-20%);
+      font-size: 0.9em;
+    }
+
+    .privacy-link a {
+      color: var(--gray);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .privacy-link a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 600px) {
+      .privacy-link {
+        top: 60%;
+        font-size: 0.8em;
+        left: 10px;
+      }
+    }
   </style>
 </head>
 <body>
+
   <header>
     <img src="logo.png" alt="matic logo" />
     <nav>
@@ -260,6 +291,10 @@
     <div class="contact-email">
       Business inquiries: <a href="mailto:maticsolutionsph@gmail.com">maticsolutionsph@gmail.com</a>
     </div>
+    <div class="privacy-link">
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
   </footer>
+
 </body>
 </html>
