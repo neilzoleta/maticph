@@ -179,15 +179,98 @@
       border-top: 1px solid #333;
     }
 
+    /* HIGHLIGHTS SECTION */
+    #highlights {
+      padding: 80px 20px 100px;
+      background-color: var(--bg);
+      text-align: center;
+    }
+
+    #highlights h2 {
+      font-size: 2em;
+      color: var(--accent);
+      margin-bottom: 50px;
+    }
+
+    .blog-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .blog-card {
+      position: relative;
+      width: 320px;
+      height: 200px;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+      transition: transform 0.3s ease;
+    }
+
+    .blog-card:hover {
+      transform: scale(1.02);
+    }
+
+    .blog-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity 0.3s ease;
+    }
+
+    .blog-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .blog-card:hover .blog-overlay {
+      opacity: 1;
+    }
+
+    .blog-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .view-all-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: background-color 0.3s ease;
+    }
+
+    .view-all-button:hover {
+      background-color: #111;
+    }
+
     footer {
-  background-color: #000;
-  color: #aaa;
-  text-align: center;
-  padding: 40px 20px;
-  font-size: 14px;
-  border-top: 1px solid #333;
-  position: relative;
-}
+      background-color: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+      border-top: 1px solid #333;
+      position: relative;
+    }
 
     .contact-email {
       margin-top: 15px;
@@ -228,6 +311,7 @@
         left: 10px;
       }
     }
+
   </style>
 </head>
 <body>
@@ -288,6 +372,20 @@
     </div>
   </section>
 
+  <!-- HIGHLIGHTS SECTION WITH BLOG CARD -->
+  <section id="highlights">
+    <h2>MATIC Studio <em>Highlights</em></h2>
+    <div class="blog-wrapper">
+      <a href="launch.html" class="blog-card">
+        <img src="bloglaunch.png" alt="Latest Blog" class="blog-image" />
+        <div class="blog-overlay">
+          <h3 class="blog-title">Latest Blog: Launching Innovation</h3>
+        </div>
+      </a>
+      <a href="blogs.html" class="view-all-button">View All Blogs</a>
+    </div>
+  </section>
+
   <footer id="contact">
     <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
     <div class="contact-email">
@@ -295,10 +393,9 @@
     </div>
     <div class="contact-email">
       <a href="policy.html">Company Policy</a>
-      <a>    </a>
+      <a>    </a>
       <a href="privacy.html">Privacy Policy</a>
     </div>  
-	
   </footer>
 
 </body>
