@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BPA ROI Calculator</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2rem;
+      color: #f33;
+    }
+    .calculator {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #111;
+      border-radius: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      background: #222;
+      border: 1px solid #333;
+      color: #fff;
+      border-radius: 0.5rem;
+    }
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: #222;
+      border-radius: 1rem;
+      font-size: 1.2rem;
+    }
+    .currency-toggle {
+      float: right;
+      margin-top: -3rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h1>BPA ROI Calculator</h1>
+    
+    <div class="currency-toggle">
+      <label for="currency">Currency:</label>
+      <select id="currency" onchange="calculateROI()">
+        <option value="PHP">₱ PHP</option>
+        <option value="EUR">€ EUR</option>
+        <option value="USD">$ USD</option>
+      </select>
+    </div>
+
+    <label>Number of Manual Tasks Automated per Month:</label>
+    <input type="number" id="tasks" value="100" onchange="calculateROI()" />
+
+    <label>Average Time Saved per Task (in minutes):</label>
+    <input type="number" id="minutes" value="5" onchange="calculateROI()" />
+
+    <label>Number of Employees Affected:</label>
+    <input type="number" id="employees" value="5" onchange="calculateROI()" />
+
+    <label>Hourly Rate (<span id="rateSymbol">₱</span>):</label>
+    <input type="number" id="rate" value="200" onchange="calculateROI()" />
+
+    <label>Estimated Application Value per Month (<span id="valueSymbol">₱</span>):</label>
+    <input type="number" id="value" value="15000" onchange="calculateROI()" />
+
+    <div class="result" id="resultBox">
+      Calculating savings...
+    </div>
+  </div>
+
+  <script>
+    let lastCurrency = "PHP";
+    const currencyRates = {
+      PHP: 1,
+      EUR: 0.016,
+      USD: 0.018
+    };
+
+    function calculateROI() {
+      const currency = document.getElementById("currency").value;
+      const conversionRate = currencyRates[currency];
+      const prevRate = currencyRates[lastCurrency];
+
+      const rateInput = document.getElementById("rate");
+      const valueInput = document.getElementById("value");
+
+      // Convert inputs if currency changed
+      if (currency !== lastCurrency) {
+        rateInput.value = Math.round(rateInput.value * (conversionRate / prevRate));
+        valueInput.value = Math.round(valueInput.value * (conversionRate / prevRate));
+        lastCurrency = currency;
+      }
+
+      // Update currency symbols
+      const symbol = currency === "EUR" ? "€" : currency === "USD" ? "$" : "₱";
+      document.getElementById("rateSymbol").innerText = symbol;
+      document.getElementById("valueSymbol").innerText = symbol;
+
+      // Get user inputs
+      const tasks = parseFloat(document.getElementById("tasks").value);
+      const minutes = parseFloat(document.getElementById("minutes").value);
+      const employees = parseFloat(document.getElementById("employees").value);
+      const hourlyRate = parseFloat(rateInput.value);
+      const appValue = parseFloat(valueInput.value);
+
+      const timeSavedHours = (tasks * minutes * employees) / 60;
+      const laborSavings = timeSavedHours * hourlyRate;
+      const totalValue = laborSavings + appValue;
+
+      document.getElementById("resultBox").innerHTML = `
+        <strong>Total Time Saved:</strong> ${timeSavedHours.toFixed(1)} hours<br/>
+        <strong>Labor Savings:</strong> ${symbol}${laborSavings.toLocaleString(undefined, {maximumFractionDigits:0})}<br/>
+        <strong>Application Value:</strong> ${symbol}${appValue.toLocaleString(undefined, {maximumFractionDigits:0})}<br/>
+        <hr/>
+        <strong>Total Monthly Value:</strong> <span style="color: #f33">${symbol}${totalValue.toLocaleString(undefined, {maximumFractionDigits:0})}</span>
+      `;
+    }
+
+    calculateROI();
+  </script>
+</body>
+</html>

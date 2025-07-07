@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ROI Calculator — MATIC Studio</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      background-color: #000;
+      color: #ccc;
+      font-family: 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo a img {
+      height: 40px;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 30px;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #f55;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 100px auto 60px;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+
+    .calc-container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .calc-inputs, .calc-output {
+      flex: 1 1 45%;
+      min-width: 300px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1.5rem;
+    }
+
+    input[type=range], input[type=number] {
+      width: 100%;
+    }
+
+    .slider-value {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .result {
+      background-color: #111;
+      padding: 2rem;
+      border-radius: 12px;
+      margin-top: 0.5rem;
+      color: #fff;
+    }
+
+    .contact-btn {
+      background-color: #fff;
+      color: #000;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 1.5rem;
+    }
+
+    .disclaimer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    footer {
+      background-color: #111;
+      color: #888;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      .calc-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <a href="index.html">
+      <img src="assets/logo.png" alt="matic logo" />
+    </a>
+  </div>
+  <nav>
+    <ul>
+            <a href="index.html#solutions">Solutions</a>
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#contact">Contact</a>
+
+<a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background-color: transparent;
+  border: 1px solid white;
+  padding: 5px 12px 5px;
+  border-radius: 8px;
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  line-height: 1;
+  transition: background-color 0.3s;
+">
+  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+    <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+  </svg>
+  <span style="position: relative; top: 1px;">/MATICStudio</span>
+</a>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <section style="background-color: #000; padding: 80px 20px; text-align: center; color: white; position: relative; overflow: hidden;">
+    <div style="max-width: 800px; margin: 0 auto;">
+      <h1 style="font-size: 3rem; font-weight: 700; margin-bottom: 20px;">Savings Calculator</h1>
+      <p style="font-size: 1.2rem; color: #ccc; line-height: 1.6;">
+        Fast-track business value with enterprise-grade automation. See how much value you can create and accelerate when you build purpose-built solutions with <strong style="color: #fff;">MATIC Studio</strong>.
+      </p>
+    </div>
+    <div style="position: absolute; inset: 0; pointer-events: none; z-index: 0; opacity: 0.25; font-size: 8rem;">
+      <div style="position: absolute; top: 10%; left: 5%;">+</div>
+      <div style="position: absolute; top: 40%; right: 10%;">–</div>
+      <div style="position: absolute; bottom: 20%; left: 15%;">×</div>
+      <div style="position: absolute; bottom: 10%; right: 20%;">÷</div>
+    </div>
+  </section>
+
+  <div class="calc-container">
+    <div class="calc-inputs">
+      <label>Number of Employees (FTE): <span class="slider-value" id="fteVal">1.0</span></label>
+      <input type="range" id="fte" min="0.1" max="10" step="0.1" value="1.0" oninput="updateValue('fte')" />
+
+      <label>Hourly Cost (₱): <span class="slider-value" id="hourlyCostVal">200</span></label>
+      <input type="range" id="hourlyCost" min="100" max="1000" step="10" value="200" oninput="updateValue('hourlyCost')" />
+
+      <label>Process Frequency (per month): <span class="slider-value" id="frequencyVal">20</span></label>
+      <input type="range" id="frequency" min="1" max="500" step="1" value="20" oninput="updateValue('frequency')" />
+
+      <label>Time per Instance (hours): <span class="slider-value" id="timeVal">1.0</span></label>
+      <input type="range" id="time" min="0.1" max="20" step="0.1" value="1.0" oninput="updateValue('time')" />
+
+      <label>Rework Percentage (%): <span class="slider-value" id="reworkRateVal">10</span></label>
+      <input type="range" id="reworkRate" min="0" max="50" step="1" value="10" oninput="updateValue('reworkRate')" />
+
+      <label>Time to Correct Rework (hours): <span class="slider-value" id="reworkTimeVal">1.0</span></label>
+      <input type="range" id="reworkTime" min="0.1" max="10" step="0.1" value="1.0" oninput="updateValue('reworkTime')" />
+
+      <label>Cost of One Error (₱): <span class="slider-value" id="errorCostVal">1000</span></label>
+      <input type="range" id="errorCost" min="0" max="50000" step="500" value="1000" oninput="updateValue('errorCost')" />
+
+      <label>Monthly Tool Cost (₱): <span class="slider-value" id="toolCostVal">0</span></label>
+      <input type="range" id="toolCost" min="0" max="50000" step="500" value="0" oninput="updateValue('toolCost')" />
+
+      <label>Time Saved via Automation (%): <span class="slider-value" id="timeSavedVal">70</span></label>
+      <input type="range" id="timeSaved" min="50" max="100" step="1" value="70" oninput="updateValue('timeSaved')" />
+
+      <label>Monthly Value from Freed Time (₱): <span class="slider-value" id="valueFromTimeVal">5000</span></label>
+      <input type="range" id="valueFromTime" min="0" max="200000" step="1000" value="5000" oninput="updateValue('valueFromTime')" />
+
+      <label>Annual Process Growth (%): <span class="slider-value" id="growthVal">10</span></label>
+      <input type="range" id="growth" min="0" max="50" step="1" value="10" oninput="updateValue('growth')" />
+    </div>
+
+    <div class="calc-output">
+      <div id="result" class="result"></div>
+    </div>
+  </div>
+</main>
+
+<footer id="contact">
+    <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
+    <div class="contact-email">
+      Business inquiries: <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
+</div>
+    <div class="contact-email">
+      <a href="policy.html">Company Policy</a>
+<a href="#" style="text-decoration: none;">  </a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>  
+  </footer>
+
+<script>
+  let currentYear = 1;
+  let useUSD = false;
+  let exchangeRate = 56.55; // Default fallback rate for PHP to USD conversion
+
+  async function fetchExchangeRate() {
+    // Only fetch if USD is selected to update the rate from the API
+    if (document.getElementById('currency').value === 'USD') {
+      try {
+        const res = await fetch('https://api.frankfurter.app/latest?from=USD&to=PHP');
+        const data = await res.json();
+        exchangeRate = data.rates.PHP;
+      } catch (err) {
+        console.error('Failed to fetch exchange rate', err);
+        // Fallback to default if fetch fails
+        exchangeRate = 56.55;
+      }
+    }
+    // No need to call calculateValue here, onCurrencyChange will handle the re-render.
+  }
+
+  function formatCurrency(value) {
+    const symbol = useUSD ? '$' : '₱';
+    // If using USD, the value should be divided by the exchange rate
+    // If using PHP, the value remains as is (or multiplied by 1, if you prefer to think that way)
+    const amount = useUSD ? value / exchangeRate : value;
+    return `${symbol}${amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}`;
+  }
+
+  function updateValue(id) {
+    document.getElementById(id + 'Val').innerText = document.getElementById(id).value;
+    calculateValue();
+  }
+
+  function onCurrencyChange() {
+    // Update useUSD flag based on the new selection
+    useUSD = document.getElementById('currency').value === 'USD';
+    fetchExchangeRate(); // This will update exchangeRate
+    calculateValue();    // This will re-render with updated values and dropdown selection
+  }
+
+  function calculateValue() {
+    const fte = parseFloat(document.getElementById('fte').value);
+    const hourlyCost = parseFloat(document.getElementById('hourlyCost').value);
+    const frequency = parseFloat(document.getElementById('frequency').value);
+    const time = parseFloat(document.getElementById('time').value);
+    const reworkRate = parseFloat(document.getElementById('reworkRate').value);
+    const reworkTime = parseFloat(document.getElementById('reworkTime').value);
+    const errorCost = parseFloat(document.getElementById('errorCost').value);
+    const toolCost = parseFloat(document.getElementById('toolCost').value);
+    const timeSaved = parseFloat(document.getElementById('timeSaved').value);
+    const valueFromTime = parseFloat(document.getElementById('valueFromTime').value);
+    const growth = parseFloat(document.getElementById('growth').value);
+
+    // All input values are in PHP (or base currency)
+    const baseLaborCost = fte * frequency * time * hourlyCost;
+    const reworkLaborCost = fte * frequency * (reworkRate / 100) * reworkTime * hourlyCost;
+    const totalErrorCost = frequency * (reworkRate / 100) * errorCost;
+
+    const laborSavings = baseLaborCost * (timeSaved / 100);
+    const reworkSavings = reworkLaborCost;
+    const errorSavings = totalErrorCost;
+
+    const totalMonthlySavingsPHP = laborSavings + reworkSavings + errorSavings + valueFromTime;
+    const annualMultiplier = Math.pow(1 + growth / 100, currentYear - 1);
+    const projectedAnnualSavingsPHP = totalMonthlySavingsPHP * 12 * annualMultiplier;
+
+    // Determine the exchange rate info to display
+    const exchangeRateInfo = useUSD ? `<p style="font-size: 0.9rem; color: #888; margin-top: 5px;">1 USD &asymp; ${exchangeRate.toFixed(2)} PHP</p>` : '';
+
+    document.getElementById('result').innerHTML = `
+      <div style="background-color: #696969; padding: 2rem; border-radius: 16px; text-align: center; color: white; font-family: 'Helvetica Neue', sans-serif;">
+
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 2rem;">
+          <select id="currency" onchange="onCurrencyChange()" style="padding: 8px 15px; background-color: #111; color: #fff; border: 1px solid #333; border-radius: 6px;">
+            <option value="PHP">₱ PHP</option>
+            <option value="USD">$ USD</option>
+          </select>
+          ${exchangeRateInfo}
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 2rem;">
+          <div onclick="setYear(1)" style="cursor: pointer; background: ${currentYear === 1 ? 'white' : '#000000'}; color: ${currentYear === 1 ? '#696969' : 'white'}; padding: 8px 20px; border-radius: 12px 0 0 12px; font-weight: bold;">Year 1</div>
+          <div onclick="setYear(2)" style="cursor: pointer; background: ${currentYear === 2 ? 'white' : '#000000'}; color: ${currentYear === 2 ? '#696969' : 'white'}; padding: 8px 20px;">Year 2</div>
+          <div onclick="setYear(3)" style="cursor: pointer; background: ${currentYear === 3 ? 'white' : '#000000'}; color: ${currentYear === 3 ? '#696969' : 'white'}; padding: 8px 20px; border-radius: 0 12px 12px 0;">Year 3</div>
+        </div>
+        <p style="font-size: 1.2rem; margin: 0;">Time to Market Value</p>
+        <h1 style="font-size: 3rem; margin: 0.5rem 0 2rem;">${formatCurrency(totalMonthlySavingsPHP)}</h1>
+        <p style="font-size: 1.2rem; margin: 0;">Workforce Productivity Savings</p>
+        <h1 style="font-size: 3rem; margin: 0.5rem 0 2rem;">${formatCurrency(projectedAnnualSavingsPHP)}</h1>
+        <a href="mailto:contact@maticstudio.net"
+          style="display: inline-block; background: white; color: #696969; padding: 1rem 2rem; border-radius: 32px; font-weight: bold; text-decoration: none; margin-top: 1rem;">
+          Start saving now
+        </a>
+      </div>
+      <div class="disclaimer">
+        <p>
+          This calculator is a tool provided by MATIC Studio to help estimate potential cost savings from low-code automation. Results are based on your input and are for informational purposes only. Actual savings may vary. MATIC Studio makes no guarantees and assumes no liability for decisions made based on this tool. No data is stored or shared.
+        </p>
+      </div>
+    `;
+
+    // Crucial: Set the selected value of the currency dropdown AFTER it's re-rendered
+    const currencySelectAfterRender = document.getElementById('currency');
+    if (currencySelectAfterRender) {
+      currencySelectAfterRender.value = useUSD ? 'USD' : 'PHP';
+    }
+  }
+
+  function setYear(year) {
+    currentYear = year;
+    calculateValue();
+  }
+
+  window.onload = () => {
+    // Initial setup: determine if USD should be used based on initial dropdown state (defaults to PHP)
+    const currencySelect = document.getElementById('currency');
+    if (currencySelect) {
+        useUSD = currencySelect.value === 'USD'; // Will be false initially if default is PHP
+    }
+
+    fetchExchangeRate(); // This will update exchangeRate
+    calculateValue(); // This ensures the calculator displays content on load
+  };
+</script>
+
+</body>
+</html>
