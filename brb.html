@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Under Maintenance</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d0d0d;
+      color: #ffffff;
+      font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .message {
+      font-size: 1.8rem;
+      max-width: 90%;
+      line-height: 1.5;
+      opacity: 0;
+      animation: fadeInOut 12s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      10%, 40% { opacity: 1; }
+      60%, 90% { opacity: 0; }
+    }
+
+    .logo {
+      position: absolute;
+      bottom: 30px;
+      width: 100px;
+      height: auto;
+      animation: siren 2s infinite alternate;
+    }
+
+    @keyframes siren {
+      0% { filter: drop-shadow(0 0 10px red); }
+      100% { filter: drop-shadow(0 0 10px blue); }
+    }
+  </style>
+</head>
+<body>
+  <div id="message" class="message"></div>
+  <img src="assets/logo.png" alt="Logo" class="logo" />
+  
+  <script>
+    const messages = [
+      `We’re optimizing workflows under the hood.<br />Hang tight—this page will be live soon.`,
+      `Inaayos namin ang daloy ng trabaho sa likod ng sistema.<br />Sandali lang—magiging live na ang pahinang ito.`,
+      `ただいま、バックエンドでワークフローを最適化しています。<br />もう少々お待ちください。このページはまもなく公開されます。`,
+      `워크플로우를 백엔드에서 최적화하는 중입니다.<br />잠시만 기다려 주세요—곧 페이지가 열릴 예정입니다.`,
+      `เรากำลังปรับปรุงเวิร์กโฟลว์อยู่เบื้องหลัง<br />กรุณารอสักครู่—หน้านี้จะออนไลน์เร็วๆ นี้`
+    ];
+
+    let i = 0;
+    const messageEl = document.getElementById('message');
+
+    function rotateMessage() {
+      messageEl.innerHTML = messages[i];
+      messageEl.style.animation = 'none';
+      messageEl.offsetHeight; // reset animation
+      messageEl.style.animation = '';
+      messageEl.style.animation = 'fadeInOut 12s infinite';
+      i = (i + 1) % messages.length;
+    }
+
+    rotateMessage();
+    setInterval(rotateMessage, 12000);
+  </script>
+</body>
+</html>
