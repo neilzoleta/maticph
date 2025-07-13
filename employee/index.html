@@ -262,6 +262,8 @@
   </footer>
 
   <script>
+    const BACKEND_URL = "https://maticph.onrender.com";
+
     function flipCard(toRegister = true) {
       const login = document.getElementById('loginSide');
       const register = document.getElementById('registerSide');
@@ -273,36 +275,36 @@
         login.classList.add('active');
       }
     }
-  </script>
-<script>
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  try {
-    const response = await fetch("http://localhost:5001/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email, password }),
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const response = await fetch(`${BACKEND_URL}/api/login`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          alert(data.error || data.message || "Login failed");
+        } else {
+          alert("✅ Login successful");
+          console.log("Token:", data.token);
+
+          // Redirect to dashboard when ready
+          // window.location.href = "dashboard.html";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Unable to connect");
+      }
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      alert(data.message || "Login failed");
-    } else {
-      alert("✅ Login successful");
-      console.log("Token:", data.token); // Use this later for profile requests
-    }
-  } catch (err) {
-    console.error(err);
-    alert("❌ Unable to connect");
-  }
-});
-</script>
+  </script>
 </body>
 </html>
