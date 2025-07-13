@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio | Employee Portal</title>
+  <link rel="icon" href="/assets/favicon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #000;
+      --card-bg: #111;
+      --accent: #f00;
+      --text: #fff;
+      --muted: #999;
+      --radius: 16px;
+      --shadow: 0 0 40px rgba(255, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header, footer {
+      background-color: var(--card-bg);
+      padding: 1.5rem 2rem;
+      color: var(--text);
+      border-bottom: 1px solid #222;
+    }
+
+    footer {
+      border-top: 1px solid #222;
+      border-bottom: none;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-content img {
+      height: 32px;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 2rem 1rem;
+      overflow-y: auto;
+    }
+
+    .flip-container {
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .card {
+      width: 100%;
+    }
+
+    .side {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: none;
+    }
+
+    .side.active {
+      display: block;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.75rem;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 0.8rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #1a1a1a;
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
+    .submit-btn {
+      margin-top: 1.2rem;
+      padding: 0.8rem;
+      background-color: var(--accent);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #c00;
+    }
+
+    .switch-link {
+      text-align: center;
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .switch-link button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+    .note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <a href="../index.html">
+        <img src="../assets/logo.png" alt="MATIC Studio Logo" />
+      </a>
+      <div class="header-title">Employee Portal</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="flip-container">
+      <div class="card">
+
+        <!-- Login -->
+        <div class="side front active" id="loginSide">
+          <h1>Login to Your Profile</h1>
+          <form id="loginForm">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit" class="submit-btn">Login</button>
+          </form>
+          <div class="switch-link">
+            Admin? <button onclick="flipCard(true)">New Employee Account</button>
+          </div>
+        </div>
+
+        <!-- Register -->
+        <div class="side back" id="registerSide">
+          <h1>Register New Employee</h1>
+          <form id="registerForm">
+
+            <div class="form-group" style="margin-bottom: 1rem;">
+              <label for="preferredName">Preferred Name</label>
+              <input type="text" id="preferredName" name="preferredName" required>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" required>
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" required>
+              </div>
+              <div class="form-group">
+                <label for="position">Position</label>
+                <input type="text" id="position" name="position">
+              </div>
+              <div class="form-group">
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department">
+              </div>
+              <div class="form-group" style="grid-column: span 2;">
+                <label for="admin">Admin Email</label>
+                <input type="email" id="admin" name="admin">
+              </div>
+            </div>
+
+            <div class="note">
+              Email and password will be generated and sent once the profile is created.
+            </div>
+
+            <button type="submit" class="submit-btn">Register Employee</button>
+          </form>
+          <div class="switch-link">
+            <button onclick="flipCard(false)">Back to login</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 MATIC Studio. All rights reserved.
+  </footer>
+
+  <script>
+    function flipCard(toRegister = true) {
+      const login = document.getElementById('loginSide');
+      const register = document.getElementById('registerSide');
+      if (toRegister) {
+        login.classList.remove('active');
+        register.classList.add('active');
+      } else {
+        register.classList.remove('active');
+        login.classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
