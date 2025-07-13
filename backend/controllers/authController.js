@@ -5,10 +5,30 @@ const jwt = require('jsonwebtoken');
 exports.register = async (req, res) => {
   try {
     const { preferredName, firstName, lastName, position, department, admin } = req.body;
+
+    // ✅ Validate required fields
+    if (!preferredName || !firstName || !lastName || !admin) {
+      return res.status(400).json({ message: "All fields including admin email are required." });
+    }
+
+    // ✅ Check if admin email exists and is an admin
+    const adminUser = await User.findOne({ email: admin });
+    if (!adminUser) {
+      return res.status(401).json({ message: "Invalid Admin Email. Registration denied." });
+    }
+
+    // ✅ Generate employee email and password
     const email = `${firstName.toLowerCase()}.${lastName.toLowerCase()}@maticstudio.net`;
     const plainPassword = Math.random().toString(36).slice(-8);
     const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
+    // ✅ Check if employee already exists
+    const existing = await User.findOne({ email });
+    if (existing) {
+      return res.status(409).json({ message: "Employee already registered." });
+    }
+
+    // ✅ Create new employee
     const newUser = await User.create({
       preferredName,
       firstName,
@@ -20,51 +40,16 @@ exports.register = async (req, res) => {
       password: hashedPassword
     });
 
-    // TODO: Send email with plainPassword
-    res.status(201).json({ message: 'Employee registered', email, password: plainPassword });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+    // ✅ TODO: Send email notification with credentials
 
-exports.login = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user)
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ success: false, message: 'Invalid email or password' });
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-    res.json({
-      success: true,
-      message: 'Login successful',
-      data: { token, user }
+    res.status(201).json({
+      message: "Employee registered successfully.",
+      email,
+      password: plainPassword
     });
 
   } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-exports.getProfile = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select('-password');
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-exports.updateProfile = async (req, res) => {
-  try {
-    const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ message: "Server error during registration." });
   }
 };
