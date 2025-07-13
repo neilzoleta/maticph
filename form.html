@@ -3,84 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>MATIC Inquiry Form</title>
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  <title>MATIC Studio Inquiry</title>
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #000;
+      background: #000;
+      color: #fff;
+    }
+
+    .container {
       display: flex;
-      flex-direction: row;
-      min-height: 100vh;
+      flex-wrap: wrap;
+      padding: 60px 40px;
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
     }
 
-    .left-panel {
+    .info {
       flex: 1;
-      background: url('assets/MATICBG.gif') no-repeat center center;
-      background-size: cover;
-    }
-
-    .form-container {
-      flex: 1;
-      padding: 40px 30px;
+      min-width: 280px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      background-color: #fff;
+      justify-content: center;
     }
 
-    .back-link {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: #000;
-      text-decoration: none;
+    .brand {
       margin-bottom: 24px;
-      display: inline-block;
     }
 
-    .back-link:hover {
-      opacity: 0.6;
+    .brand img {
+      height: 42px;
+    }
+
+    .info h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      margin: 0 0 16px;
+    }
+
+    .info p {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .form-wrapper {
+      flex: 1;
+      min-width: 320px;
+      background: #111;
+      border-radius: 16px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.6);
+      padding: 40px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
     label {
-      display: block;
-      margin-top: 1.2rem;
-      margin-bottom: 0.5rem;
       font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #ddd;
     }
 
     input, select, textarea {
       width: 100%;
       padding: 0.75rem;
-      background: #f8f8f8;
-      border: 1px solid #ccc;
+      border: 1px solid #333;
       border-radius: 8px;
       font-size: 0.95rem;
-      color: #000;
-      transition: border 0.2s ease;
+      background: #1a1a1a;
+      color: #fff;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: #999;
+      border-color: #e60012;
     }
 
     textarea {
       resize: vertical;
+      min-height: 100px;
     }
 
     button {
-      margin-top: 2rem;
-      background-color: #000;
+      background-color: #e60012;
       color: #fff;
       border: none;
       padding: 0.85rem;
@@ -88,86 +103,85 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #333;
+      background-color: #ff1c25;
     }
 
-    @media screen and (max-width: 768px) {
-      body {
+    .contact-note {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+
+    .contact-note a {
+      color: #e60012;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .container {
         flex-direction: column;
+        padding: 40px 20px;
+        gap: 32px;
       }
 
-      .left-panel {
-        height: 240px;
-        width: 100%;
+      .form-wrapper {
+        padding: 30px 24px;
       }
 
-      .form-container {
-        flex: none;
-        width: 100%;
-        padding: 30px 20px;
+      .brand {
+        text-align: center;
+      }
+
+      .info h1, .info p {
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
-  <div class="left-panel"></div>
 
-  <div class="form-container">
-    <a href="index.html" class="back-link">← Back to homepage</a>
-    <form action="https://formspree.io/f/movwbrra" method="POST">
-      <label for="name">Full Name</label>
-      <input type="text" name="name" id="name" required>
+  <div class="container">
+    <div class="info">
+      <div class="brand">
+        <img src="assets/logo.png" alt="MATIC Studio Logo">
+      </div>
+      <h1>Let’s Talk Automation</h1>
+      <p>Tell us about your goals—MATIC Studio is here to help you automate processes and drive operational efficiency.</p>
+    </div>
 
-      <label for="email">Business Email</label>
-      <input type="email" name="email" id="email" required>
+    <div class="form-wrapper">
+      <form action="https://formspree.io/f/movwbrra" method="POST">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" required />
 
-      <label for="company">Company / Organization</label>
-      <input type="text" name="company" id="company">
+        <label for="email">Business Email</label>
+        <input type="email" id="email" name="email" required />
 
-      <label for="goal">Primary Automation Goal</label>
-      <select name="goal" id="goal" required>
-        <option value="">Select an option</option>
-        <option value="Reduce manual labor">Reduce manual labor</option>
-        <option value="Improve process efficiency">Improve process efficiency</option>
-        <option value="Data/report automation">Data/report automation</option>
-        <option value="End-to-end system integration">End-to-end system integration</option>
-      </select>
+        <label for="goal">Primary Automation Goal</label>
+        <select name="goal" id="goal" required>
+          <option value="">Select an option</option>
+          <option value="Reduce manual labor">Reduce manual labor</option>
+          <option value="Improve efficiency">Improve efficiency</option>
+          <option value="Data/report automation">Data/report automation</option>
+          <option value="System integration">System integration</option>
+        </select>
 
-      <label for="complexity">Process Complexity</label>
-      <select name="complexity" id="complexity" required>
-        <option value="">Select complexity level</option>
-        <option value="Low">Low – Mostly repetitive, simple tasks</option>
-        <option value="Medium">Medium – Involves decision-making or multiple systems</option>
-        <option value="High">High – End-to-end with rules, validations, multiple actors</option>
-      </select>
+        <label for="message">Additional Notes (Optional)</label>
+        <textarea id="message" name="message" placeholder="Tell us more about your process or pain points..."></textarea>
 
-      <label for="compliance">Are there regulatory or compliance needs?</label>
-      <select name="compliance" id="compliance" required>
-        <option value="">Select one</option>
-        <option value="Yes">Yes</option>
-        <option value="No">No</option>
-        <option value="Not Sure">Not Sure</option>
-      </select>
+        <button type="submit">Submit Inquiry</button>
+      </form>
 
-      <label for="timeline">Preferred Implementation Timeline</label>
-      <select name="timeline" id="timeline" required>
-        <option value="">Select</option>
-        <option value="1-2 weeks">1-2 weeks</option>
-        <option value="2-4 weeks">2-4 weeks</option>
-        <option value="Over a month">Over a month</option>
-        <option value="Just exploring options">Just exploring options</option>
-      </select>
-
-      <label for="message">Additional Notes (Optional)</label>
-      <textarea name="message" id="message" rows="4" placeholder="Share extra context here..."></textarea>
-
-      <button type="submit">Submit Assessment</button>
-    </form>
+      <div class="contact-note">
+        Prefer to email? Reach us at <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
+      </div>
+    </div>
   </div>
+
 </body>
 </html>
