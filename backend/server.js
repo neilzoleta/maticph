@@ -14,7 +14,8 @@ const PORT = process.env.PORT || 5001;
 const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
-  process.env.FRONTEND_URL
+  'https://www.maticstudio.net',  // ✅ Squarespace domain
+  process.env.FRONTEND_URL        // ✅ Future production frontend URL
 ];
 
 app.use(cors({
@@ -30,17 +31,23 @@ app.use(cors({
   credentials: true
 }));
 
+// ✅ Middleware
 app.use(express.json());
+
+// ✅ Routes
 app.use('/api', authRoutes);
 
+// ✅ Health check route
 app.get('/ping', (req, res) => {
   res.send('pong');
 });
 
+// ✅ Root route
 app.get('/', (req, res) => {
   res.send('MATIC Studio API is live');
 });
 
+// ✅ Connect to MongoDB then start server
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ Connected to MongoDB');
