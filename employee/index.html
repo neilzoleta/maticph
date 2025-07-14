@@ -2,361 +2,297 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MATIC Studio | Employee Portal</title>
-  <link rel="icon" href="/assets/favicon.png" type="image/png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MATIC Studio | Login/Register</title>
+  <link rel="icon" href="../assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #000;
-      --card-bg: #111;
-      --accent: #f00;
-      --text: #fff;
-      --muted: #999;
-      --radius: 16px;
-      --shadow: 0 0 40px rgba(255, 0, 0, 0.08);
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 250px 40px 60px; /* existing padding remains */
+      gap: 48px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      align-items: flex-start; /* ensures container grows with card height */
+    }
+
+    .info {
+      flex: 1;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: sticky; /* use sticky to keep logo visible during scroll */
+      top: 0;
+      height: auto; /* auto height for sticky positioning */
+      padding: 60px 40px;
+      background: #000; /* maintain background for readability */
       box-sizing: border-box;
     }
 
-    html, body {
-      height: 100%;
+    .brand {
+      margin-bottom: 24px;
     }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      display: flex;
-      flex-direction: column;
+    .brand img {
+      height: 42px;
     }
 
-    header, footer {
-      background-color: var(--card-bg);
-      padding: 1.5rem 2rem;
-      color: var(--text);
-      border-bottom: 1px solid #222;
-    }
-
-    footer {
-      border-top: 1px solid #222;
-      border-bottom: none;
-      font-size: 0.85rem;
-      color: var(--muted);
-      text-align: center;
-    }
-
-    .header-content {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .header-content img {
-      height: 32px;
-    }
-
-    .header-title {
-      font-size: 1.2rem;
+    .info h1 {
+      font-size: 2rem;
       font-weight: 600;
+      margin: 0 0 16px;
     }
 
-    main {
+    .info p {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .form-wrapper {
       flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 2rem 1rem;
-      overflow-y: auto;
-    }
-
-    .flip-container {
-      width: 100%;
-      max-width: 520px;
+      min-width: 320px;
+      background: #111;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 30px 30px 48px 30px; /* increased bottom padding for link visibility */
+      max-width: 450px; /* increased from 430px to 500px for better width */
+      margin: 0 auto;
+      box-shadow: none;
+      box-sizing: border-box; /* ensures padding does not expand total width unexpectedly */
+      perspective: none; /* remove perspective here to allow full height */
+      min-height: unset; /* removed min-height: 700px; to allow auto-adjust */
+      transition: height 0.5s ease;
+      overflow: visible; /* allow overflow so links are not cut off */
     }
 
     .card {
+      perspective: 1000px;
+    }
+
+    .card-inner {
+      position: relative;
       width: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      min-height: unset; /* removed min-height: 700px; to allow content-based height */
     }
 
-    .side {
-      background-color: var(--card-bg);
-      padding: 2rem;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      display: none;
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
     }
 
-    .side.active {
-      display: block;
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      backface-visibility: hidden;
+      /* removed min-height: 100%; to allow natural content-based height */
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      font-size: 1.75rem;
-      font-weight: 600;
+    .card-back {
+      transform: rotateY(180deg);
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: stretch; /* changed from center to stretch for full width alignment */
     }
 
     label {
-      display: block;
-      margin-bottom: 0.4rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-top: 0.8rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #ddd;
+      width: 100%;
+      max-width: 400px;
+      align-self: stretch; /* ensure label aligns left within form */
+      text-align: left; /* maintain left text within centered container */
+    }
+
+    input, button {
+      width: 100%;
+      max-width: 400px;
     }
 
     input {
-      width: 100%;
-      padding: 0.7rem;
-      border-radius: 8px;
+      padding: 0.75rem;
       border: 1px solid #333;
+      border-radius: 8px;
+      font-size: 0.95rem;
       background: #1a1a1a;
-      color: var(--text);
-      font-size: 0.9rem;
-    }
-
-    .submit-btn {
-      margin-top: 1.2rem;
-      padding: 0.8rem;
-      background-color: var(--accent);
-      border: none;
-      border-radius: 10px;
-      font-size: 1rem;
       color: #fff;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.3s ease;
+      width: 100%; /* ensures full container width */
+      max-width: 400px; /* matches button max-width for identical sizing */
+      align-self: flex-start; /* ensures left alignment consistent with button */
+      box-sizing: border-box; /* ensures padding does not cause overflow differences */
     }
 
-    .submit-btn:hover {
-      background-color: #c00;
+    input:focus {
+      outline: none;
+      border-color: #e60012;
     }
 
-    .switch-link {
-      text-align: center;
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
-    }
-
-    .switch-link button {
-      background: none;
+    button {
+      background-color: #e60012;
+      color: #fff;
       border: none;
-      color: var(--accent);
+      padding: 0.85rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
       cursor: pointer;
-      font-size: 0.9rem;
-      text-decoration: underline;
+      transition: background 0.3s ease;
+      width: 100%; /* ensure full container width */
+      max-width: 400px; /* maintain same max-width as inputs */
+      align-self: flex-start; /* align button to start like inputs */
+    }
+
+    button:hover {
+      background-color: #ff1c25;
     }
 
     .note {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-top: 0.8rem;
       text-align: center;
-      white-space: pre-line; /* ✅ allow \n line breaks in messages */
+      margin-top: 24px;
+      font-size: 0.9rem;
+      color: #aaa;
+      display: block; /* ensure note is displayed as block */
     }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+    .note a {
+      color: #e60012;
+      text-decoration: none;
+      cursor: pointer;
     }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        padding: 40px 20px;
+        gap: 32px;
+      }
 
-    @media (max-width: 640px) {
-      .form-grid {
-        grid-template-columns: 1fr;
+      .form-wrapper {
+        padding: 30px 24px;
+      }
+
+      .brand {
+        text-align: center;
+      }
+
+      .info h1, .info p {
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <a href="../index.html">
-        <img src="../assets/logo.png" alt="MATIC Studio Logo" />
-      </a>
-      <div class="header-title">Employee Portal</div>
+
+  <div class="container">
+    <div class="info">
+      <div class="brand">
+        <a href="/index.html">
+          <img src="../assets/logo.png" alt="MATIC Studio Logo">
+        </a>
+      </div>
+      <h1>Let’s Get You Started</h1>
+      <p>Login to your employee account or register for access below to manage your tasks efficiently.</p>
     </div>
-  </header>
 
-  <main>
-    <div class="flip-container">
+    <div class="form-wrapper">
       <div class="card">
+        <div class="card-inner">
+          <div class="card-front">
+            <form action="/api/login" method="POST">
+              <label for="email">Work Email</label>
+              <input type="email" id="email" name="email" required />
 
-        <!-- Login -->
-        <div class="side front active" id="loginSide">
-          <h1>Login to Your Profile</h1>
-          <form id="loginForm">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" required>
+              <button type="submit">Login</button>
 
-            <div id="loginMessage" class="note"></div> <!-- ✅ message container -->
-
-            <button type="submit" class="submit-btn">Login</button>
-          </form>
-          <div class="switch-link">
-            Admin? <button onclick="flipCard(true)">New Employee Account</button>
-          </div>
-        </div>
-
-        <!-- Register -->
-        <div class="side back" id="registerSide">
-          <h1>Register New Employee</h1>
-          <form id="registerForm">
-
-            <div class="form-group" style="margin-bottom: 1rem;">
-              <label for="preferredName">Preferred Name</label>
-              <input type="text" id="preferredName" name="preferredName" required>
-            </div>
-
-            <div class="form-grid">
-              <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" required>
+              <div class="note">
+                Don't have an account? <a href="#" id="showRegister">Register here</a>
               </div>
-              <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" required>
-              </div>
-              <div class="form-group">
-                <label for="position">Position</label>
-                <input type="text" id="position" name="position">
-              </div>
-              <div class="form-group">
-                <label for="department">Department</label>
-                <input type="text" id="department" name="department">
-              </div>
-              <div class="form-group" style="grid-column: span 2;">
-                <label for="admin">Admin Email</label>
-                <input type="email" id="admin" name="admin">
-              </div>
-            </div>
-
-            <div id="registerMessage" class="note"></div> <!-- ✅ message container -->
+            </form>
 
             <div class="note">
-              Email and password will be generated and sent once the profile is created.
+              Trouble logging in? Contact <a href="mailto:support@maticstudio.net">support@maticstudio.net</a>
             </div>
+          </div>
+          <div class="card-back">
+            <form action="/api/register" method="POST">
+              <label for="preferredName">Preferred Name</label>
+              <input type="text" id="preferredName" name="preferredName" required />
 
-            <button type="submit" class="submit-btn">Register Employee</button>
-          </form>
-          <div class="switch-link">
-            <button onclick="flipCard(false)">Back to login</button>
+              <label for="firstName">First Name</label>
+              <input type="text" id="firstName" name="firstName" required />
+
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" name="lastName" required />
+
+              <label for="position">Position</label>
+              <input type="text" id="position" name="position" required />
+
+              <label for="department">Department</label>
+              <input type="text" id="department" name="department" required />
+
+              <label for="admin">Admin Email</label>
+              <input type="email" id="admin" name="admin" required />
+
+              <button type="submit">Register</button>
+
+              <div class="note">
+                Already have an account? <a href="#" id="showLogin">Login here</a>
+              </div>
+            </form>
           </div>
         </div>
-
       </div>
     </div>
-  </main>
+  </div>
 
-  <footer>
-    &copy; 2025 MATIC Studio. All rights reserved.
-  </footer>
+<script>
+  const card = document.querySelector('.card');
+  const showRegister = document.getElementById('showRegister');
+  const showLogin = document.getElementById('showLogin');
 
-  <script>
-    const BACKEND_URL = "https://maticph.onrender.com";
+  function adjustFormHeight() {
+    const cardInner = document.querySelector('.card-inner');
+    const formWrapper = document.querySelector('.form-wrapper');
+    const activeSide = cardInner.querySelector(card.classList.contains('flipped') ? '.card-back' : '.card-front');
+    formWrapper.style.height = activeSide.offsetHeight + "px";
+  }
 
-    function flipCard(toRegister = true) {
-      const login = document.getElementById('loginSide');
-      const register = document.getElementById('registerSide');
-      if (toRegister) {
-        login.classList.remove('active');
-        register.classList.add('active');
-      } else {
-        register.classList.remove('active');
-        login.classList.add('active');
-      }
-    }
+  // Initial adjustment
+  window.addEventListener('load', adjustFormHeight);
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+  // Adjust on flip
+  showRegister.addEventListener('click', (e) => {
+    e.preventDefault();
+    card.classList.add('flipped');
+    setTimeout(adjustFormHeight, 500); // wait for flip animation
+  });
 
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const loginMessage = document.getElementById("loginMessage");
-      loginMessage.textContent = "Logging in...";
+  showLogin.addEventListener('click', (e) => {
+    e.preventDefault();
+    card.classList.remove('flipped');
+    setTimeout(adjustFormHeight, 500); // wait for flip animation
+  });
+</script>
 
-      try {
-        const response = await fetch(`${BACKEND_URL}/api/login`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          loginMessage.textContent = data.error || data.message || "Login failed";
-          loginMessage.style.color = "red";
-        } else {
-          loginMessage.textContent = "✅ Login successful";
-          loginMessage.style.color = "lime";
-          console.log("Token:", data.token);
-          // window.location.href = "dashboard.html";
-        }
-      } catch (err) {
-        console.error(err);
-        loginMessage.textContent = "❌ Unable to connect";
-        loginMessage.style.color = "red";
-      }
-    });
-
-    document.getElementById("registerForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const preferredName = document.getElementById("preferredName").value;
-      const firstName = document.getElementById("firstName").value;
-      const lastName = document.getElementById("lastName").value;
-      const position = document.getElementById("position").value;
-      const department = document.getElementById("department").value;
-      const admin = document.getElementById("admin").value;
-      const registerMessage = document.getElementById("registerMessage");
-      registerMessage.textContent = "Registering...";
-
-      try {
-        const response = await fetch(`${BACKEND_URL}/api/register`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            preferredName,
-            firstName,
-            lastName,
-            position,
-            department,
-            admin
-          }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          registerMessage.textContent = data.error || data.message || "Registration failed";
-          registerMessage.style.color = "red";
-        } else {
-          registerMessage.textContent = `✅ Registered!\nEmail: ${data.email}\nPassword: ${data.password}`;
-          registerMessage.style.color = "lime";
-          document.getElementById("registerForm").reset();
-          flipCard(false);
-        }
-      } catch (err) {
-        console.error(err);
-        registerMessage.textContent = "❌ Unable to connect";
-        registerMessage.style.color = "red";
-      }
-    });
-  </script>
 </body>
 </html>
