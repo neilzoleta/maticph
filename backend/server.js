@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 
 dotenv.config();
@@ -33,6 +34,14 @@ app.use(cors({
 
 // ✅ Middleware
 app.use(express.json());
+
+// ✅ Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// ✅ Clean route for /employee
+app.get('/employee', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'employee.html'));
+});
 
 // ✅ Routes
 app.use('/api', authRoutes);
