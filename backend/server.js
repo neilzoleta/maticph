@@ -28,7 +28,7 @@ app.use(cors({
       return callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT'],
+  methods: ['GET', 'POST', 'PUT','OPTIONS'],
   credentials: true
 }));
 
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Clean route for /employee
 app.get('/employee', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'employee.html'));
+  res.sendFile(path.join(__dirname, 'public', 'employee', 'index.html'));
 });
 
 // ✅ Routes
@@ -65,3 +65,9 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
   });
+
+  // ✅ Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Something went wrong!" });
+});
