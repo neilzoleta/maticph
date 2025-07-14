@@ -121,3 +121,26 @@ exports.getProfile = async (req, res) => {
     res.status(500).json({ message: "Server error retrieving profile." });
   }
 };
+
+// ✅ Update employee profile
+exports.updateProfile = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updates = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true }).select('-password');
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    res.status(200).json({
+      message: "Profile updated successfully.",
+      user: updatedUser
+    });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error during profile update." });
+  }
+};
