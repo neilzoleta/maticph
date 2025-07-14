@@ -39,8 +39,13 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ✅ Clean route for /employee
-app.get('/employee', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'employee', 'index.html'));
+app.get('/employee', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'public', 'employee', 'index.html'), (err) => {
+    if (err) {
+      console.error('SendFile Error:', err);
+      next(err);
+    }
+  });
 });
 
 // ✅ Routes
