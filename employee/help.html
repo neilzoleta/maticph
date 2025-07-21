@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio — Help</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- Font Awesome v6.5.2 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-0xUpAJZKkd06P88eaJEqn3Ejj6inUeJ8V+RaHcRUW2KIiMzFxLpy0X58F3RDeo63eNbUsVTNff7kwh28ykVZsw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background-color: var(--bg);
+      border-bottom: 1px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-container img {
+      height: 28px;
+    }
+
+    .header-title {
+      font-size: 1.2em;
+      font-weight: 600;
+      line-height: 1;
+      display: none;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+    }
+
+    nav i {
+      font-size: 1.3em;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      color: var(--text);
+    }
+
+    nav i:hover {
+      color: var(--hover);
+    }
+
+    .profile {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile i {
+      font-size: 1.6em;
+      color: var(--text);
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      top: 35px;
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 8px;
+      overflow: hidden;
+      min-width: 150px;
+      z-index: 1000;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 15px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95em;
+    }
+
+    .dropdown a:hover {
+      background: #222;
+    }
+
+    /* Removed the hover rule for dropdown display */
+
+    .hero {
+      text-align: center;
+      padding: 140px 20px 100px;
+    }
+
+    .hero h1 {
+      font-size: 3.2em;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--text);
+    }
+
+    .hero p {
+      font-size: 1.2em;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 30px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 14px 28px;
+      background-color: white;
+      color: black;
+      font-weight: 600;
+      font-size: 1em;
+      border-radius: 12px;
+      text-decoration: none;
+      box-shadow: 0 5px 10px rgba(255, 255, 255, 0.05);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background-color: #e5e5e5;
+    }
+
+    .main-content {
+      padding: 80px 20px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tasks, .quick-access {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .tasks h2,
+    .quick-access h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .task-list .task-item {
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .task-list .task-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .quick-access .quick-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .quick-access .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #222;
+      border: 1px solid #444;
+      border-radius: 12px;
+      padding: 15px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .quick-access .quick-item i {
+      font-size: 1.2em;
+      color: var(--text);
+    }
+
+    .quick-access .quick-item:hover {
+      background: #333;
+      transform: translateY(-2px);
+    }
+
+    footer {
+      background-color: #000;
+      color: #aaa;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+      border-top: 1px solid #333;
+    }
+
+    .contact-email {
+      margin-top: 15px;
+    }
+
+    .contact-email a {
+      color: #fff;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+    button.active {
+      background: var(--accent);
+      color: #000;
+    }
+
+    .active-container {
+      background: #fff;
+      color: #000;
+      border: 2px solid var(--accent);
+      border-radius: 0 0 12px 12px;
+      padding: 20px;
+      margin-top: 0;
+      animation: fadeIn 0.3s ease;
+    }
+
+    button.active + .active-container {
+      border-top: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo-container">
+      <img src="../assets/logo.png" alt="matic logo" />
+      <span class="header-title">| Help & Support</span>
+    </div>
+
+    <nav>
+      <i class="fa-solid fa-bell"></i>
+
+      <div class="profile">
+        <a>•••</a>
+        <div class="dropdown">
+          <a href="dashboard.html">&lt; Dashboard</a>
+          <a href="#">Profile</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <img src="../assets/logo.png" alt="help" />
+    <h1>Help & Support</h1>
+    <h2 style="font-size:1.5em; font-weight:400; color:var(--gray); margin-top:10px;">
+      Connect with HR for support or inquiries.
+    </h2>
+  </section>
+
+  <section class="main-content">
+    <div class="container">
+
+      <!-- Left: Support Form -->
+      <div class="tasks">
+        <h2>HR Support Line</h2>
+        <div style="margin-bottom: 20px;">
+          <button id="createTicketBtn" style="padding:12px 20px; background:#fff; color:#000; border: 1px solid #000; border-radius:8px; font-weight:600; cursor:pointer; margin-right:10px;">Open a Ticket</button>
+          <button id="fileLeaveBtn" style="padding:12px 20px; background:#fff; color:#000; border: 1px solid #000; border-radius:8px; font-weight:600; cursor:pointer;">File Leave</button>
+        </div>
+        <div id="ticketFormContainer" class="active-container" style="display:none;">
+          <form action="#" method="post" class="support-form">
+            <div style="margin-bottom:15px;">
+              <label for="subject">Subject</label><br>
+              <input type="text" id="subject" name="subject" style="width:100%; padding:10px; border-radius:8px; border:1px solid #444; background:#222; color:#fff;">
+            </div>
+            <div style="margin-bottom:15px;">
+              <label for="category">Category</label><br>
+              <select id="category" name="category" style="width:100%; padding:10px; border-radius:8px; border:1px solid #444; background:#222; color:#fff;">
+                <option value="general">General Inquiry</option>
+                <option value="leave">Leave Request</option>
+                <option value="payroll">Payroll Concern</option>
+                <option value="benefits">Benefits</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div style="margin-bottom:15px;">
+              <label for="message">Message</label><br>
+              <textarea id="message" name="message" rows="5" style="width:100%; padding:10px; border-radius:8px; border:1px solid #444; background:#222; color:#fff;"></textarea>
+            </div>
+            <button type="submit" style="padding:12px 20px; background:#fff; color:#000; border:none; border-radius:8px; font-weight:600; cursor:pointer;">Submit Inquiry</button>
+          </form>
+        </div>
+        <div id="leaveCalendar" class="active-container" style="display:none; margin-top:20px;">
+          <h3 style="font-size:1.5em; margin-bottom:15px;">File Leave</h3>
+          <div style="background:#fff; padding:10px; border-radius:8px; border:1px solid #ccc; color:#000; display:flex; gap:20px; align-items:stretch;">
+            <div style="flex:1;">
+              <div id="inline-calendar"></div>
+            </div>
+            <div style="flex:1; display:flex; flex-direction:column; justify-content:space-between; height:100%;">
+              <p><strong>You have selected:</strong> <span id="selectedDate">Today</span></p>
+              <p id="dateDescription" style="margin-top:10px; font-size:0.95em; color:#555;">
+                Please select your target date to file a leave.
+              </p>
+              <button style="align-self:flex-end; padding:12px 20px; background:#fff; color:#000; border:none; border-radius:8px; font-weight:600; cursor:pointer; margin-top:20px;">Submit Leave</button>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:30px;">
+          <h3 style="font-size:1.5em; margin-bottom:15px;">Frequently Asked Questions / Reminders</h3>
+          <ul style="list-style: none; color: var(--gray); padding-left: 0;">
+            <li style="margin-bottom: 10px;">
+              <p style="cursor: pointer; font-weight: 600;" onclick="toggleAnswer(this)">How to file a leave request</p>
+              <p class="faq-answer" style="display: none; margin-left: 15px;">You can file a leave by clicking the 'File Leave' button above, selecting your desired date, and submitting your leave request.</p>
+            </li>
+            <li style="margin-bottom: 10px;">
+              <p style="cursor: pointer; font-weight: 600;" onclick="toggleAnswer(this)">When will payroll be credited</p>
+              <p class="faq-answer" style="display: none; margin-left: 15px;">Payroll is usually credited every 15th and 30th of the month. Delays may occur on weekends or holidays.</p>
+            </li>
+            <li style="margin-bottom: 10px;">
+              <p style="cursor: pointer; font-weight: 600;" onclick="toggleAnswer(this)">How to update your contact information</p>
+              <p class="faq-answer" style="display: none; margin-left: 15px;">To update your contact information, please submit a ticket via the HR Support Line indicating the changes needed.</p>
+            </li>
+            <li style="margin-bottom: 10px;">
+              <p style="cursor: pointer; font-weight: 600;" onclick="toggleAnswer(this)">Who to contact for benefits concerns</p>
+              <p class="faq-answer" style="display: none; margin-left: 15px;">For benefits concerns, you may contact the HR Benefits team through the HR Support Line or email benefits@maticstudio.net.</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right: Recent Cases -->
+      <div class="quick-access">
+        <h2>Recent Cases</h2>
+        <div class="quick-list">
+          <a href="#" class="quick-item">
+            <i class="fa-solid fa-folder-open"></i> Ticket #1245 - Payroll Concern (Open)
+          </a>
+          <a href="#" class="quick-item">
+            <i class="fa-solid fa-folder"></i> Ticket #1240 - Leave Request (Closed)
+          </a>
+          <a href="#" class="quick-item">
+            <i class="fa-solid fa-folder-open"></i> Ticket #1238 - Benefits Inquiry (Open)
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer id="contact">
+    <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
+    <div class="contact-email">
+      Business inquiries: <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
+    </div>
+    <div class="contact-email">
+      <a href="../policy.html">Company Policy</a>
+      <a href="../privacy.html">Privacy Policy</a>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', function() {
+      const headerTitle = document.querySelector('.header-title');
+      const hero = document.querySelector('.hero');
+      const heroBottom = hero.offsetTop + hero.offsetHeight;
+      if (window.scrollY > heroBottom - 80) {
+        headerTitle.style.display = 'inline';
+      } else {
+        headerTitle.style.display = 'none';
+      }
+    });
+  </script>
+
+  <script>
+    const profileTrigger = document.querySelector('.profile a');
+    const dropdown = document.querySelector('.profile .dropdown');
+
+    profileTrigger.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!document.querySelector('.profile').contains(e.target)) {
+        dropdown.style.display = 'none';
+      }
+    });
+  </script>
+
+  <script>
+    const createTicketBtn = document.getElementById('createTicketBtn');
+    const checkTicketBtn = createTicketBtn; // Only "Open a Ticket" is present, so reassign
+    const fileLeaveBtn = document.getElementById('fileLeaveBtn');
+    const ticketFormContainer = document.getElementById('ticketFormContainer');
+    const leaveCalendar = document.getElementById('leaveCalendar');
+
+    function toggleSection(button, container) {
+      if (!button) return;
+      const isActive = button.classList.contains('active');
+      document.querySelectorAll('.tasks button').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.active-container').forEach(cont => cont.style.display = 'none');
+
+      if (!isActive) {
+        button.classList.add('active');
+        container.style.display = 'block';
+      }
+    }
+
+    createTicketBtn.addEventListener('click', () => {
+      toggleSection(createTicketBtn, ticketFormContainer);
+    });
+
+    // checkTicketBtn is same as createTicketBtn, so no separate event needed
+
+    fileLeaveBtn.addEventListener('click', () => {
+      toggleSection(fileLeaveBtn, leaveCalendar);
+    });
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   ticketFormContainer.style.display = 'none';
+    //   leaveCalendar.style.display = 'block';
+    // });
+  </script>
+
+  <script>
+    flatpickr("#inline-calendar", {
+      inline: true,
+      defaultDate: "today",
+      disableMobile: true,
+      onChange: function(selectedDates, dateStr, instance) {
+        document.getElementById('selectedDate').textContent = dateStr;
+        checkHoliday(dateStr);
+      }
+    });
+
+    function checkHoliday(dateStr) {
+      const holidays = {
+        "2025-01-01": { name: "New Year's Day", type: "Regular Holiday" },
+        "2025-02-25": { name: "EDSA People Power Revolution Anniversary", type: "Special Non-Working Holiday" },
+        "2025-03-31": { name: "Holy Monday", type: "Observance" },
+        "2025-04-09": { name: "Araw ng Kagitingan", type: "Regular Holiday" },
+        "2025-04-17": { name: "Maundy Thursday", type: "Regular Holiday" },
+        "2025-04-18": { name: "Good Friday", type: "Regular Holiday" },
+        "2025-04-19": { name: "Black Saturday", type: "Special Non-Working Holiday" },
+        "2025-05-01": { name: "Labor Day", type: "Regular Holiday" },
+        "2025-06-12": { name: "Independence Day", type: "Regular Holiday" },
+        "2025-08-21": { name: "Ninoy Aquino Day", type: "Special Non-Working Holiday" },
+        "2025-11-01": { name: "All Saints' Day", type: "Special Non-Working Holiday" },
+        "2025-11-02": { name: "All Souls' Day", type: "Special Non-Working Holiday" },
+        "2025-11-30": { name: "Bonifacio Day", type: "Regular Holiday" },
+        "2025-12-08": { name: "Feast of the Immaculate Conception of the Blessed Virgin Mary", type: "Special Non-Working Holiday" },
+        "2025-12-24": { name: "Christmas Eve", type: "Special Non-Working Holiday" },
+        "2025-12-25": { name: "Christmas Day", type: "Regular Holiday" },
+        "2025-12-30": { name: "Rizal Day", type: "Regular Holiday" },
+        "2025-12-31": { name: "New Year's Eve", type: "Special Non-Working Holiday" }
+        // Add further declared holidays from official DOLE proclamations as updated
+      };
+
+      const selected = holidays[dateStr];
+      const day = new Date(dateStr).getDate();
+      const options = { month: 'long', day: 'numeric' };
+      const formattedDate = new Date(dateStr).toLocaleDateString('en-US', options);
+      let suffix = 'th';
+      if (day % 10 === 1 && day % 100 !== 11) suffix = 'st';
+      else if (day % 10 === 2 && day % 100 !== 12) suffix = 'nd';
+      else if (day % 10 === 3 && day % 100 !== 13) suffix = 'rd';
+      const formattedDateWithSuffix = formattedDate.replace(/\d+/, day + suffix);
+
+      let note = "";
+
+      if (selected) {
+        note = `${formattedDateWithSuffix} is a declared Philippine ${selected.type}: ${selected.name}. `;
+        if (selected.type === "Regular Holiday") {
+          note += "Filing leave will consume your leave credits.";
+        } else if (selected.type === "Special Non-Working Holiday") {
+          note += "No leave credits will be consumed.";
+        } else {
+          note += "Please check with HR for leave credit policies on this holiday type.";
+        }
+      } else {
+        note = "This will be recorded as a regular leave and will consume your leave credits.";
+      }
+
+      document.getElementById('dateDescription').textContent = note;
+    }
+  </script>
+
+</body>
+
+<script>
+  function toggleAnswer(element) {
+    const answer = element.nextElementSibling;
+    if (answer.style.display === "none") {
+      answer.style.display = "block";
+    } else {
+      answer.style.display = "none";
+    }
+  }
+</script>
+</html>
