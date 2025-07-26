@@ -7,6 +7,21 @@
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link rel="stylesheet" href="style.css" />
   <style>
+    .language-selector {
+      font-size: 0.95em;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      padding: 6px 0;
+    }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -80,105 +95,336 @@
       <img src="assets/logo.png" alt="matic logo" />
     </a>
     <nav>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        background-color: transparent;
-        border: 1px solid white;
-        padding: 5px 12px;
-        border-radius: 8px;
-        color: white;
-        text-decoration: none;
-        font-size: 12px;
-        line-height: 1;
-        transition: background-color 0.3s;
-      ">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-        </svg>
-        <span style="position: relative; top: 1px;">/MATICStudio</span>
-      </a>
+      <div style="display: flex; align-items: center; gap: 20px; position: relative;">
+        <a href="index.html#solutions">Solutions</a>
+        <a href="aboutmatic.html">Who We Are</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          background-color: transparent;
+          border: 1px solid white;
+          padding: 5px 12px;
+          border-radius: 8px;
+          color: white;
+          text-decoration: none;
+          font-size: 12px;
+          line-height: 1;
+          transition: background-color 0.3s;
+        ">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+          </svg>
+          <span style="position: relative; top: 1px;">/MATICStudio</span>
+        </a>
+        <button onclick="toggleLangDropdown()" class="language-selector">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24">
+            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/>
+          </svg>
+          <span id="currentLang">EN</span>
+        </button>
+        <div id="langDropdown" style="display: none; position: absolute; top: 60px; right: 40px; background-color: #000; border: 1px solid #444; padding: 10px; border-radius: 8px; z-index: 999;">
+          <div onclick="setLanguage('en')" style="cursor: pointer; padding: 5px 10px;">EN - English</div>
+          <div onclick="setLanguage('tl')" style="cursor: pointer; padding: 5px 10px;">FIL - Taglish</div>
+          <div onclick="setLanguage('kr')" style="cursor: pointer; padding: 5px 10px;">KR - 한국어</div>
+          <div onclick="setLanguage('jp')" style="cursor: pointer; padding: 5px 10px;">JP - 日本語</div>
+          <div onclick="setLanguage('th')" style="cursor: pointer; padding: 5px 10px;">TH - ภาษาไทย</div>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main>
-    <h1>Inside Our Workshop</h1>
-    <p>At MATIC Studio, we approach business process automation like tuning up a high-performance machine. Here's how we work under the hood:</p>
-
-    <h2>1. Discovery & Diagnostics</h2>
-    <p>We run a full system check. Our team listens under the hood of your business, identifying process leaks, workflow clunks, and areas that could run smoother with automation.</p>
-
-    <h2>2. Deep Process Mapping</h2>
-    <p>We lift the lid and map out your operations, bolt by bolt. From intake to output, we sketch the flow and spot where a custom-fit automation engine can be dropped in.</p>
-
-    <h2>3. Custom-Built Automation</h2>
-    <p>This is where the real build begins. We engineer streamlined solutions using automation tools, tailored to fit your exact process, not just off-the-shelf parts.</p>
-
-    <h2>4. Testing & Fine-Tuning</h2>
-    <p>Before handing you the keys, we test on every turn. From QA to feedback loops, we make sure the solution doesn’t just run—it glides.</p>
-
-    <h2>5. Deployment & Support</h2>
-    <p>Once tuned and tightened, we launch your automation with full support. We don't just send you off—we ride with you for the long haul.</p>
-
-    <h2>Operational Roadblocks for SMEs</h2>
-    <p>
-      As businesses grow, many processes outpace the capabilities of spreadsheets. What starts as a quick fix often turns into a fragile system—difficult to scale, vulnerable to errors, and risky for critical operations.
-  Spreadsheets can’t ensure data integrity or real-time collaboration at scale, yet many SMEs hesitate to invest in purpose-built solutions due to cost concerns or a lack of technical resources.
-  This gap holds back efficiency, visibility, and growth.
-    </p>
-
-<section style="background-color: #000; color: #fff; padding: 60px 20px;">
-  <div style="max-width: 1200px; margin: auto; text-align: center;">
-    <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">Our Expertise in Automation & Development</h2>
-    <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
-      From automating repetitive tasks to building tailored business systems, we leverage best-in-class tools to create powerful, reliable, and scalable automation solutions.
-    </p>
- <p style="margin-top: 30px; font-weight: 500;">
-    <a href="brb.html" style="color: var(--accent); text-decoration: underline;">Browse all blueprints</a>
-  </p>
-    <a href="brb.html" style="text-decoration: none; color: inherit;">
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
-
-      <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
-        <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
-        <p style="font-size: 0.95rem; color: #ccc;">Low-code solutions for apps, workflows, and automations built with Power Apps, Power Automate, and Power Virtual Agents.</p>
-      </div>
-      <a href="brb.html" style="text-decoration: none; color: inherit;">
-      <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
-        <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA Macros</h3>
-        <p style="font-size: 0.95rem; color: #ccc;">Excel and Office-based automations using robust macro scripting and data workflows embedded within M365 apps.</p>
-      </div>
-      <a href="brb.html" style="text-decoration: none; color: inherit;">
-      <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
-        <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Robotic Process Automation (RPA)</h3>
-        <p style="font-size: 0.95rem; color: #ccc;">End-to-end process automation using tools like Automation Anywhere and UiPath to replicate human tasks at scale.</p>
-      </div>
-      <a href="brb.html" style="text-decoration: none; color: inherit;">
-      <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
-        <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Data Visualization & Business Intelligence</h3>
-        <p style="font-size: 0.95rem; color: #ccc;">Transform data into insights using Power BI, Tableau, and integrated dashboards tailored to your business needs.</p>
-      </div>
+    <div class="language-group en">
+      <h1>Inside Our Workshop</h1>
+      <p>At MATIC Studio, we approach business process automation like tuning up a high-performance machine. Here's how we work under the hood:</p>
+      <h2>1. Discovery & Diagnostics</h2>
+      <p>We run a full system check. Our team listens under the hood of your business, identifying process leaks, workflow clunks, and areas that could run smoother with automation.</p>
+      <h2>2. Deep Process Mapping</h2>
+      <p>We lift the lid and map out your operations, bolt by bolt. From intake to output, we sketch the flow and spot where a custom-fit automation engine can be dropped in.</p>
+      <h2>3. Custom-Built Automation</h2>
+      <p>This is where the real build begins. We engineer streamlined solutions using automation tools, tailored to fit your exact process, not just off-the-shelf parts.</p>
+      <h2>4. Testing & Fine-Tuning</h2>
+      <p>Before handing you the keys, we test on every turn. From QA to feedback loops, we make sure the solution doesn’t just run—it glides.</p>
+      <h2>5. Deployment & Support</h2>
+      <p>Once tuned and tightened, we launch your automation with full support. We don't just send you off—we ride with you for the long haul.</p>
+      <h2>Operational Roadblocks for SMEs</h2>
+      <p>
+        As businesses grow, many processes outpace the capabilities of spreadsheets. What starts as a quick fix often turns into a fragile system—difficult to scale, vulnerable to errors, and risky for critical operations.<br>
+        Spreadsheets can’t ensure data integrity or real-time collaboration at scale, yet many SMEs hesitate to invest in purpose-built solutions due to cost concerns or a lack of technical resources.<br>
+        This gap holds back efficiency, visibility, and growth.
+      </p>
     </div>
-  </div>
+    <div class="language-group tl" style="display: none;">
+      <h1>Sa Loob ng aming Workshop</h1>
+      <p>Sa MATIC Studio, parang nagre-retune kami ng isang high-performance na makina — ganon namin tinatrabaho ang business process automation.</p>
+      <h2>1. Discovery & Diagnostics</h2>
+      <p>Ginagawa namin ang full system check. Pinapakinggan namin ang “under the hood” ng negosyo mo para makita ang process leaks, workflow clunks, at mga area na pwedeng pabilisin gamit ang automation.</p>
+      <h2>2. Deep Process Mapping</h2>
+      <p>Ine-explore namin ang operations mo, bawat detalye. Mula intake hanggang output, nilalatag namin ang daloy at tinitingnan kung saan bagay ang custom-fit automation engine.</p>
+      <h2>3. Custom-Built Automation</h2>
+      <p>Dito na ang totoong build. Gumagawa kami ng automation solutions na swak sa proseso mo—hindi lang basta generic parts.</p>
+      <h2>4. Testing & Fine-Tuning</h2>
+      <p>Bago namin i-turnover, tinotodo namin ang testing. Mula QA hanggang feedback loop, sinisigurado naming hindi lang aandar—kundi smooth ang takbo.</p>
+      <h2>5. Deployment & Support</h2>
+      <p>Pag tapos nang i-tune, ilulunsad na namin ang automation mo na may full support. Hindi ka namin iiwan, kasama mo kami sa biyahe.</p>
+      <h2>Mga Hadlang sa SMEs</h2>
+      <p>
+        Habang lumalaki ang negosyo, lumalagpas na ang mga proseso sa kaya ng spreadsheets. Ang dating mabilis na solusyon, nagiging marupok na sistema—hirap i-scale, madaling magkamali, delikado para sa critical operations.<br>
+        Hindi kayang magbigay ng data integrity o real-time collaboration ng spreadsheets, pero madalas nagdadalawang-isip ang SMEs mag-invest sa purpose-built solutions dahil sa gastos o kakulangan ng technical na tao.<br>
+        Dahil dito, nababalam ang efficiency, visibility, at growth.
+      </p>
+    </div>
+    <div class="language-group kr" style="display: none;">
+      <h1>우리 워크숍 내부</h1>
+      <p>MATIC Studio에서는 고성능 기계를 조정하듯이 비즈니스 프로세스 자동화를 접근합니다. 우리는 이렇게 작업합니다:</p>
+      <h2>1. 진단 및 발견</h2>
+      <p>시스템 전체를 점검합니다. 비즈니스의 내부를 듣고, 프로세스 누수와 비효율, 자동화로 개선될 수 있는 부분을 찾아냅니다.</p>
+      <h2>2. 프로세스 맵핑</h2>
+      <p>운영 과정을 세밀하게 분석합니다. 처음부터 끝까지 흐름을 그려보고, 맞춤형 자동화 엔진을 투입할 지점을 찾습니다.</p>
+      <h2>3. 맞춤 자동화 구축</h2>
+      <p>본격적인 빌드 시작! 표준 솔루션이 아닌, 귀하의 프로세스에 꼭 맞는 자동화 솔루션을 설계합니다.</p>
+      <h2>4. 테스트 및 미세 조정</h2>
+      <p>인도 전까지 꼼꼼하게 테스트합니다. QA와 피드백 루프를 거쳐, 단순히 동작만 하는 것이 아니라 완벽하게 작동하도록 합니다.</p>
+      <h2>5. 배포 및 지원</h2>
+      <p>최적화가 끝나면 자동화를 배포하고, 지속적으로 지원합니다. 단순히 전달만 하지 않고, 함께 성장합니다.</p>
+      <h2>SME의 운영 장애물</h2>
+      <p>
+        기업이 성장하면 많은 프로세스가 스프레드시트의 한계를 넘어서게 됩니다. 임시방편이었던 것이 결국엔 취약한 시스템이 되어 확장이나 오류에 취약합니다.<br>
+        스프레드시트는 데이터 무결성이나 실시간 협업을 보장하지 못하지만, 많은 중소기업은 비용이나 기술 인력 부족 때문에 전용 솔루션 도입을 주저합니다.<br>
+        이로 인해 효율성, 가시성, 성장에 제약이 생깁니다.
+      </p>
+    </div>
+    <div class="language-group jp" style="display: none;">
+      <h1>ワークショップの舞台裏</h1>
+      <p>MATIC Studioでは、高性能な機械をチューニングするようにビジネスプロセスの自動化に取り組んでいます。私たちの作業方法はこちら：</p>
+      <h2>1. 発見と診断</h2>
+      <p>システム全体をチェックします。ビジネスの「エンジン音」を聞き、プロセスの無駄や自動化で改善できる部分を特定します。</p>
+      <h2>2. プロセスマッピング</h2>
+      <p>業務の流れを細かく可視化します。最初から最後までフローを描き、最適な自動化ポイントを見つけます。</p>
+      <h2>3. カスタム自動化構築</h2>
+      <p>ここからが本番。既製品ではなく、御社の業務にぴったり合う自動化ソリューションを設計・構築します。</p>
+      <h2>4. テストと微調整</h2>
+      <p>納品前に徹底テスト。QAやフィードバックを重ね、単に動くだけでなくスムーズに稼働することを確認します。</p>
+      <h2>5. 導入とサポート</h2>
+      <p>最適化後に自動化を導入し、継続的にサポートします。納品して終わりではなく、長期的に伴走します。</p>
+      <h2>中小企業の課題</h2>
+      <p>
+        事業が成長するにつれ、多くの業務がスプレッドシートの限界を超えます。最初は便利でも、やがて脆弱で拡張しにくい仕組みに。<br>
+        スプレッドシートはデータの整合性やリアルタイム連携を保証できませんが、コストや技術面の不安から専用システム導入に踏み切れない中小企業も多いです。<br>
+        このギャップが効率・見える化・成長を妨げています。
+      </p>
+    </div>
+    <div class="language-group th" style="display: none;">
+      <h1>ภายในเวิร์กชอปของเรา</h1>
+      <p>ที่ MATIC Studio เราดำเนินงานระบบอัตโนมัติเหมือนการปรับจูนเครื่องจักรสมรรถนะสูง มาดูกันว่าเราทำงานกันอย่างไร:</p>
+      <h2>1. ค้นหาและวิเคราะห์</h2>
+      <p>เราตรวจสอบระบบทั้งหมด ทีมของเราฟังปัญหาเชิงลึก ค้นหาจุดรั่วไหล กระบวนการติดขัด และโอกาสที่ระบบอัตโนมัติจะช่วยให้ลื่นไหลขึ้น</p>
+      <h2>2. วางแผนกระบวนการ</h2>
+      <p>เราถอดประกอบและวางแผนทุกขั้นตอน ตั้งแต่รับข้อมูลจนถึงผลลัพธ์ เพื่อหาโอกาสใส่ “เครื่องยนต์อัตโนมัติ” ที่เหมาะสมที่สุด</p>
+      <h2>3. สร้างระบบอัตโนมัติแบบเฉพาะ</h2>
+      <p>นี่คือช่วงสร้างจริง เราออกแบบระบบอัตโนมัติที่ตรงกับกระบวนการของคุณ ไม่ใช่แค่ของสำเร็จรูป</p>
+      <h2>4. ทดสอบและจูนละเอียด</h2>
+      <p>ก่อนส่งมอบ เราทดสอบทุกจุด รับฟังฟีดแบ็กและปรับให้ระบบทำงานได้อย่างลื่นไหล</p>
+      <h2>5. ติดตั้งและดูแลต่อเนื่อง</h2>
+      <p>เมื่อทุกอย่างพร้อม เราจะติดตั้งและดูแลคุณต่อเนื่อง ไม่ใช่แค่ส่งมอบแล้วจบ</p>
+      <h2>อุปสรรคในการดำเนินงานของ SME</h2>
+      <p>
+        เมื่อธุรกิจเติบโต หลายกระบวนการก็เกินขีดจำกัดของสเปรดชีต วิธีแก้ชั่วคราวกลายเป็นระบบที่เปราะบาง ขยายยากและเสี่ยงต่อข้อผิดพลาด<br>
+        สเปรดชีตไม่สามารถรับรองความถูกต้องของข้อมูลหรือทำงานร่วมกันแบบเรียลไทม์ได้ แต่หลาย SME ยังลังเลที่จะลงทุนในโซลูชันที่สร้างมาเฉพาะเพราะต้นทุนหรือขาดบุคลากรด้านเทคนิค<br>
+        ช่องว่างนี้ฉุดรั้งประสิทธิภาพ การมองเห็น และการเติบโต
+      </p>
+    </div>
 
-</section>
-<section style="background-color: #000; color: #fff; padding: 80px 20px;">
-  <div style="max-width: 1000px; margin: auto; text-align: center;">
-    <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">Start a Project With Us</h2>
-    <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
-      Ready to streamline your operations or build something bold? Let's talk about how automation can move your business forward. Tell us your pain points—we’ll take care of the rest.
-    </p>
-
-    <a href="form.html" style="display: inline-block; margin-top: 2.5rem; padding: 14px 30px; background-color: #e63946; color: #fff; font-weight: 500; text-decoration: none; border-radius: 10px; transition: background 0.3s ease;">
-      Let's Get Started →
-    </a>
-  </div>
-</section>
+    <section style="background-color: #000; color: #fff; padding: 60px 20px;">
+      <div style="max-width: 1200px; margin: auto; text-align: center;">
+        <div class="language-group en">
+          <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">Our Expertise in Automation & Development</h2>
+          <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+            From automating repetitive tasks to building tailored business systems, we leverage best-in-class tools to create powerful, reliable, and scalable automation solutions.
+          </p>
+          <p style="margin-top: 30px; font-weight: 500;">
+            <a href="brb.html" style="color: var(--accent); text-decoration: underline;">Browse all blueprints</a>
+          </p>
+        </div>
+        <div class="language-group tl" style="display: none;">
+          <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">Dalubhasa Kami sa Automation & Development</h2>
+          <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+            Mula sa pag-automate ng paulit-ulit na tasks hanggang sa paggawa ng custom business systems, ginagamit namin ang pinakamagagandang tools para bumuo ng matatag at scalable na automation solutions.
+          </p>
+          <p style="margin-top: 30px; font-weight: 500;">
+            <a href="brb.html" style="color: var(--accent); text-decoration: underline;">Tingnan lahat ng blueprints</a>
+          </p>
+        </div>
+        <div class="language-group kr" style="display: none;">
+          <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">자동화 & 개발 전문성</h2>
+          <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+            반복 업무 자동화부터 맞춤 비즈니스 시스템 구축까지, 최고의 도구로 강력하고 신뢰성 높은 자동화 솔루션을 제공합니다.
+          </p>
+          <p style="margin-top: 30px; font-weight: 500;">
+            <a href="brb.html" style="color: var(--accent); text-decoration: underline;">모든 블루프린트 보기</a>
+          </p>
+        </div>
+        <div class="language-group jp" style="display: none;">
+          <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">自動化・開発の専門性</h2>
+          <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+            単純作業の自動化から業務システムの構築まで、最先端ツールを駆使しパワフルで信頼性の高い自動化ソリューションを実現します。
+          </p>
+          <p style="margin-top: 30px; font-weight: 500;">
+            <a href="brb.html" style="color: var(--accent); text-decoration: underline;">全てのブループリントを見る</a>
+          </p>
+        </div>
+        <div class="language-group th" style="display: none;">
+          <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">ความเชี่ยวชาญด้าน Automation & Development</h2>
+          <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+            ตั้งแต่การอัตโนมัติงานซ้ำ ๆ ไปจนถึงสร้างระบบธุรกิจเฉพาะ เราใช้เครื่องมือชั้นนำเพื่อสร้างโซลูชันอัตโนมัติที่ทรงพลังและขยายได้
+          </p>
+          <p style="margin-top: 30px; font-weight: 500;">
+            <a href="brb.html" style="color: var(--accent); text-decoration: underline;">ดูบลูปริ้นท์ทั้งหมด</a>
+          </p>
+        </div>
+        <!-- Language-group card sets for automation expertise -->
+        <div class="language-group en">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Low-code solutions for apps, workflows, and automations built with Power Apps, Power Automate, and Power Virtual Agents.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA Macros</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Excel and Office-based automations using robust macro scripting and data workflows embedded within M365 apps.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Robotic Process Automation (RPA)</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">End-to-end process automation using tools like Automation Anywhere and UiPath to replicate human tasks at scale.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Data Visualization & Business Intelligence</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Transform data into insights using Power BI, Tableau, and integrated dashboards tailored to your business needs.</p>
+            </div>
+          </div>
+        </div>
+        <div class="language-group tl" style="display: none;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Low-code na apps, workflows, at automations gamit ang Power Apps, Power Automate, at Power Virtual Agents—mas mabilis, less code, more gawa!</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA Macros</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Automations sa Excel at Office gamit ang matibay na macro scripting at data workflows—diretso sa M365 apps mo!</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Robotic Process Automation (RPA)</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Full automation ng processes gamit ang tools tulad ng Automation Anywhere at UiPath—parang may digital na katulong ka!</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Data Visualization & Business Intelligence</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Gawing actionable insights ang data gamit ang Power BI, Tableau, at custom dashboards para sa negosyo mo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="language-group kr" style="display: none;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Power Apps, Power Automate, Power Virtual Agents로 구축하는 로우코드 앱, 워크플로우, 자동화 솔루션.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA 매크로</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Excel 및 Office에서 강력한 매크로 스크립트와 데이터 워크플로우로 자동화 구현.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">로보틱 프로세스 자동화 (RPA)</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Automation Anywhere, UiPath 등으로 반복 업무를 대규모로 자동화.</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">데이터 시각화 & 비즈니스 인텔리전스</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Power BI, Tableau 등으로 데이터를 인사이트로 전환, 맞춤형 대시보드 제공.</p>
+            </div>
+          </div>
+        </div>
+        <div class="language-group jp" style="display: none;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Power AppsやPower Automate、Power Virtual Agentsで構築するローコードの業務アプリ・自動化ソリューション。</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBAマクロ</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">ExcelやOfficeのマクロ・スクリプトで業務を自動化。M365アプリ内でのデータ連携も対応。</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">ロボティック・プロセス・オートメーション (RPA)</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Automation AnywhereやUiPath等で繰り返し業務を自動化。大規模な業務効率化を実現。</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">データ可視化＆ビジネスインテリジェンス</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">Power BIやTableau、各種ダッシュボードでデータを見える化・ビジネスに役立てます。</p>
+            </div>
+          </div>
+        </div>
+        <div class="language-group th" style="display: none;">
+          <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">โซลูชัน Low-code สำหรับแอป เวิร์กโฟลว์ และอัตโนมัติ ด้วย Power Apps, Power Automate และ Power Virtual Agents</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA แมโคร</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">ระบบอัตโนมัติบน Excel และ Office ด้วยแมโครและเวิร์กโฟลว์ที่ฝังในแอป M365</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Robotic Process Automation (RPA)</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">อัตโนมัติทั้งกระบวนการด้วยเครื่องมืออย่าง Automation Anywhere และ UiPath ช่วยงานซ้ำซ้อนในองค์กร</p>
+            </div>
+            <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px;">
+              <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">การแสดงผลข้อมูล & Business Intelligence</h3>
+              <p style="font-size: 0.95rem; color: #ccc;">แปลงข้อมูลเป็นอินไซต์ด้วย Power BI, Tableau และแดชบอร์ดที่ปรับให้เหมาะกับธุรกิจของคุณ</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section style="background-color: #000; color: #fff; padding: 80px 20px;">
+      <div style="max-width: 1000px; margin: auto; text-align: center;">
+        <div class="language-group en">
+          <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">Start a Project With Us</h2>
+          <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
+            Ready to streamline your operations or build something bold? Let's talk about how automation can move your business forward. Tell us your pain points—we’ll take care of the rest.
+          </p>
+        </div>
+        <div class="language-group tl" style="display: none;">
+          <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">Simulan ang Project Kasama Kami</h2>
+          <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
+            Gusto mo bang gawing mas efficient ang operations mo o gumawa ng bagong sistema? Tara, pag-usapan natin kung paano makakatulong ang automation. Sabihin mo lang ang pain points mo—kami na bahala!
+          </p>
+        </div>
+        <div class="language-group kr" style="display: none;">
+          <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">프로젝트 시작하기</h2>
+          <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
+            운영을 효율화하거나 새로운 시스템을 구축하고 싶으신가요? 자동화로 비즈니스를 성장시키는 방법, 함께 이야기해요. 고민만 말씀해주시면 나머지는 저희가 해결합니다.
+          </p>
+        </div>
+        <div class="language-group jp" style="display: none;">
+          <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">プロジェクトを始めましょう</h2>
+          <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
+            業務を効率化したい方も、大胆なシステム構築を目指す方も、まずはご相談ください。課題を教えていただければ、私たちが解決します。
+          </p>
+        </div>
+        <div class="language-group th" style="display: none;">
+          <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">เริ่มโปรเจกต์กับเรา</h2>
+          <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto;">
+            พร้อมปรับปรุงงานหรือสร้างระบบใหม่ใช่ไหม? มาคุยกันว่า Automation จะช่วยธุรกิจคุณได้อย่างไร บอกปัญหาของคุณมา ที่เหลือเราจัดการให้!
+          </p>
+        </div>
+        <a href="form.html" style="display: inline-block; margin-top: 2.5rem; padding: 14px 30px; background-color: #e63946; color: #fff; font-weight: 500; text-decoration: none; border-radius: 10px; transition: background 0.3s ease;">
+          Let's Get Started →
+        </a>
+      </div>
+    </section>
   </main>
 
   <footer>
@@ -187,4 +433,23 @@
     <p><a href="privacy.html">Privacy Policy</a></p>
   </footer>
 </body>
+<script>
+  function toggleLangDropdown() {
+    const dropdown = document.getElementById('langDropdown');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+  }
+
+  function setLanguage(langCode) {
+    document.querySelectorAll('.language-group').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.language-group.' + langCode).forEach(el => el.style.display = 'block');
+    document.getElementById('currentLang').innerText = langCode.toUpperCase();
+    localStorage.setItem('preferredLang', langCode);
+    document.getElementById('langDropdown').style.display = 'none';
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const storedLang = localStorage.getItem("preferredLang") || 'en';
+    setLanguage(storedLang);
+  });
+</script>
 </html>

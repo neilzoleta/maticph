@@ -107,6 +107,28 @@
       fill: black;
     }
 
+    .language-selector {
+      font-size: 0.95em;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      padding: 6px 0;
+    }
+
+    .lang-container {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+
     .content {
       padding: 80px 20px;
       max-width: 800px;
@@ -249,13 +271,25 @@
       <a href="index.html#solutions">Solutions</a>
       <a href="aboutmatic.html">Who We Are</a>
       <a href="index.html#contact">Contact</a>
-
-<a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
-  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-    <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-  </svg>
-  <span style="position: relative; top: 1px;">/MATICStudio</span>
-</a>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+        </svg>
+        <span style="position: relative; top: 1px;">/MATICStudio</span>
+      </a>
+      <div class="lang-container" style="position: relative;">
+        <button onclick="toggleLangDropdown()" class="language-selector">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/></svg>
+          <span id="currentLang">EN</span>
+        </button>
+        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
+          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
+          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Tagalog</div>
+          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
+          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
+          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
+        </div>
+      </div>
     </nav>
     <div class="hamburger" onclick="toggleMenu()">
       <div></div>
@@ -271,19 +305,65 @@
   </header>
 
   <section class="content">
-    <h1>Our Company Policy</h1>
+    <div class="language-group en">
+      <h1>Our Company Policy</h1>
+      <h2>Workplace Model</h2>
+      <p>MATIC Studio is a remote-first organization. We value flexibility, accountability, and results over physical presence. This model enables us to collaborate effectively across geographies and work-life boundaries while delivering high-value services to our clients.</p>
+      <h2>Culture and Values</h2>
+      <p>We foster a culture of curiosity, ownership, and continuous improvement. Every team member is encouraged to take initiative, embrace challenges, and contribute to our mission of simplifying work through smart automation.</p>
+      <h2>Benefits & Support</h2>
+      <p>At MATIC Studio, we champion flexibility, personal growth, and continuous learning in a digital-first environment. We foster a culture that prioritizes mental well-being, encourages work-life balance, and thrives on curiosity, creativity, and innovation.</p>
+      <h2>Inclusion & Diversity</h2>
+      <p>We’re committed to building a team that represents diverse experiences, backgrounds, and perspectives. Inclusion isn’t an initiative — it’s foundational to how we build, automate, and grow.</p>
+    </div>
 
-    <h2>Workplace Model</h2>
-    <p>MATIC Studio is a remote-first organization. We value flexibility, accountability, and results over physical presence. This model enables us to collaborate effectively across geographies and work-life boundaries while delivering high-value services to our clients.</p>
+    <div class="language-group tl" style="display: none;">
+      <h1>Company Policy</h1>
+      <h2>Workplace Setup</h2>
+      <p>Remote-first ang MATIC Studio — mas mahalaga sa amin ang output kaysa sa presence sa office. Flexible kami basta accountable at consistent ang results.</p>
+      <h2>Culture & Values</h2>
+      <p>Encouraged dito ang curiosity, ownership, at growth. Lahat may chance mag-take ng initiative at mag-contribute sa mission nating gawing simple ang trabaho gamit ang automation.</p>
+      <h2>Benefits & Support</h2>
+      <p>We support flexibility, growth, and mental wellness. Gusto namin ng healthy work-life balance na may creativity at innovation.</p>
+      <h2>Inclusion & Diversity</h2>
+      <p>Welcome lahat dito — kahit anong background. Diversity is not just a goal, part siya ng kung paano tayo magtrabaho at mag-grow as a team.</p>
+    </div>
 
-    <h2>Culture and Values</h2>
-    <p>We foster a culture of curiosity, ownership, and continuous improvement. Every team member is encouraged to take initiative, embrace challenges, and contribute to our mission of simplifying work through smart automation.</p>
+    <div class="language-group kr" style="display: none;">
+      <h1>회사 정책</h1>
+      <h2>근무 방식</h2>
+      <p>MATIC Studio는 리모트 우선 조직입니다. 우리는 유연성, 책임감, 결과 중심을 중시합니다.</p>
+      <h2>문화 및 가치</h2>
+      <p>우리는 호기심, 주인의식, 지속적인 성장을 장려합니다. 모든 팀원이 주도적으로 행동하고 자동화를 통해 업무를 단순화하는 사명에 기여하도록 권장합니다.</p>
+      <h2>복지 및 지원</h2>
+      <p>우리는 유연성, 성장, 정신 건강을 지원합니다. 균형 잡힌 워라밸과 창의성, 혁신을 중요하게 생각합니다.</p>
+      <h2>포용성과 다양성</h2>
+      <p>우리는 다양한 배경과 경험을 환영합니다. 포용성은 우리가 일하고 성장하는 방식의 핵심입니다.</p>
+    </div>
 
-    <h2>Benefits & Support</h2>
-    <p>At MATIC Studio, we champion flexibility, personal growth, and continuous learning in a digital-first environment. We foster a culture that prioritizes mental well-being, encourages work-life balance, and thrives on curiosity, creativity, and innovation.</p>
+    <div class="language-group jp" style="display: none;">
+      <h1>会社方針</h1>
+      <h2>ワークスタイル</h2>
+      <p>MATIC Studioはリモートファーストの会社です。柔軟性・責任・成果を重視しています。</p>
+      <h2>文化と価値観</h2>
+      <p>好奇心、オーナーシップ、継続的な成長を大切にしています。すべてのメンバーが自発的に行動し、業務をシンプルにする自動化の使命に貢献します。</p>
+      <h2>福利厚生とサポート</h2>
+      <p>柔軟な働き方、成長、メンタルウェルネスを支援しています。バランスの取れた生活とイノベーションを重視します。</p>
+      <h2>多様性と包摂性</h2>
+      <p>私たちは多様なバックグラウンドの人々を歓迎します。インクルージョンは仕事と成長の基本です。</p>
+    </div>
 
-    <h2>Inclusion & Diversity</h2>
-    <p>We’re committed to building a team that represents diverse experiences, backgrounds, and perspectives. Inclusion isn’t an initiative — it’s foundational to how we build, automate, and grow.</p>
+    <div class="language-group th" style="display: none;">
+      <h1>นโยบายบริษัท</h1>
+      <h2>รูปแบบการทำงาน</h2>
+      <p>MATIC Studio เป็นองค์กรที่เน้นการทำงานจากระยะไกล เราให้ความสำคัญกับความยืดหยุ่น ความรับผิดชอบ และผลลัพธ์</p>
+      <h2>วัฒนธรรมและค่านิยม</h2>
+      <p>เราส่งเสริมความอยากรู้อยากเห็น ความเป็นเจ้าของ และการเติบโตอย่างต่อเนื่อง ทุกคนมีโอกาสริเริ่มและช่วยให้งานง่ายขึ้นผ่านระบบอัตโนมัติ</p>
+      <h2>สวัสดิการและการสนับสนุน</h2>
+      <p>เราสนับสนุนความยืดหยุ่น การเติบโต และสุขภาพจิตที่ดี เราให้ความสำคัญกับสมดุลชีวิตและนวัตกรรม</p>
+      <h2>ความหลากหลายและการยอมรับ</h2>
+      <p>เรายินดีต้อนรับทุกคน ความหลากหลายไม่ใช่แค่เป้าหมาย แต่เป็นพื้นฐานของการทำงานร่วมกัน</p>
+    </div>
   </section>
 
   <footer id="contact">
@@ -296,11 +376,31 @@
     </div>
   </footer>
 
+</footer>
   <script>
     function toggleMenu() {
       const nav = document.getElementById('mobileNav');
       nav.classList.toggle('show');
     }
+
+    function toggleLangDropdown() {
+      const dropdown = document.getElementById('langDropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function setLanguage(lang) {
+      document.querySelectorAll('.language-group').forEach(el => el.style.display = 'none');
+      const target = document.querySelector('.language-group.' + lang);
+      if (target) target.style.display = 'block';
+      document.getElementById('currentLang').innerText = lang.toUpperCase();
+      document.getElementById('langDropdown').style.display = 'none';
+      localStorage.setItem("preferredLang", lang); // Save selected language
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedLang = localStorage.getItem("preferredLang") || 'en'; // Load saved language
+      setLanguage(savedLang);
+    });
   </script>
 </body>
 </html>

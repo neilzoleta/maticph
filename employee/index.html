@@ -294,5 +294,12 @@
   });
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const savedLang = localStorage.getItem("preferredLang") || 'en';
+    document.documentElement.setAttribute("lang", savedLang);
+  });
+</script>
+
 </body>
 </html>

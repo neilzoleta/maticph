@@ -2,85 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Privacy Policy — matic</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio — Company Policy</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body {
-      background-color: #000;
-      color: #ccc;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 100px;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 40px;
-      background-color: #000;
+      padding: 24px 60px;
+      background-color: var(--bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       position: sticky;
       top: 0;
       z-index: 1000;
-      position: relative;
-      flex-wrap: nowrap;
     }
 
-    header > * {
-      flex-shrink: 0;
-    }
-
-    header .logo {
-      flex: 1;
-    }
-
-    nav {
-      flex: 2;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-      z-index: 1100;
-      margin-left: auto;
-      align-self: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-    .logo a {
-      color: #fff;
-      font-size: 1.8em;
-      font-weight: bold;
-      text-decoration: none;
-    }
-    .logo img {
+    header img {
       height: 40px;
-      width: auto;
-      display: block;
-      vertical-align: middle;
-    }
-
-    nav ul {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      align-items: center;
+      filter: brightness(0) invert(1);
     }
 
     nav a {
-      color: #fff;
+      color: var(--text);
       text-decoration: none;
+      margin-left: 40px;
       font-weight: 500;
+      font-size: 0.95rem;
       transition: color 0.3s ease;
       position: relative;
     }
@@ -101,8 +74,9 @@
     }
 
     nav a:hover {
-      color: #f55;
+      color: var(--hover);
     }
+
     .linkedin-button {
       display: inline-flex;
       align-items: center;
@@ -133,6 +107,116 @@
       fill: black;
     }
 
+    .content {
+      padding: 80px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .content h2 {
+      font-size: 1.6em;
+      margin-top: 40px;
+      margin-bottom: 10px;
+    }
+
+    .content p {
+      font-size: 1.05em;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+
+    .language-selector {
+      font-size: 0.95em;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      padding: 6px 0;
+    }
+
+    .lang-container {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    .language-selector:hover,
+    .language-selector:focus {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    footer {
+      position: relative;
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #111;
+      color: var(--gray);
+      font-size: 0.95em;
+    }
+
+    .contact-email {
+      margin-top: 15px;
+    }
+
+    .contact-email a {
+      color: #fff;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      color: var(--hover);
+    }
+
+    .privacy-link {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-20%);
+      font-size: 0.9em;
+    }
+
+    .privacy-link a {
+      color: var(--gray);
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .privacy-link a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 600px) {
+      .privacy-link {
+        top: 60%;
+        font-size: 0.8em;
+        left: 10px;
+      }
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 1100;
+      margin-left: auto;
+    }
+
     .hamburger div {
       width: 25px;
       height: 3px;
@@ -158,14 +242,14 @@
     .mobile-nav a {
       margin: 10px 0;
       font-size: 1rem;
-      color: #fff;
+      color: var(--text);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.3s ease;
     }
 
     .mobile-nav a:hover {
-      color: #f55;
+      color: var(--hover);
     }
 
     @media (max-width: 768px) {
@@ -181,89 +265,40 @@
         display: flex;
       }
     }
-
-    main {
-      max-width: 800px;
-      margin: 100px auto 60px;
-      padding: 0 20px;
-    }
-
-    h1 {
-      font-size: 2.5em;
-      color: #fff;
-      margin-bottom: 30px;
-    }
-
-    .en {
-      font-size: 1.15em;
-      font-weight: 600;
-      color: #fff;
-      margin-bottom: 5px;
-    }
-
-    .tl {
-      font-size: 0.95em;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
-
-    a {
-      color: #f55;
-      text-decoration: underline;
-    }
-
-    footer {
-      background-color: #111;
-      color: #888;
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 0.9em;
-    }
-
-    .contact-email {
-      margin-top: 10px;
-    }
-
-    .privacy-link {
-      margin-top: 10px;
-    }
-
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
-
-      .en {
-        font-size: 1em;
-      }
-
-      .tl {
-        font-size: 0.9em;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- Header same as index.html -->
   <header>
-    <div class="logo">
-  <a href="index.html">
-    <img src="assets/logo.png" alt="matic logo" />
-  </a>
-</div>
+    <a href="index.html">
+  <img src="assets/logo.png" alt="MATIC logo" />
+</a>
     <nav>
-      <ul>
-        <a href="index.html#solutions">Solutions</a>
-        <a href="aboutmatic.html">Who We Are</a>
-        <a href="index.html#contact">Contact</a>
-        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 24 24" style="display: block;">
-            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-          </svg>
-          <span style="position: relative; top: 1px;">/MATICStudio</span>
-        </a>
-      </ul>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#contact">Contact</a>
+
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+        </svg>
+        <span style="position: relative; top: 1px;">/MATICStudio</span>
+      </a>
+
+      <div class="lang-container" style="position: relative;">
+        <button onclick="toggleLangDropdown()" class="language-selector" style="display: flex; align-items: center; gap: 6px; border: none; background: transparent;">
+          <!-- White globe icon SVG, matching index.html style -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" style="display:block;"><path fill="#fff" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm7.938 9h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 19.938 11ZM12 4.062c.936 1.308 1.77 3.14 1.97 6.938h-3.94c.2-3.798 1.034-5.63 1.97-6.938ZM5.86 16a7.963 7.963 0 0 1-1.79-5h3.02c.09 2.14.75 4.12 1.78 5.7A8.019 8.019 0 0 1 5.86 16Zm2.23-5H4.062A8.019 8.019 0 0 1 8.22 5.3C7.19 6.88 6.44 8.86 6.34 11Zm1.24 2c.2 3.798 1.034 5.63 1.97 6.938C9.064 18.63 8.23 16.798 8.03 13.999h3.94Zm2.67 6.938c.936-1.308 1.77-3.14 1.97-6.938h-3.94c.2 3.798 1.034 5.63 1.97 6.938ZM18.14 8a7.963 7.963 0 0 1 1.79 5h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 18.14 8Zm-2.23 5h3.938A8.019 8.019 0 0 1 15.78 18.7c1.03-1.58 1.78-3.56 1.88-5.7Z"/></svg>
+          <span id="currentLang">EN</span>
+        </button>
+        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
+          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
+          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Taglish</div>
+          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
+          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
+          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
+        </div>
+      </div>
     </nav>
     <div class="hamburger" onclick="toggleMenu()">
       <div></div>
@@ -278,27 +313,15 @@
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main>
-    <h1>Privacy Policy</h1>
+  <section class="content">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h1 id="privacyHeading" style="margin-bottom: 0;">Privacy Policy</h1>
+    </div>
+    <div id="privacyText">
+      <!-- Privacy policy content will be injected by JS based on language -->
+    </div>
+  </section>
 
-    <div class="en">We collect your name, email, and project preferences through our inquiry form.</div>
-    <div class="tl">Kinokolekta namin ang iyong pangalan, email, at mga kagustuhan sa proyekto sa pamamagitan ng aming inquiry form.</div>
-
-    <div class="en">This data helps us respond to your inquiries and assess your automation needs.</div>
-    <div class="tl">Ang impormasyong ito ay tumutulong sa amin upang tumugon sa iyong mga tanong at suriin ang iyong mga pangangailangan sa automation.</div>
-
-    <div class="en">We do not sell or share your information with third parties.</div>
-    <div class="tl">Hindi namin ibinibenta o ibinabahagi ang iyong impormasyon sa ibang partido.</div>
-
-    <div class="en">Data is stored securely and only accessible to authorized MATIC engineers.</div>
-    <div class="tl">Ang datos ay ligtas na nakaimbak at tanging ang mga awtorisadong engineer ng MATIC lamang ang may access dito.</div>
-
-    <div class="en">You may request deletion or access to your data by emailing us at <a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>.</div>
-    <div class="tl">Maaari kang humiling ng pagbura o pag-access sa iyong impormasyon sa pamamagitan ng pag-email sa amin sa <a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>.</div>
-  </main>
-
-  <!-- Footer same as index.html -->
   <footer id="contact">
     <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
     <div class="contact-email">
@@ -311,9 +334,94 @@
 
 </body>
 <script>
-  function toggleMenu() {
-    const nav = document.getElementById('mobileNav');
-    nav.classList.toggle('show');
+// Hamburger menu toggle for mobile
+function toggleMenu() {
+  const nav = document.getElementById('mobileNav');
+  nav.classList.toggle('show');
+}
+
+// Language dropdown toggle
+function toggleLangDropdown() {
+  const dropdown = document.getElementById("langDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+
+// Privacy policy translations for all supported languages
+const privacyTranslations = {
+  en: {
+    heading: "Privacy Policy",
+    html: `
+      <p>We collect your name, email, and project preferences through our inquiry form.</p>
+      <p>This data helps us respond to your inquiries and assess your automation needs.</p>
+      <p>We do not sell or share your information with third parties.</p>
+      <p>Data is stored securely and only accessible to authorized MATIC engineers.</p>
+      <p>You may request deletion or access to your data by emailing us at <a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>.</p>
+    `
+  },
+  tl: {
+    heading: "Privacy Policy",
+    html: `
+      <p>Kinokolekta namin ang name, email, at project preferences mo gamit ang inquiry form namin.</p>
+      <p>Itong data, para mas mabilis naming masagot ang questions mo at ma-check namin kung paano ka matutulungan sa automation.</p>
+      <p>Hindi namin binebenta o shini-share ang info mo sa ibang tao or company, promise!</p>
+      <p>Safe ang data mo, at authorized lang na MATIC engineers ang may access dito.</p>
+      <p>Gusto mo ipa-delete or makita ang data mo? Email mo lang kami sa <a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>.</p>
+    `
+  },
+  kr: {
+    heading: "개인정보 보호정책",
+    html: `
+      <p>이름, 이메일, 프로젝트 선호도를 문의 양식을 통해 수집합니다.</p>
+      <p>이 데이터는 귀하의 문의에 응답하고 자동화 요구를 평가하는 데 도움이 됩니다.</p>
+      <p>귀하의 정보를 제3자에게 판매하거나 공유하지 않습니다.</p>
+      <p>데이터는 안전하게 저장되며 MATIC의 허가된 엔지니어만 접근할 수 있습니다.</p>
+      <p><a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>으로 이메일을 보내 데이터 삭제 또는 접근을 요청할 수 있습니다.</p>
+    `
+  },
+  jp: {
+    heading: "プライバシーポリシー",
+    html: `
+      <p>お名前、メールアドレス、プロジェクトの希望をお問い合わせフォームで収集します。</p>
+      <p>このデータは、お問い合わせに対応し、自動化のニーズを評価するために使用されます。</p>
+      <p>第三者に情報を販売または共有することはありません。</p>
+      <p>データは安全に保管され、MATICの許可されたエンジニアのみがアクセスできます。</p>
+      <p>データの削除またはアクセスを希望する場合は、<a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a>までご連絡ください。</p>
+    `
+  },
+  th: {
+    heading: "นโยบายความเป็นส่วนตัว",
+    html: `
+      <p>เรารวบรวมชื่อ อีเมล และความต้องการของโครงการผ่านแบบฟอร์มสอบถามของเรา</p>
+      <p>ข้อมูลนี้ช่วยให้เราตอบคำถามของคุณและประเมินความต้องการด้านระบบอัตโนมัติของคุณ</p>
+      <p>เราจะไม่ขายหรือแบ่งปันข้อมูลของคุณกับบุคคลที่สาม</p>
+      <p>ข้อมูลจะถูกจัดเก็บอย่างปลอดภัย และเข้าถึงได้เฉพาะวิศวกรที่ได้รับอนุญาตของ MATIC เท่านั้น</p>
+      <p>คุณสามารถขอให้ลบหรือเข้าถึงข้อมูลของคุณได้โดยส่งอีเมลถึงเราที่ <a href="mailto:privacy@maticstudio.net">privacy@maticstudio.net</a></p>
+    `
   }
+};
+
+const langLabelMap = {
+  en: "EN",
+  tl: "FIL",
+  kr: "KR",
+  jp: "JP",
+  th: "TH"
+};
+
+function setLanguage(langCode) {
+  // Fallback to English if code not supported
+  if (!privacyTranslations.hasOwnProperty(langCode)) langCode = "en";
+  document.getElementById('privacyHeading').textContent = privacyTranslations[langCode].heading;
+  document.getElementById('privacyText').innerHTML = privacyTranslations[langCode].html;
+  document.getElementById('currentLang').textContent = langLabelMap[langCode] || "EN";
+  localStorage.setItem("preferredLang", langCode);
+  document.getElementById("langDropdown").style.display = "none";
+}
+
+// Set default language on load and persist across pages
+document.addEventListener("DOMContentLoaded", () => {
+  const storedLang = localStorage.getItem("preferredLang") || "en";
+  setLanguage(storedLang);
+});
 </script>
 </html>

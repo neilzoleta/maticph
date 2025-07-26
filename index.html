@@ -152,6 +152,29 @@
       fill: black;
     }
 
+    /* Language Selector Styles */
+    .language-selector {
+      font-size: 0.95em;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      padding: 6px 0;
+    }
+
+    .lang-container {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+
     nav a:hover {
       color: var(--hover);
     }
@@ -449,6 +472,19 @@
         </svg>
         <span style="position: relative; top: 1px;">/MATICStudio</span>
       </a>
+      <div class="lang-container" style="position: relative; margin-left: 20px;">
+        <button onclick="toggleLangDropdown()" class="language-selector" style="display: flex; align-items: center; gap: 6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/></svg>
+          <span id="currentLang">EN</span>
+        </button>
+        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
+          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
+          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Tagalog</div>
+          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
+          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
+          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
+        </div>
+      </div>
     </nav>
     <div class="hamburger" onclick="toggleMenu()">
       <div></div>
@@ -622,5 +658,161 @@
     const nav = document.getElementById('mobileNav');
     nav.classList.toggle('show');
   }
+</script>
+<script>
+    function toggleLangDropdown() {
+      const dropdown = document.getElementById("langDropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    function setLanguage(langCode) {
+      // Language mappings for en, tl, kr, jp, th
+      const langMap = {
+        en: {
+          heroTitle: "Innovate. Automate. Simplify.",
+          heroDesc: "We build automation systems that solve real problems—streamlining operations, reducing manual work, and helping businesses grow with clarity and speed.",
+          cta: "Start a Project",
+          solTitle: "Our Solutions",
+          sol1: "Streamline core operations and eliminate repetitive tasks with simple macros and automation tools.",
+          sol2: "Take your workflow to the next level with integrated reporting dashboards and multi-tool automation systems.",
+          sol3: "End-to-end BPA suite designed for complex operations, compliance, and full-cycle automation.",
+          sol4: "Unlock value faster. Build purpose-driven automation and see how much impact you can make.",
+          explore: "Click here to explore.",
+          workshop: "Inside the Workshop",
+          industryTitle: "Experience That Spans Industries and Borders",
+          industryDesc: "From critical industries to everyday services, we help automate what matters most.",
+          aboutTitle: "Who We Are",
+          aboutDesc: "We’re a group of engineers and IT professionals based in Metro Manila, driven by a shared goal: to make automation accessible, practical, and impactful for Filipino businesses. MATIC Studio combines deep tech experience with real-world process know-how to design automation solutions that actually work.",
+          learnMore: "Learn More",
+          highlightsTitle: "MATIC Studio <em>Highlights</em>",
+          latestBlog: "Latest Blog: Launching Innovation",
+          viewBlogs: "View All Blogs",
+          getStarted: "Ready to get started?",
+          startProj: "Start a Project",
+          exploreCalc: "Explore Value Calculator",
+        },
+        tl: {
+          heroTitle: "Innovate. Automate. Mas Pinasimple.",
+          heroDesc: "Gumagawa kami ng automation systems na talagang nakakatulong — pinapadali ang proseso, binabawasan ang manual work, at tinutulungan ang mga negosyo na mas lumago nang mabilis at malinaw.",
+          cta: "Simulan ang Project",
+          solTitle: "Our Solutions",
+          sol1: "Pasimplehin ang operations gamit ang macros at basic automation tools para maalis ang paulit-ulit na trabaho.",
+          sol2: "Level up ang workflow gamit ang integrated dashboards at multi-tool automation.",
+          sol3: "Buong automation system para sa complex processes, compliance, at end-to-end efficiency.",
+          sol4: "Mas mabilis mong ma-unlock ang value. Gumawa ng purpose-driven automation na may impact.",
+          explore: "Click here to explore.",
+          workshop: "Inside the Workshop",
+          industryTitle: "Experience That Spans Industries and Borders",
+          industryDesc: "From critical industries to everyday services, we help automate what matters most.",
+          aboutTitle: "Who We Are",
+          aboutDesc: "We’re a team of engineers and IT experts from Metro Manila with one goal: gawin ang automation na mas accessible at mas kapaki-pakinabang para sa Filipino businesses.",
+          learnMore: "Learn More",
+          highlightsTitle: "MATIC Studio <em>Highlights</em>",
+          latestBlog: "Pinakabagong Blog: Launching Innovation",
+          viewBlogs: "Tingnan Lahat ng Blog",
+          getStarted: "Handa ka na ba?",
+          startProj: "Simulan ang Project",
+          exploreCalc: "Explore Value Calculator",
+        },
+        kr: {
+          heroTitle: "혁신. 자동화. 단순화.",
+          heroDesc: "우리는 실제 문제를 해결하는 자동화 시스템을 구축하여 운영을 간소화하고 수작업을 줄이며 기업이 명확하고 빠르게 성장하도록 돕습니다.",
+          cta: "프로젝트 시작하기",
+          solTitle: "솔루션",
+          sol1: "간단한 매크로와 자동화 도구로 핵심 운영을 간소화하고 반복 작업을 제거하세요.",
+          sol2: "통합 보고 대시보드와 다중 도구 자동화를 통해 워크플로를 한 단계 업그레이드하세요.",
+          sol3: "복잡한 운영, 규정 준수 및 전체 주기 자동화를 위한 엔드투엔드 BPA 제품군.",
+          sol4: "가치를 더 빨리 실현하세요. 목적 지향적 자동화를 구축하고 그 효과를 확인하세요.",
+          explore: "자세히 알아보기.",
+          workshop: "워크숍 내부",
+          industryTitle: "산업과 국경을 넘는 경험",
+          industryDesc: "중요 산업부터 일상 서비스까지, 가장 중요한 부분을 자동화합니다.",
+          aboutTitle: "우리는 누구인가",
+          aboutDesc: "우리는 필리핀 기업에게 실행 가능하고 영향력 있는 자동화를 제공하기 위해 노력하는 마닐라 기반 엔지니어 및 IT 전문가 그룹입니다.",
+          learnMore: "더 알아보기",
+          highlightsTitle: "MATIC Studio <em>하이라이트</em>",
+          latestBlog: "최신 블로그: 혁신을 시작하다",
+          viewBlogs: "모든 블로그 보기",
+          getStarted: "시작할 준비가 되셨나요?",
+          startProj: "프로젝트 시작하기",
+          exploreCalc: "가치 계산기 탐색",
+        },
+        jp: {
+          heroTitle: "革新。自動化。シンプルに。",
+          heroDesc: "私たちは実際の課題を解決するオートメーションシステムを構築し、業務を合理化し、手作業を削減し、企業の成長を迅速かつ明確に支援します。",
+          cta: "プロジェクトを始める",
+          solTitle: "ソリューション",
+          sol1: "シンプルなマクロと自動化ツールで主要な業務を合理化し、繰り返し作業を排除します。",
+          sol2: "統合レポートダッシュボードとマルチツール自動化でワークフローを次のレベルへ。",
+          sol3: "複雑な業務、コンプライアンス、フルサイクル自動化向けのエンドツーエンドBPAスイート。",
+          sol4: "価値をより早く実現。目的主導の自動化を構築し、その効果を確かめましょう。",
+          explore: "こちらをクリックして詳細を確認。",
+          workshop: "ワークショップ内部",
+          industryTitle: "業界と国境を越えた実績",
+          industryDesc: "重要な業界から日常サービスまで、最も重要な部分を自動化します。",
+          aboutTitle: "私たちについて",
+          aboutDesc: "私たちは、フィリピン企業が実用的で影響力のある自動化を実現できるように取り組むメトロマニラのエンジニアとITプロフェッショナルのグループです。",
+          learnMore: "詳細を見る",
+          highlightsTitle: "MATIC Studio <em>ハイライト</em>",
+          latestBlog: "最新ブログ: イノベーションの開始",
+          viewBlogs: "すべてのブログを見る",
+          getStarted: "さあ始めましょう",
+          startProj: "プロジェクト開始",
+          exploreCalc: "価値計算ツールを探検",
+        },
+        th: {
+          heroTitle: "นวัตกรรม ระบบอัตโนมัติ ทำให้ง่ายขึ้น",
+          heroDesc: "เราสร้างระบบอัตโนมัติที่แก้ปัญหาจริง—ปรับปรุงการดำเนินงาน ลดงานด้วยมือ และช่วยให้ธุรกิจเติบโตได้อย่างรวดเร็วและชัดเจน",
+          cta: "เริ่มโปรเจกต์",
+          solTitle: "โซลูชันของเรา",
+          sol1: "ปรับปรุงการดำเนินงานหลักและกำจัดงานซ้ำ ๆ ด้วยแมโครและเครื่องมืออัตโนมัติง่าย ๆ",
+          sol2: "ยกระดับเวิร์กโฟลว์ของคุณด้วยแดชบอร์ดรายงานแบบบูรณาการและระบบอัตโนมัติหลายเครื่องมือ",
+          sol3: "ชุด BPA ครบวงจรสำหรับการดำเนินงานที่ซับซ้อน การปฏิบัติตามข้อกำหนด และระบบอัตโนมัติวงจรเต็ม",
+          sol4: "ปลดล็อกคุณค่าได้เร็วยิ่งขึ้น สร้างระบบอัตโนมัติที่ขับเคลื่อนด้วยวัตถุประสงค์และดูผลลัพธ์",
+          explore: "คลิกที่นี่เพื่อสำรวจ",
+          workshop: "ภายในเวิร์กช็อป",
+          industryTitle: "ประสบการณ์ครอบคลุมอุตสาหกรรมและพรมแดน",
+          industryDesc: "ตั้งแต่ภาคส่วนสำคัญถึงบริการในชีวิตประจำวัน เราช่วยให้คุณอัตโนมัติสิ่งที่สำคัญที่สุด",
+          aboutTitle: "เราเป็นใคร",
+          aboutDesc: "เราเป็นกลุ่มวิศวกรและผู้เชี่ยวชาญด้านไอทีในเมโทรมะนิลา ด้วยเป้าหมายเดียวกันในการทำให้ระบบอัตโนมัติเป็นเรื่องง่าย เข้าถึงได้ และทรงพลังสำหรับธุรกิจฟิลิปปินส์",
+          learnMore: "เรียนรู้เพิ่มเติม",
+          highlightsTitle: "MATIC Studio <em>ไฮไลต์</em>",
+          latestBlog: "บล็อกล่าสุด: เริ่มต้นนวัตกรรม",
+          viewBlogs: "ดูบล็อกทั้งหมด",
+          getStarted: "พร้อมที่จะเริ่มหรือยัง?",
+          startProj: "เริ่มโปรเจกต์",
+          exploreCalc: "สำรวจเครื่องคำนวณมูลค่า",
+        }
+      };
+      const lang = langMap[langCode] || langMap.en;
+      localStorage.setItem("preferredLang", langCode);
+      document.getElementById("currentLang").textContent = langCode.toUpperCase();
+      document.querySelector(".hero h1").textContent = lang.heroTitle;
+      document.querySelector(".hero p").textContent = lang.heroDesc;
+      document.querySelector(".cta-button").textContent = lang.cta;
+      document.querySelector(".solutions h2").textContent = lang.solTitle;
+      document.querySelectorAll(".card")[0].querySelector("p").textContent = lang.sol1;
+      document.querySelectorAll(".card")[1].querySelector("p").textContent = lang.sol2;
+      document.querySelectorAll(".card")[2].querySelector("p").textContent = lang.sol3;
+      document.querySelectorAll(".card")[3].querySelector("p").innerHTML = lang.sol4 + '<br><span style="color: red;">' + lang.explore + '</span>';
+      document.querySelector("#solutions p a").textContent = lang.workshop;
+      document.querySelector("#industries h2").textContent = lang.industryTitle;
+      document.querySelector("#industries p").textContent = lang.industryDesc;
+      document.querySelector("#aboutmatic h2").textContent = lang.aboutTitle;
+      document.querySelector("#aboutmatic p").textContent = lang.aboutDesc;
+      document.querySelector("#aboutmatic a").textContent = lang.learnMore;
+      document.querySelector("#highlights h2").innerHTML = lang.highlightsTitle;
+      document.querySelector(".blog-title").textContent = lang.latestBlog;
+      document.querySelector("#highlights .view-all-button").textContent = lang.viewBlogs;
+      document.querySelector("#get-started h2").textContent = lang.getStarted;
+      document.querySelector("#get-started a:first-of-type").textContent = lang.startProj;
+      document.querySelector("#get-started a:last-of-type").textContent = lang.exploreCalc;
+      document.getElementById("langDropdown").style.display = "none";
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const storedLang = localStorage.getItem("preferredLang") || "en";
+      setLanguage(storedLang);
+    });
 </script>
 </html>
