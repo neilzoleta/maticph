@@ -690,6 +690,7 @@
           getStarted: "Ready to get started?",
           startProj: "Start a Project",
           exploreCalc: "Explore Value Calculator",
+          contact: "Contact",
         },
         tl: {
           heroTitle: "Innovate. Automate. Mas Pinasimple.",
@@ -713,6 +714,7 @@
           getStarted: "Handa ka na ba?",
           startProj: "Simulan ang Project",
           exploreCalc: "Explore Value Calculator",
+          contact: "Makipag-ugnayan",
         },
         kr: {
           heroTitle: "혁신. 자동화. 단순화.",
@@ -736,6 +738,7 @@
           getStarted: "시작할 준비가 되셨나요?",
           startProj: "프로젝트 시작하기",
           exploreCalc: "가치 계산기 탐색",
+          contact: "연락처",
         },
         jp: {
           heroTitle: "革新。自動化。シンプルに。",
@@ -759,6 +762,7 @@
           getStarted: "さあ始めましょう",
           startProj: "プロジェクト開始",
           exploreCalc: "価値計算ツールを探検",
+          contact: "お問い合わせ",
         },
         th: {
           heroTitle: "นวัตกรรม ระบบอัตโนมัติ ทำให้ง่ายขึ้น",
@@ -782,6 +786,7 @@
           getStarted: "พร้อมที่จะเริ่มหรือยัง?",
           startProj: "เริ่มโปรเจกต์",
           exploreCalc: "สำรวจเครื่องคำนวณมูลค่า",
+          contact: "ติดต่อ",
         }
       };
       const lang = langMap[langCode] || langMap.en;
@@ -790,6 +795,27 @@
       document.querySelector(".hero h1").textContent = lang.heroTitle;
       document.querySelector(".hero p").textContent = lang.heroDesc;
       document.querySelector(".cta-button").textContent = lang.cta;
+      // Translate navbar items
+      if (langCode === "tl") {
+            document.querySelectorAll("nav a")[0].textContent = "Solutions";
+            document.querySelectorAll("nav a")[1].textContent = "Who We Are";
+            document.querySelectorAll("nav a")[2].textContent = "Contact";
+      } else {
+            document.querySelectorAll("nav a")[0].textContent = lang.solTitle;
+            document.querySelectorAll("nav a")[1].textContent = lang.aboutTitle;
+            document.querySelectorAll("nav a")[2].textContent = lang.contact;
+      }
+      // Translate mobile navbar items
+      const mobileLinks = document.querySelectorAll("#mobileNav a");
+      if (langCode === "tl") {
+            mobileLinks[0].textContent = "Solutions";
+            mobileLinks[1].textContent = "Who We Are";
+            mobileLinks[2].textContent = "Contact";
+      } else {
+            mobileLinks[0].textContent = lang.solTitle;
+            mobileLinks[1].textContent = lang.aboutTitle;
+            mobileLinks[2].textContent = lang.contact;
+      }
       document.querySelector(".solutions h2").textContent = lang.solTitle;
       document.querySelectorAll(".card")[0].querySelector("p").textContent = lang.sol1;
       document.querySelectorAll(".card")[1].querySelector("p").textContent = lang.sol2;

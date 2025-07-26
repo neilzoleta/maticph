@@ -268,9 +268,9 @@
   <img src="assets/logo.png" alt="MATIC logo" />
 </a>
     <nav>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
+      <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
+      <a href="index.html#contact"><span id="navContact">Contact</span></a>
       <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
           <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
@@ -392,6 +392,18 @@
       document.querySelectorAll('.language-group').forEach(el => el.style.display = 'none');
       const target = document.querySelector('.language-group.' + lang);
       if (target) target.style.display = 'block';
+      const navTranslations = {
+        en: { navSolutions: "Solutions", navAbout: "Who We Are", navContact: "Contact" },
+        tl: { navSolutions: "Solutions", navAbout: "Who We Are", navContact: "Contact" },
+        kr: { navSolutions: "솔루션", navAbout: "회사 소개", navContact: "연락처" },
+        jp: { navSolutions: "ソリューション", navAbout: "私たちについて", navContact: "お問い合わせ" },
+        th: { navSolutions: "โซลูชัน", navAbout: "เกี่ยวกับเรา", navContact: "ติดต่อ" }
+      };
+      if (navTranslations[lang]) {
+        document.getElementById("navSolutions").textContent = navTranslations[lang].navSolutions;
+        document.getElementById("navAbout").textContent = navTranslations[lang].navAbout;
+        document.getElementById("navContact").textContent = navTranslations[lang].navContact;
+      }
       document.getElementById('currentLang').innerText = lang.toUpperCase();
       document.getElementById('langDropdown').style.display = 'none';
       localStorage.setItem("preferredLang", lang); // Save selected language

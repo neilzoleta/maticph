@@ -274,9 +274,9 @@
   <img src="assets/logo.png" alt="MATIC logo" />
 </a>
     <nav>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#contact">Contact</a>
+      <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
+      <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
+      <a href="index.html#contact"><span id="navContact">Contact</span></a>
 
       <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
@@ -416,6 +416,19 @@ function setLanguage(langCode) {
   document.getElementById('currentLang').textContent = langLabelMap[langCode] || "EN";
   localStorage.setItem("preferredLang", langCode);
   document.getElementById("langDropdown").style.display = "none";
+
+  const langNav = {
+    en: { navSolutions: "Solutions", navAbout: "Who We Are", navContact: "Contact" },
+    tl: { navSolutions: "Solutions", navAbout: "Who We Are", navContact: "Contact" },
+    kr: { navSolutions: "솔루션", navAbout: "회사 소개", navContact: "연락처" },
+    jp: { navSolutions: "ソリューション", navAbout: "私たちについて", navContact: "お問い合わせ" },
+    th: { navSolutions: "โซลูชัน", navAbout: "เกี่ยวกับเรา", navContact: "ติดต่อ" }
+  };
+  if (langNav[langCode]) {
+    document.getElementById("navSolutions").textContent = langNav[langCode].navSolutions;
+    document.getElementById("navAbout").textContent = langNav[langCode].navAbout;
+    document.getElementById("navContact").textContent = langNav[langCode].navContact;
+  }
 }
 
 // Set default language on load and persist across pages

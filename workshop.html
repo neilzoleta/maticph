@@ -96,9 +96,9 @@
     </a>
     <nav>
       <div style="display: flex; align-items: center; gap: 20px; position: relative;">
-        <a href="index.html#solutions">Solutions</a>
-        <a href="aboutmatic.html">Who We Are</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
+        <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
+        <a href="index.html#contact"><span id="navContact">Contact</span></a>
         <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
           display: inline-flex;
           align-items: center;
@@ -439,12 +439,53 @@
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
   }
 
+  // Language map for navbar and content
+  const langMap = {
+    en: {
+      navSolutions: "Solutions",
+      navAbout: "Who We Are",
+      navContact: "Contact"
+    },
+    tl: {
+      navSolutions: "Solusyon",
+      navAbout: "Tungkol sa Amin",
+      navContact: "Kontak"
+    },
+    kr: {
+      navSolutions: "솔루션",
+      navAbout: "회사 소개",
+      navContact: "문의"
+    },
+    jp: {
+      navSolutions: "ソリューション",
+      navAbout: "私たちについて",
+      navContact: "お問い合わせ"
+    },
+    th: {
+      navSolutions: "โซลูชัน",
+      navAbout: "เกี่ยวกับเรา",
+      navContact: "ติดต่อ"
+    }
+  };
+
   function setLanguage(langCode) {
     document.querySelectorAll('.language-group').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.language-group.' + langCode).forEach(el => el.style.display = 'block');
     document.getElementById('currentLang').innerText = langCode.toUpperCase();
     localStorage.setItem('preferredLang', langCode);
     document.getElementById('langDropdown').style.display = 'none';
+    // Update navbar text
+    // For Tagalog ("tl"), keep navbar in English
+    if (langCode === "tl") {
+      document.getElementById("navSolutions").textContent = langMap.en.navSolutions;
+      document.getElementById("navAbout").textContent = langMap.en.navAbout;
+      document.getElementById("navContact").textContent = langMap.en.navContact;
+    } else {
+      const lang = langMap[langCode] || langMap['en'];
+      document.getElementById("navSolutions").textContent = lang.navSolutions;
+      document.getElementById("navAbout").textContent = lang.navAbout;
+      document.getElementById("navContact").textContent = lang.navContact;
+    }
   }
 
   document.addEventListener("DOMContentLoaded", () => {
