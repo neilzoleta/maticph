@@ -30,12 +30,11 @@
     }
 
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       padding: 20px 40px;
       background-color: #000;
       border-bottom: 1px solid #333;
+      position: relative;
+      z-index: 100;
     }
 
     header img {
@@ -53,6 +52,67 @@
 
     nav a:hover {
       color: #f00;
+    }
+
+    #menuToggle {
+      display: none;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    #mobileNav {
+      display: none;
+      flex-direction: column;
+      background: #000;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 9999;
+      min-width: 180px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+
+    #mobileNav a {
+      color: white;
+      padding: 5px 0;
+      text-decoration: none;
+      margin-left: 0;
+      font-size: 16px;
+    }
+
+    #mobileNav a:hover {
+      color: #e63946;
+    }
+
+    @media screen and (max-width: 768px) {
+      #desktopNav {
+        display: none !important;
+      }
+
+      #menuToggle {
+        display: block;
+      }
+
+      #mobileNav {
+        display: none;
+        flex-direction: column;
+        background-color: #000;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        z-index: 1000;
+      }
+
+      #mobileNav.show {
+        display: flex;
+      }
     }
 
     main {
@@ -91,50 +151,59 @@
 </head>
 <body>
   <header>
-    <a href="index.html">
-      <img src="assets/logo.png" alt="matic logo" />
-    </a>
-    <nav>
-      <div style="display: flex; align-items: center; gap: 20px; position: relative;">
-        <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
-        <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
-        <a href="index.html#contact"><span id="navContact">Contact</span></a>
-        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          background-color: transparent;
-          border: 1px solid white;
-          padding: 5px 12px;
-          border-radius: 8px;
-          color: white;
-          text-decoration: none;
-          font-size: 12px;
-          line-height: 1;
-          transition: background-color 0.3s;
-        ">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-          </svg>
-          <span style="position: relative; top: 1px;">/MATICStudio</span>
-        </a>
-        <button onclick="toggleLangDropdown()" class="language-selector">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24">
-            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/>
-          </svg>
-          <span id="currentLang">EN</span>
-        </button>
-        <div id="langDropdown" style="display: none; position: absolute; top: 60px; right: 40px; background-color: #000; border: 1px solid #444; padding: 10px; border-radius: 8px; z-index: 999;">
-          <div onclick="setLanguage('en')" style="cursor: pointer; padding: 5px 10px;">EN - English</div>
-          <div onclick="setLanguage('tl')" style="cursor: pointer; padding: 5px 10px;">FIL - Taglish</div>
-          <div onclick="setLanguage('kr')" style="cursor: pointer; padding: 5px 10px;">KR - 한국어</div>
-          <div onclick="setLanguage('jp')" style="cursor: pointer; padding: 5px 10px;">JP - 日本語</div>
-          <div onclick="setLanguage('th')" style="cursor: pointer; padding: 5px 10px;">TH - ภาษาไทย</div>
+    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="matic logo" />
+      </a>
+      <nav style="display: flex; align-items: center; gap: 20px;">
+        <div id="desktopNav" style="display: flex; align-items: center; gap: 20px;">
+          <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
+          <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
+          <a href="index.html#contact"><span id="navContact">Contact</span></a>
+          <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background-color: transparent;
+            border: 1px solid white;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 1;
+            transition: background-color 0.3s;
+          ">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+              <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+            </svg>
+            <span style="position: relative; top: 1px;">/MATICStudio</span>
+          </a>
+          <button onclick="toggleLangDropdown()" class="language-selector">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24">
+              <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/>
+            </svg>
+            <span id="currentLang">EN</span>
+          </button>
+          <div id="langDropdown" style="display: none; position: absolute; top: 60px; right: 40px; background-color: #000; border: 1px solid #444; padding: 10px; border-radius: 8px; z-index: 999;">
+            <div onclick="setLanguage('en')" style="cursor: pointer; padding: 5px 10px;">EN - English</div>
+            <div onclick="setLanguage('tl')" style="cursor: pointer; padding: 5px 10px;">FIL - Taglish</div>
+            <div onclick="setLanguage('kr')" style="cursor: pointer; padding: 5px 10px;">KR - 한국어</div>
+            <div onclick="setLanguage('jp')" style="cursor: pointer; padding: 5px 10px;">JP - 日本語</div>
+            <div onclick="setLanguage('th')" style="cursor: pointer; padding: 5px 10px;">TH - ภาษาไทย</div>
+          </div>
         </div>
-      </div>
-    </nav>
+        <button id="menuToggle" onclick="toggleMenu()">☰</button>
+      </nav>
+    </div>
   </header>
+
+  <div id="mobileNav">
+    <a href="index.html#solutions" id="navSolutionsMobile">Solutions</a>
+    <a href="aboutmatic.html" id="navAboutMobile">Who We Are</a>
+    <a href="index.html#contact" id="navContactMobile">Contact</a>
+  </div>
 
   <main>
     <div class="language-group en">
@@ -472,19 +541,27 @@
     document.querySelectorAll('.language-group').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.language-group.' + langCode).forEach(el => el.style.display = 'block');
     document.getElementById('currentLang').innerText = langCode.toUpperCase();
+    var currentLangMobileBtn = document.getElementById('currentLangMobile');
+    if (currentLangMobileBtn) currentLangMobileBtn.innerText = langCode.toUpperCase();
     localStorage.setItem('preferredLang', langCode);
     document.getElementById('langDropdown').style.display = 'none';
-    // Update navbar text
+    // Update navbar text (desktop and mobile)
     // For Tagalog ("tl"), keep navbar in English
     if (langCode === "tl") {
       document.getElementById("navSolutions").textContent = langMap.en.navSolutions;
       document.getElementById("navAbout").textContent = langMap.en.navAbout;
       document.getElementById("navContact").textContent = langMap.en.navContact;
+      if (document.getElementById("navSolutionsMobile")) document.getElementById("navSolutionsMobile").textContent = langMap.en.navSolutions;
+      if (document.getElementById("navAboutMobile")) document.getElementById("navAboutMobile").textContent = langMap.en.navAbout;
+      if (document.getElementById("navContactMobile")) document.getElementById("navContactMobile").textContent = langMap.en.navContact;
     } else {
       const lang = langMap[langCode] || langMap['en'];
       document.getElementById("navSolutions").textContent = lang.navSolutions;
       document.getElementById("navAbout").textContent = lang.navAbout;
       document.getElementById("navContact").textContent = lang.navContact;
+      if (document.getElementById("navSolutionsMobile")) document.getElementById("navSolutionsMobile").textContent = lang.navSolutions;
+      if (document.getElementById("navAboutMobile")) document.getElementById("navAboutMobile").textContent = lang.navAbout;
+      if (document.getElementById("navContactMobile")) document.getElementById("navContactMobile").textContent = lang.navContact;
     }
   }
 
@@ -492,5 +569,10 @@
     const storedLang = localStorage.getItem("preferredLang") || 'en';
     setLanguage(storedLang);
   });
+
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    nav.classList.toggle('show');
+  }
 </script>
 </html>
