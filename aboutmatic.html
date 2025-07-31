@@ -3,66 +3,192 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Who We Are | MATIC</title>
+  <title>MATIC Studio — About Us</title>
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    body {
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: #000;
-      color: #fff;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      position: relative;
+      min-height: 100vh;
+      padding-bottom: 100px;
     }
 
     header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 20px 40px;
-      background-color: #000;
-      border-bottom: 1px solid #333;
+      align-items: center;
+      padding: 24px 60px;
+      background-color: var(--bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
 
     header img {
-      height: 36px;
-      cursor: pointer;
+      height: 40px;
+      filter: brightness(0) invert(1);
     }
 
     nav a {
-      color: #fff;
+      color: var(--text);
       text-decoration: none;
-      margin-left: 30px;
-      font-size: 16px;
+      margin-left: 40px;
+      font-weight: 500;
+      font-size: 0.95rem;
       transition: color 0.3s ease;
+      position: relative;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: white;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
     }
 
     nav a:hover {
-      color: #f00;
+      color: var(--hover);
     }
 
-    main {
-      max-width: 900px;
-      margin: 80px auto;
-      padding: 0 30px;
-      line-height: 1.6;
+    .linkedin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background-color: transparent;
+      border: 1px solid white;
+      padding: 6px 14px;
+      border-radius: 999px;
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1;
+      transition: background-color 0.3s;
     }
 
-    h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
+    .linkedin-button:hover {
+      background-color: white;
+      color: black;
     }
 
-    h2 {
-      font-size: 24px;
+    .linkedin-button svg {
+      fill: currentColor;
+      transition: fill 0.3s;
+    }
+
+    .linkedin-button:hover svg {
+      fill: black;
+    }
+
+    .content {
+      padding: 80px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .content h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .content h2 {
+      font-size: 1.6em;
       margin-top: 40px;
       margin-bottom: 10px;
-      border-bottom: 1px solid #333;
-      padding-bottom: 5px;
     }
 
-    ul {
-      padding-left: 20px;
+    .content p {
+      font-size: 1.05em;
+      color: var(--gray);
+      margin-bottom: 20px;
     }
+
+    .content ul li {
+      color: var(--gray);
+      font-size: 1.05em;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .language-selector {
+      font-size: 0.95em;
+      background-color: transparent;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      padding: 6px 0;
+    }
+
+    .lang-container {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 20px;
+    }
+
+    .language-selector:hover,
+    .language-selector:focus {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    footer {
+      position: relative;
+      text-align: center;
+      padding: 40px 20px;
+      background-color: #111;
+      color: var(--gray);
+      font-size: 0.95em;
+    }
+
+    .contact-email {
+      margin-top: 15px;
+    }
+
+    .contact-email a {
+      color: #fff;
+      text-decoration: underline;
+      transition: color 0.3s ease;
+    }
+
+    .contact-email a:hover {
+      color: var(--hover);
+    }
+
     .privacy-link {
       position: absolute;
       left: 20px;
@@ -81,50 +207,115 @@
       color: var(--hover);
     }
 
-    footer {
+    @media (max-width: 600px) {
+      .privacy-link {
+        top: 60%;
+        font-size: 0.8em;
+        left: 10px;
+      }
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      z-index: 1100;
+      margin-left: auto;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white !important;
+      transition: 0.3s;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: #000;
+      position: absolute;
+      top: 60px;
+      right: 24px;
+      left: 24px;
       text-align: center;
-      padding: 40px 20px;
-      font-size: 14px;
-      color: #aaa;
-      border-top: 1px solid #333;
-      margin-top: 80px;
+      padding: 20px 0;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 1001;
+    }
+
+    .mobile-nav a {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-nav.show {
+        display: flex;
+      }
     }
   </style>
 </head>
 <body>
+
   <header>
     <a href="index.html">
-      <img src="assets/logo.png" alt="matic logo" />
+      <img src="assets/logo.png" alt="MATIC logo" />
     </a>
     <nav>
+      <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
+      <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
+      <a href="index.html#contact"><span id="navContact">Contact</span></a>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/></svg>
+        <span>/MATICStudio</span>
+      </a>
+      <div class="lang-container">
+        <button onclick="toggleLangDropdown()" class="language-selector">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm7.938 9h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 19.938 11ZM12 4.062c.936 1.308 1.77 3.14 1.97 6.938h-3.94c.2-3.798 1.034-5.63 1.97-6.938ZM5.86 16a7.963 7.963 0 0 1-1.79-5h3.02c.09 2.14.75 4.12 1.78 5.7A8.019 8.019 0 0 1 5.86 16Zm2.23-5H4.062A8.019 8.019 0 0 1 8.22 5.3C7.19 6.88 6.44 8.86 6.34 11Zm1.24 2c.2 3.798 1.034 5.63 1.97 6.938C9.064 18.63 8.23 16.798 8.03 13.999h3.94Zm2.67 6.938c.936-1.308 1.77-3.14 1.97-6.938h-3.94c.2 3.798 1.034 5.63 1.97 6.938ZM18.14 8a7.963 7.963 0 0 1 1.79 5h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 18.14 8Zm-2.23 5h3.938A8.019 8.019 0 0 1 15.78 18.7c1.03-1.58 1.78-3.56 1.88-5.7Z"/></svg>
+          <span id="currentLang">EN</span>
+        </button>
+        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
+          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
+          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Taglish</div>
+          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
+          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
+          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
+        </div>
+      </div>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
       <a href="index.html#solutions">Solutions</a>
       <a href="aboutmatic.html">Who We Are</a>
       <a href="index.html#contact">Contact</a>
-
-<a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  background-color: transparent;
-  border: 1px solid white;
-  padding: 5px 12px 5px;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  font-size: 12px;
-  line-height: 1;
-  transition: background-color 0.3s;
-">
-  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-    <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-  </svg>
-  <span style="position: relative; top: 1px;">/MATICStudio</span>
-</a>
-    </nav>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank">/MATICStudio</a>
+    </div>
   </header>
 
-  <main>
+  <main class="content">
     <h1>Who We Are</h1>
     <p><strong>MATIC Studio</strong> is a business process automation studio focused on building streamlined digital solutions for local teams and global players alike.</p>
 
@@ -144,10 +335,27 @@
     <p>To make automation a normal part of how Filipinos work—starting with the simplest things that make the biggest difference.</p>
   </main>
 
-  <footer>
-    <p>&copy; 2025 MATIC Studio. All rights reserved.</p>
+  <footer id="contact">
+    <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
+    <div class="contact-email">
+      Business inquiries: <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
+    </div>
+    <div class="contact-email">
       <a href="policy.html">Company Policy</a>
-      <p> <a href="privacy.html">Privacy Policy</a></p>
+    </div>
   </footer>
+
+<script>
+// Hamburger menu toggle
+function toggleMenu() {
+  const nav = document.getElementById('mobileNav');
+  nav.classList.toggle('show');
+}
+
+function toggleLangDropdown() {
+  const dropdown = document.getElementById("langDropdown");
+  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+}
+</script>
 </body>
 </html>
