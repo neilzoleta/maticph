@@ -338,10 +338,12 @@
 
     .blog-wrapper {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+      flex-direction: row;
       gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 10px;
+      justify-content: center;
     }
 
     .blog-card {
@@ -353,6 +355,8 @@
       cursor: pointer;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
       transition: transform 0.3s ease;
+      flex-shrink: 0;
+      scroll-snap-align: start;
     }
 
     .blog-card:hover {
@@ -404,6 +408,14 @@
 
     .view-all-button:hover {
       background-color: #111;
+    }
+
+    .new-badge {
+      display: inline-block;
+      margin-left: 8px;
+      color: #f00;
+      font-size: 0.9em;
+      font-weight: bold;
     }
 
     footer {
@@ -567,14 +579,22 @@
   <!-- HIGHLIGHTS SECTION WITH BLOG CARD -->
   <section id="highlights">
     <h2>MATIC Studio <em>Highlights</em></h2>
-    <div class="blog-wrapper">
-      <a href="launch.html" class="blog-card">
-        <img src="blog-assets/bloglaunch.png" alt="Latest Blog" class="blog-image" />
-        <div class="blog-overlay">
-          <h3 class="blog-title">Latest Blog: Launching Innovation</h3>
-        </div>
-      </a>
-      <a href="blogs.html" class="view-all-button">View All Blogs</a>
+    <div class="highlight-carousel-wrapper">
+      <div class="blog-wrapper">
+        <a href="../blogs/whatisbpa.html" class="blog-card">
+          <img src="../blogs/blog-assets/whatisbpa.png" alt="What is BPA" class="blog-image" />
+          <div class="blog-overlay">
+            <h3 class="blog-title-latest">Latest Blog: What is Business Process Automation?<span class="new-badge">NEW</span></h3>
+          </div>
+        </a>
+        <a href="../blogs/launch.html" class="blog-card">
+          <img src="../blogs/blog-assets/bloglaunch.png" alt="Latest Blog" class="blog-image" />
+          <div class="blog-overlay">
+            <h3 class="blog-title-announcement">Announcement Blog: Launching Innovation</h3>
+          </div>
+        </a>
+      </div>
+      <a href="blogs.html" class="view-all-button" style="margin-top: 30px;">View All Blogs</a>
     </div>
   </section>
 
@@ -826,3 +846,8 @@
     });
 </script>
 </html>
+    .highlight-carousel-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }

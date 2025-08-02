@@ -17,11 +17,11 @@
     .container {
       display: flex;
       flex-wrap: wrap;
-      padding: 250px 40px 60px; /* existing padding remains */
+      padding: 250px 40px 60px;
       gap: 48px;
       max-width: 1200px;
       margin: 0 auto 60px;
-      align-items: flex-start; /* ensures container grows with card height */
+      align-items: flex-start;
     }
 
     .info {
@@ -30,11 +30,11 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      position: sticky; /* use sticky to keep logo visible during scroll */
+      position: sticky;
       top: 0;
-      height: auto; /* auto height for sticky positioning */
+      height: auto;
       padding: 60px 40px;
-      background: #000; /* maintain background for readability */
+      background: #000;
       box-sizing: border-box;
     }
 
@@ -65,15 +65,14 @@
       background: #111;
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,0.2);
-      padding: 30px 30px 48px 30px; /* increased bottom padding for link visibility */
-      max-width: 450px; /* increased from 430px to 500px for better width */
+      padding: 30px 30px 50px 30px;
+      max-width: 450px;
       margin: 0 auto;
       box-shadow: none;
-      box-sizing: border-box; /* ensures padding does not expand total width unexpectedly */
-      perspective: none; /* remove perspective here to allow full height */
-      min-height: unset; /* removed min-height: 700px; to allow auto-adjust */
+      box-sizing: border-box;
+      min-height: unset;
       transition: height 0.5s ease;
-      overflow: visible; /* allow overflow so links are not cut off */
+      overflow: visible;
     }
 
     .card {
@@ -85,18 +84,13 @@
       width: 100%;
       transition: transform 0.8s;
       transform-style: preserve-3d;
-      min-height: unset; /* removed min-height: 700px; to allow content-based height */
-    }
-
-    .card.flipped .card-inner {
-      transform: rotateY(180deg);
+      min-height: unset;
     }
 
     .card-front, .card-back {
       position: absolute;
       width: 100%;
       backface-visibility: hidden;
-      /* removed min-height: 100%; to allow natural content-based height */
     }
 
     .card-back {
@@ -107,7 +101,7 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      align-items: stretch; /* changed from center to stretch for full width alignment */
+      align-items: stretch;
     }
 
     label {
@@ -117,8 +111,8 @@
       color: #ddd;
       width: 100%;
       max-width: 400px;
-      align-self: stretch; /* ensure label aligns left within form */
-      text-align: left; /* maintain left text within centered container */
+      align-self: stretch;
+      text-align: left;
     }
 
     input, button {
@@ -133,10 +127,10 @@
       font-size: 0.95rem;
       background: #1a1a1a;
       color: #fff;
-      width: 100%; /* ensures full container width */
-      max-width: 400px; /* matches button max-width for identical sizing */
-      align-self: flex-start; /* ensures left alignment consistent with button */
-      box-sizing: border-box; /* ensures padding does not cause overflow differences */
+      width: 100%;
+      max-width: 400px;
+      align-self: flex-start;
+      box-sizing: border-box;
     }
 
     input:focus {
@@ -154,9 +148,9 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.3s ease;
-      width: 100%; /* ensure full container width */
-      max-width: 400px; /* maintain same max-width as inputs */
-      align-self: flex-start; /* align button to start like inputs */
+      width: 100%;
+      max-width: 400px;
+      align-self: flex-start;
     }
 
     button:hover {
@@ -168,7 +162,7 @@
       margin-top: 24px;
       font-size: 0.9rem;
       color: #aaa;
-      display: block; /* ensure note is displayed as block */
+      display: block;
     }
 
     .note a {
@@ -225,38 +219,7 @@
               <button type="submit">Login</button>
 
               <div class="note">
-                Don't have an account? <a href="#" id="showRegister">Register here</a>
-              </div>
-            </form>
-
-            <div class="note">
-              Trouble logging in? Contact <a href="mailto:support@maticstudio.net">support@maticstudio.net</a>
-            </div>
-          </div>
-          <div class="card-back">
-            <form action="/api/register" method="POST">
-              <label for="preferredName">Preferred Name</label>
-              <input type="text" id="preferredName" name="preferredName" required />
-
-              <label for="firstName">First Name</label>
-              <input type="text" id="firstName" name="firstName" required />
-
-              <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" name="lastName" required />
-
-              <label for="position">Position</label>
-              <input type="text" id="position" name="position" required />
-
-              <label for="department">Department</label>
-              <input type="text" id="department" name="department" required />
-
-              <label for="admin">Admin Email</label>
-              <input type="email" id="admin" name="admin" required />
-
-              <button type="submit">Register</button>
-
-              <div class="note">
-                Already have an account? <a href="#" id="showLogin">Login here</a>
+                Trouble logging in? Contact <a href="mailto:support@maticstudio.net">support@maticstudio.net</a>
               </div>
             </form>
           </div>
@@ -266,39 +229,14 @@
   </div>
 
 <script>
-  const card = document.querySelector('.card');
-  const showRegister = document.getElementById('showRegister');
-  const showLogin = document.getElementById('showLogin');
-
   function adjustFormHeight() {
     const cardInner = document.querySelector('.card-inner');
     const formWrapper = document.querySelector('.form-wrapper');
-    const activeSide = cardInner.querySelector(card.classList.contains('flipped') ? '.card-back' : '.card-front');
+    const activeSide = cardInner.querySelector('.card-front');
     formWrapper.style.height = activeSide.offsetHeight + "px";
   }
 
-  // Initial adjustment
   window.addEventListener('load', adjustFormHeight);
-
-  // Adjust on flip
-  showRegister.addEventListener('click', (e) => {
-    e.preventDefault();
-    card.classList.add('flipped');
-    setTimeout(adjustFormHeight, 500); // wait for flip animation
-  });
-
-  showLogin.addEventListener('click', (e) => {
-    e.preventDefault();
-    card.classList.remove('flipped');
-    setTimeout(adjustFormHeight, 500); // wait for flip animation
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const savedLang = localStorage.getItem("preferredLang") || 'en';
-    document.documentElement.setAttribute("lang", savedLang);
-  });
 </script>
 
 </body>

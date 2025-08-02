@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio | Employee Portal</title>
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --panel: #111;
+      --text: #fff;
+      --accent: #e60012;
+      --muted: #ccc;
+      --soft: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+
+    .nav a:hover, .nav a.active {
+      background: var(--soft);
+    }
+
+    .profile {
+      position: relative;
+      margin-left: 10px;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e60012;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background: var(--panel);
+      border: 1px solid var(--soft);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      min-width: 150px;
+      z-index: 999;
+    }
+
+    .profile-dropdown a {
+      padding: 10px 16px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .profile-dropdown a:hover {
+      background: var(--soft);
+    }
+
+    .profile.show .profile-dropdown {
+      display: flex;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--soft);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .section p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--soft);
+      border-radius: 16px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .close-button {
+      background-color: #fff;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: absolute;
+      top: 12px;
+      right: -16px;
+      line-height: 1;
+    }
+
+    .close-button:hover {
+      background-color: var(--accent);
+      color: #fff;
+    }
+
+    .modalActions button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .modalActions button:hover {
+      background-color: #b3000e;
+    }
+    #settingsModal input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="../assets/logo.png" alt="MATIC Studio Logo">
+      </div>
+      <nav class="nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Compensation</a>
+        <a href="#">Absence Request</a>
+        <div class="profile" id="profile">
+          <div class="profile-icon" onclick="toggleDropdown()">U</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="section">
+      <h2>Welcome to the Employee Portal</h2>
+      <p>This portal gives you access to your payslips, leave balance, personal records, and more.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>Recent Payslip</h3>
+          <p>Period: July 1–15, 2025</p>
+          <p>Net Pay: ₱42,300.00</p>
+        </div>
+        <div class="card">
+          <h3>Leave Balance</h3>
+          <p>Vacation Leave: 10 days</p>
+          <p>Sick Leave: 5 days</p>
+        </div>
+        <div class="card">
+          <h3>Pending Requests</h3>
+          <p>2 Leave Requests<br/>1 Payslip Correction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+  <div id="settingsModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    background: white; color: black; padding: 40px; border-radius: 20px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); z-index: 9999; width: 90%; max-width: 500px;">
+    <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+      <button onclick="closeModal()" class="close-button">&times;</button>
+    </div>
+
+    <h1 style="cursor: pointer;" onclick="togglePassword()">Password</h1>
+    <div id="passwordSection" style="display: none;">
+      <p>Old Password: <input type="password" /></p>
+      <p>New Password: <input type="password" /></p>
+      <p>Confirm Password: <input type="password" /></p>
+      <div class="modalActions" style="margin-top: 30px; text-align: right;">
+        <button onclick="saveChanges()">Save Changes</button>
+        <button onclick="cancelChanges()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      document.getElementById("profile").classList.toggle("show");
+    }
+
+    document.addEventListener("click", function(e) {
+      const profile = document.getElementById("profile");
+      const dropdown = document.getElementById("profileDropdown");
+      if (!profile.contains(e.target)) {
+        profile.classList.remove("show");
+      }
+    });
+
+    // Settings modal logic
+    document.querySelector('#profileDropdown a[href="#"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('settingsModal').style.display = 'block';
+    });
+
+    function closeModal() {
+      document.getElementById('settingsModal').style.display = 'none';
+      cancelChanges();
+    }
+
+    function togglePassword() {
+      const section = document.getElementById('passwordSection');
+      section.style.display = section.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function cancelChanges() {
+      document.getElementById('passwordSection').style.display = 'none';
+    }
+
+    function saveChanges() {
+      alert('Changes saved!');
+      closeModal();
+    }
+  </script>
+</body>
+</html>

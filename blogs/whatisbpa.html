@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MATIC Studio | What is Business Process Automation?</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: #000;
+      border-bottom: 1px solid #333;
+      position: relative;
+    }
+
+    header img {
+      height: 36px;
+    }
+
+    nav a {
+      position: relative;
+      color: #fff;
+      text-decoration: none;
+      margin-left: 30px;
+      font-size: 16px;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: white;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 30px;
+      line-height: 1.7;
+    }
+
+    .tag {
+      font-size: 14px;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin-top: 40px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #333;
+      padding-bottom: 5px;
+    }
+
+    p {
+      margin-bottom: 16px;
+    }
+
+    footer {
+      background-color: #000;
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 14px;
+      color: #aaa;
+      border-top: 1px solid #333;
+    }
+
+    .container {
+      padding-bottom: 80px;
+    }
+
+    /* Responsive header styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: #000;
+      position: absolute;
+      top: 70px;
+      right: 40px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 10px 20px;
+      z-index: 1000;
+      width: 200px;
+    }
+
+    .mobile-nav.show {
+      display: flex;
+    }
+
+    .mobile-nav a {
+      color: #fff;
+      padding: 10px 0;
+      border-bottom: 1px solid #333;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .mobile-nav a:last-child {
+      border-bottom: none;
+    }
+
+    .lang-selector {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+      color: white;
+      font-size: 14px;
+      user-select: none;
+    }
+
+    .lang-dropdown {
+      display: none;
+      position: absolute;
+      background-color: #222;
+      min-width: 80px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      border-radius: 4px;
+      z-index: 1001;
+      top: 24px;
+      right: 0;
+    }
+
+    .lang-dropdown div {
+      color: white;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .lang-dropdown div:hover {
+      background-color: #444;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../index.html">
+      <img src="../assets/logo.png" alt="matic logo" />
+    </a>
+    <nav>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#contact">Contact</a>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: transparent;
+        border: 1px solid white;
+        padding: 5px 12px 5px;
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        line-height: 1;
+        transition: background-color 0.3s;
+      ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+        </svg>
+        <span style="position: relative; top: 1px;">/MATICStudio</span>
+      </a>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div id="mobileNav" class="mobile-nav">
+      <a href="index.html#solutions" onclick="toggleMenu()">Solutions</a>
+      <a href="aboutmatic.html" onclick="toggleMenu()">Who We Are</a>
+      <a href="index.html#contact" onclick="toggleMenu()">Contact</a>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" style="
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background-color: transparent;
+        border: 1px solid white;
+        padding: 5px 12px 5px;
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+        line-height: 1;
+        transition: background-color 0.3s;
+      ">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+        </svg>
+        <span style="position: relative; top: 1px;">/MATICStudio</span>
+      </a>
+      <div class="lang-selector" onclick="toggleLangDropdown()">
+        <span id="currentLang">EN</span> ▼
+        <div id="langDropdown" class="lang-dropdown">
+          <div onclick="setLanguage('en')">EN</div>
+          <div onclick="setLanguage('es')">ES</div>
+          <div onclick="setLanguage('fr')">FR</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tag">Blog – Insight</div>
+    <h1>What is Business Process Automation?</h1>
+    <p><strong>Date:</strong> August 2, 2025</p>
+
+    <p>Business Process Automation (BPA) is the application of technology to automate recurring tasks, reduce manual effort, and improve workflow efficiency. It’s not about replacing humans—it's about giving people the freedom to focus on more meaningful, strategic work.</p>
+
+    <p>From automating invoice processing to simplifying employee onboarding, BPA can significantly reduce operational friction. It’s especially important for small and medium-sized enterprises (SMEs), who often need to achieve more with fewer resources. According to Deloitte, 78% of SMEs that embraced automation reported increased operational speed and improved employee output.</p>
+
+    <h2>Filipino Developers and the Innovation Wave</h2>
+    <p>The Philippines has quietly emerged as a hub for software development talent. In GitHub’s 2023 Octoverse report, the country recorded a 25% rise in active developer contributions—many working on automation, backend systems, and AI integration. This shows not just growth in numbers, but a shift in specialization toward business transformation roles.</p>
+
+    <p>Filipino developers bring something unique: strong technical skill combined with cultural fluency in both Western and Asian business contexts. Much like how Filipino healthcare workers are renowned globally, these developers are now solving operational inefficiencies for businesses at scale—one workflow at a time.</p>
+
+    <h2>Software Developers vs. RPA vs. BPA Developers</h2>
+    <p>While all these roles intersect, BPA developers tend to focus less on traditional app-building and more on optimizing how businesses actually run. They map out workflows, identify redundancies, and build smart systems that adapt to changing needs. There’s no strict boundary—but BPA developers are often the ones asking: "How can we do this smarter?"</p>
+
+    <h2>The Role of AI in Business Automation</h2>
+    <p>Generative AI is redefining what’s possible. Tools like ChatGPT, Copilot, and AI process builders are enabling developers to ideate, prototype, and deploy solutions faster than ever. At MATIC Studio, we don’t just use these tools to automate tasks—we use them to expand what our developers can imagine and build.</p>
+
+    <p>AI is more than a tool; it's a creative collaborator. And when paired with business-minded developers, it leads to systems that are not only efficient, but predictive, adaptive, and scalable.</p>
+
+    <h2>Where MATIC Studio Fits In</h2>
+    <p>MATIC Studio may be a newcomer in the automation space, but we’re a team rooted in experience. Proudly Filipino-led, we exist to help businesses of all sizes take control of their operations through smart, thoughtful, and human-centered automation.</p>
+
+    <p>We believe automation should serve people—not replace them. That’s why we focus on practical solutions that create space for creativity, strategy, and growth. Our work blends process logic with modern tooling to help businesses operate smoother, scale faster, and adapt better.</p>
+
+    <h2>Looking Ahead</h2>
+    <p>The future of work is not just digital—it’s automated, personalized, and constantly improving. At MATIC Studio, we’re excited to be part of that change, one system at a time.</p>
+
+    <p>Curious about how your team can benefit from automation? We’d love to explore it with you.</p>
+  </main>
+
+  <footer>
+    &copy; 2025 MATIC Studio. All rights reserved.
+  </footer>
+
+<script>
+  function toggleMenu() {
+    const nav = document.getElementById('mobileNav');
+    nav.classList.toggle('show');
+  }
+
+  function toggleLangDropdown() {
+    const dropdown = document.getElementById("langDropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  function setLanguage(langCode) {
+    document.getElementById("currentLang").textContent = langCode.toUpperCase();
+    document.getElementById("langDropdown").style.display = "none";
+  }
+</script>
+</body>
+</html>

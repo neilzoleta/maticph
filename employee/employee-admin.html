@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio | Employee Portal</title>
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #000;
+      --panel: #111;
+      --text: #fff;
+      --accent: #e60012;
+      --muted: #ccc;
+      --soft: rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 40px 20px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 40px;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 10px 16px;
+      border-radius: 12px;
+      transition: background 0.3s ease;
+    }
+
+    .nav a:hover, .nav a.active {
+      background: var(--soft);
+    }
+
+    .profile {
+      position: relative;
+      margin-left: 10px;
+    }
+
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #e60012;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      right: 0;
+      top: 50px;
+      background: var(--panel);
+      border: 1px solid var(--soft);
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      display: none;
+      flex-direction: column;
+      min-width: 150px;
+      z-index: 999;
+    }
+
+    .profile-dropdown a {
+      padding: 10px 16px;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    .profile-dropdown a:hover {
+      background: var(--soft);
+    }
+
+    .profile.show .profile-dropdown {
+      display: flex;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--soft);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    .section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .section p {
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: var(--bg);
+      border: 1px solid var(--soft);
+      border-radius: 16px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: var(--text);
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .nav {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+    .modal-backdrop {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    .modal {
+      background: #fff;
+      color: #000;
+      padding: 30px;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      min-height: 300px;
+      position: relative;
+    }
+    .close-button {
+      position: absolute;
+      top: 12px;
+      right: -16px;
+      background: none;
+      border: none;
+      font-size: 28px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+      padding: 4px 8px;
+      line-height: 1;
+    }
+
+    .close-button:hover {
+      color: var(--accent);
+    }
+    #modalActions {
+      margin-top: 30px;
+      text-align: right;
+    }
+    #modalActions button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: background-color 0.3s ease;
+    }
+    #modalActions button:hover {
+      background-color: #b3000e;
+    }
+
+    /* MATIC Studio Aesthetic for modal buttons and inputs */
+    .modal button {
+      background-color: var(--accent);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .modal button:hover {
+      background-color: #b3000e;
+    }
+
+    .modal input[type="text"],
+    .modal input[type="date"],
+    .modal input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <img src="../assets/logo.png" alt="MATIC Studio Logo">
+      </div>
+      <nav class="nav">
+        <a href="#" class="active">Dashboard</a>
+        <a href="directreports.html">Employees</a>
+        <a href="#">Departments</a>
+        <a href="#">Compensation</a>
+        <a href="#">Absence Request</a>
+        <div class="profile" id="profile">
+          <div class="profile-icon" onclick="toggleDropdown()">U</div>
+          <div class="profile-dropdown" id="profileDropdown">
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="section">
+      <h2>Manager Portal</h2>
+      <p>This portal helps managers handle their team’s profiles, respond to requests, and manage personal information.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <h3>Recent Payslip</h3>
+          <p>Period: July 1–15, 2025</p>
+          <p>Net Pay: ₱42,300.00</p>
+        </div>
+        <div class="card">
+          <h3>Leave Balance</h3>
+          <p>Vacation Leave: 10 days</p>
+          <p>Sick Leave: 5 days</p>
+        </div>
+        <div class="card">
+          <h3>Pending Requests</h3>
+          <p>2 Leave Requests<br/>1 Payslip Correction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="settingsModal" class="modal-backdrop" style="display: none;">
+    <div class="modal">
+      <button onclick="closeModal()" class="close-button">&times;</button>
+      <h1 style="cursor: pointer;" onclick="toggleEditInfo()">Personal Settings</h1>
+      <div id="personalInfo" style="display: none;">
+        <p>Name: <input type="text" /></p>
+        <p>Date of Birth: <input type="date" /></p>
+        <p>Marital Status: <input type="text" /></p>
+        <p>Department: <input type="text" /></p>
+        <p>Role: <input type="text" /></p>
+        <div class="modalActions" style="margin-top: 30px; text-align: right;">
+          <button onclick="saveChanges()">Save Changes</button>
+          <button onclick="cancelChanges()">Cancel</button>
+        </div>
+      </div>
+
+      <h1 style="cursor: pointer; margin-top: 24px;" onclick="togglePassword()">Password</h1>
+      <div id="passwordSection" style="display: none;">
+        <p>Old Password: <input type="password" /></p>
+        <p>New Password: <input type="password" /></p>
+        <p>Confirm Password: <input type="password" /></p>
+        <div class="modalActions" style="margin-top: 30px; text-align: right;">
+          <button onclick="saveChanges()">Save Changes</button>
+          <button onclick="cancelChanges()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      document.getElementById("profile").classList.toggle("show");
+    }
+
+    document.addEventListener("click", function(e) {
+      const profile = document.getElementById("profile");
+      const dropdown = document.getElementById("profileDropdown");
+      if (!profile.contains(e.target)) {
+        profile.classList.remove("show");
+      }
+    });
+
+    document.querySelector('#profileDropdown a[href="#"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('settingsModal').style.display = 'flex';
+    });
+
+    function toggleEditInfo() {
+      const info = document.getElementById('personalInfo');
+      const password = document.getElementById('passwordSection');
+
+      info.style.display = 'block';
+      password.style.display = 'none';
+    }
+
+    function togglePassword() {
+      const info = document.getElementById('personalInfo');
+      const password = document.getElementById('passwordSection');
+
+      password.style.display = 'block';
+      info.style.display = 'none';
+    }
+
+    function cancelChanges() {
+      document.getElementById('personalInfo').style.display = 'none';
+      document.getElementById('passwordSection').style.display = 'none';
+    }
+
+    function saveChanges() {
+      alert('Changes saved!');
+      cancelChanges();
+    }
+
+    function closeModal() {
+      document.getElementById('settingsModal').style.display = 'none';
+      cancelChanges();
+    }
+  </script>
+</body>
+</html>

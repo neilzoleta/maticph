@@ -27,6 +27,7 @@
     }
 
     nav a {
+      position: relative;
       color: #fff;
       text-decoration: none;
       margin-left: 30px;
@@ -35,7 +36,22 @@
     }
 
     nav a:hover {
-      color: #f00;
+      color: #fff;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: white;
+      transition: width 0.3s;
+    }
+
+    nav a:hover::after {
+      width: 100%;
     }
 
     main {
@@ -86,8 +102,8 @@
 </head>
 <body>
     <header>
-    <a href="index.html">
-      <img src="assets/logo.png" alt="matic logo" />
+    <a href="../index.html">
+      <img src="../assets/logo.png" alt="matic logo" />
     </a>
     <nav>
       <a href="index.html#solutions">Solutions</a>
