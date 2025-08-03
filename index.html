@@ -114,12 +114,13 @@
       left: 50%;
       transform: translateX(-50%);
       width: 100%;
-      max-width: 805px;
-      background: rgba(0, 0, 0, 0.6);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 699px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 28px;
-      backdrop-filter: blur(16px);
-      padding: 8px 28px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 9px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -137,9 +138,10 @@
     nav {
       display: flex;
       gap: 40px;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       flex: 1 1 auto;
+      margin-right: auto;
     }
     nav a {
       color: var(--text);
@@ -205,23 +207,47 @@
       margin-left: 20px;
     }
 
+    .floating-lang {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      right: auto;
+      z-index: 1500;
+      /* Ensure visibility and stacking */
+      background: rgba(255, 255, 255, 0.08);
+      background-color: white !important;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 999px;
+      padding: 11px 9px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      /* Prevent overflow issues */
+      overflow: visible;
+    }
+
+    .floating-lang .language-selector {
+      color: black !important;
+      font-weight: 500;
+      font-size: 1em;
+      height: 18px;
+    }
+
+    .floating-lang .language-selector svg {
+      /* Ensure SVG icon is always visible */
+      display: inline-block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      width: 16px;
+      height: 16px;
+      fill: black !important;
+      /* Remove accidental hiding from inherited styles */
+      filter: none !important;
+    }
+
     nav a:hover {
       color: var(--hover);
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: white;
-      transition: width 0.3s;
-    }
-
-    nav a:hover::after {
-      width: 100%;
+      text-shadow: none;
     }
 
     .hero {
@@ -488,26 +514,13 @@
       <a href="#team">Team</a>
       <a href="#solutions">Solutions</a>
       <a href="#contact">Contact Us</a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-        </svg>
-        <span style="position: relative; top: 1px;">/MATICStudio</span>
-      </a>
-      <div class="lang-container" style="position: relative; margin-left: 20px;">
-        <button onclick="toggleLangDropdown()" class="language-selector" style="display: flex; align-items: center; gap: 6px;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/></svg>
-          <span id="currentLang">EN</span>
-        </button>
-        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
-          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
-          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Tagalog</div>
-          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
-          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
-          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
-        </div>
-      </div>
     </nav>
+    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button" style="margin-left: 20px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+      </svg>
+      <span style="position: relative; top: 1px;">/MATICStudio</span>
+    </a>
     <button class="hamburger" onclick="toggleMenu()">
       ☰
     </button>
@@ -684,6 +697,22 @@
   <!-- Calendly badge widget end -->
 
   <!-- removed scroll listener for .scrolled-nav, now redundant -->
+
+  <div class="floating-lang" onclick="toggleLangDropdown()">
+    <button class="language-selector" style="display: flex; align-items: center; gap: 6px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000" viewBox="0 0 24 24">
+        <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/>
+      </svg>
+      <span id="currentLang">EN</span>
+    </button>
+    <div id="langDropdown" style="display: none; position: absolute; bottom: 100%; left: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
+      <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
+      <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Tagalog</div>
+      <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
+      <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
+      <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
+    </div>
+  </div>
 </body>
 <script>
   function toggleMenu() {
