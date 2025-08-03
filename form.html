@@ -7,12 +7,149 @@
   <link rel="icon" href="assets/favicon.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+      --glow: #00ffff;
+      --shadow: rgba(0, 255, 255, 0.3);
+      --primary: #e60012;
+      --primary-hover: #ff1c25;
+    }
+
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
-      background: #000;
-      color: #fff;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      font-size: 18px;
+      cursor: none;
+      overflow-x: hidden;
+      min-height: 100vh;
     }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.15s ease;
+    }
+
+    .cursor.hover {
+      transform: scale(1.5);
+      background: rgba(0, 255, 255, 0.1);
+      border-color: var(--glow);
+    }
+
+    .cursor.form-hover {
+      transform: scale(2);
+      background: rgba(230, 0, 18, 0.2);
+      border-color: var(--primary);
+    }
+
+    /* Floating Particles - Optimized */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--glow);
+      border-radius: 50%;
+      opacity: 0.4;
+      animation: float 8s infinite linear;
+      will-change: transform;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.4;
+      }
+      90% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: translateY(-100px);
+        opacity: 0;
+      }
+    }
+
+    /* Form-specific animations */
+    @keyframes formSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(50px) rotateX(-10deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotateX(0deg);
+      }
+    }
+
+    @keyframes inputFocus {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(230, 0, 18, 0.4);
+      }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 0 0 0 10px rgba(230, 0, 18, 0.1);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(230, 0, 18, 0);
+      }
+    }
+
+    @keyframes buttonPulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(230, 0, 18, 0.7);
+      }
+      70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(230, 0, 18, 0);
+      }
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(230, 0, 18, 0);
+      }
+    }
+
+
 
     .container {
       display: flex;
@@ -21,6 +158,8 @@
       gap: 48px;
       max-width: 1200px;
       margin: 0 auto 60px;
+      perspective: 1000px;
+      animation: formSlideIn 1s ease-out;
     }
 
     .info {
@@ -29,6 +168,12 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      transition: transform 0.2s ease;
+      will-change: transform;
+    }
+
+    .info:hover {
+      transform: translateY(-3px);
     }
 
     .brand {
@@ -55,16 +200,31 @@
     .form-wrapper {
       flex: 1;
       min-width: 320px;
-      background: #111;
+      max-width: 500px;
+      background: linear-gradient(135deg, #111 0%, #1a1a1a 100%);
       border-radius: 16px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.05), 0 20px 40px rgba(0,0,0,0.6);
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.05), 
+        0 20px 40px rgba(0,0,0,0.6);
       padding: 40px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      will-change: transform;
+      box-sizing: border-box;
+    }
+
+    .form-wrapper:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.1), 
+        0 25px 50px rgba(0,0,0,0.7);
     }
 
     form {
       display: flex;
       flex-direction: column;
       gap: 20px;
+      width: 100%;
     }
 
     label {
@@ -72,30 +232,56 @@
       font-size: 0.95rem;
       margin-bottom: 6px;
       color: #ddd;
+      display: block;
     }
 
     input, select, textarea {
       width: 100%;
+      box-sizing: border-box;
       padding: 0.75rem;
       border: 1px solid #333;
       border-radius: 8px;
       font-size: 0.95rem;
       background: #1a1a1a;
       color: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      will-change: border-color, box-shadow;
+      margin: 0;
     }
 
     input:focus, select:focus, textarea:focus {
       outline: none;
-      border-color: #e60012;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(230, 0, 18, 0.3);
+    }
+
+    input:hover, select:hover, textarea:hover {
+      border-color: #555;
+    }
+
+    /* Ensure consistent form field dimensions */
+    .form-field {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Specific styling for different input types */
+    input[type="text"], 
+    input[type="email"], 
+    select, 
+    textarea {
+      height: 48px;
+      line-height: 1.2;
     }
 
     textarea {
+      height: 120px;
       resize: vertical;
-      min-height: 100px;
+      min-height: 120px;
     }
 
     button {
-      background-color: #e60012;
+      background: var(--primary);
       color: #fff;
       border: none;
       padding: 0.85rem;
@@ -103,11 +289,17 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      will-change: background-color, transform;
     }
 
     button:hover {
-      background-color: #ff1c25;
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: translateY(0);
     }
 
     .contact-note {
@@ -144,6 +336,13 @@
   </style>
 </head>
 <body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
 
   <div class="container">
     <div class="info">
@@ -185,5 +384,126 @@
     </div>
   </div>
 
+  <script>
+    // Custom Cursor - Optimized
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+
+    let mouseX = 0, mouseY = 0;
+    let cursorX = 0, cursorY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    // Smooth cursor following with requestAnimationFrame
+    function updateCursor() {
+      cursorX += (mouseX - cursorX) * 0.1;
+      cursorY += (mouseY - cursorY) * 0.1;
+      
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      cursorDot.style.left = mouseX + 'px';
+      cursorDot.style.top = mouseY + 'px';
+      
+      requestAnimationFrame(updateCursor);
+    }
+    updateCursor();
+
+    // Cursor hover effects - Simplified
+    const interactiveElements = document.querySelectorAll('a, button, input, select, textarea');
+    
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
+    });
+
+    // Floating Particles - Reduced frequency
+    function createParticle() {
+      const particlesContainer = document.getElementById('particles');
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 4 + 's';
+      
+      particlesContainer.appendChild(particle);
+      
+      setTimeout(() => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      }, 8000);
+    }
+
+    // Create fewer particles
+    setInterval(createParticle, 3000);
+    
+    // Create initial particles
+    for (let i = 0; i < 5; i++) {
+      setTimeout(createParticle, i * 500);
+    }
+
+    // Form validation and feedback - Simplified
+    const form = document.querySelector('form');
+    const inputs = document.querySelectorAll('input, select, textarea');
+
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        if (input.value.length > 0) {
+          input.style.borderColor = 'rgba(0, 255, 255, 0.5)';
+        } else {
+          input.style.borderColor = '#333';
+        }
+      });
+    });
+
+    // Form submission animation - Simplified
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const button = form.querySelector('button');
+      
+      setTimeout(() => {
+        button.textContent = 'Submitted!';
+        button.style.background = '#22c55e';
+        
+        setTimeout(() => {
+          button.textContent = 'Submit Inquiry';
+          button.style.background = 'var(--primary)';
+          form.reset();
+        }, 3000);
+      }, 300);
+    });
+
+    // Simple reveal animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe content elements
+    document.querySelectorAll('.info h1, .info p, .form-wrapper form, .contact-note').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>

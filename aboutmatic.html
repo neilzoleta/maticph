@@ -13,6 +13,8 @@
       --gray: #aaa;
       --accent: #e5e5e5;
       --hover: #ccc;
+      --glow: #00ffff;
+      --shadow: rgba(0, 255, 255, 0.3);
     }
 
     * {
@@ -25,22 +27,173 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      line-height: 1.6;
-      position: relative;
+      line-height: 1.7;
+      letter-spacing: 0.02em;
       min-height: 100vh;
       padding-bottom: 100px;
+      font-size: 18px;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.15s ease;
+    }
+
+    .cursor.hover {
+      transform: scale(1.5);
+      background: rgba(0, 255, 255, 0.1);
+      border-color: var(--glow);
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--glow);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 6s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      90% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      z-index: 1001;
+      flex-direction: column;
+      gap: 5px;
+      margin-left: auto;
+    }
+    .mobile-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white !important;
+      transition: 0.3s;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      top: 60px;
+      right: 24px;
+      left: 24px;
+      text-align: center;
+      padding: 30px 0;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 1001;
+    }
+
+    .mobile-nav a {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        display: none;
+      }
+    }
+    /* Stronger rule for header hiding on small viewports */
+    @media screen and (max-width: 768px) {
+      header {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+      }
     }
 
     header {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 699px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 9px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 60px;
-      background-color: var(--bg);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: sticky;
-      top: 0;
       z-index: 1000;
+      transition: all 0.3s ease;
+      margin: 0 20px;
+      box-sizing: border-box;
     }
 
     header img {
@@ -48,29 +201,22 @@
       filter: brightness(0) invert(1);
     }
 
+    nav {
+      display: flex;
+      gap: 40px;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 1 1 auto;
+      margin-right: auto;
+      min-width: 0;
+    }
     nav a {
       color: var(--text);
       text-decoration: none;
-      margin-left: 40px;
       font-weight: 500;
       font-size: 0.95rem;
       transition: color 0.3s ease;
-      position: relative;
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: white;
-      transition: width 0.3s;
-    }
-
-    nav a:hover::after {
-      width: 100%;
+      padding: 0 6px;
     }
 
     nav a:hover {
@@ -85,7 +231,7 @@
       background-color: transparent;
       border: 1px solid white;
       padding: 6px 14px;
-      border-radius: 999px;
+      border-radius: 50px;
       color: white;
       text-decoration: none;
       font-size: 13px;
@@ -108,7 +254,7 @@
     }
 
     .content {
-      padding: 80px 20px;
+      padding: 120px 20px 80px 20px;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -276,46 +422,43 @@
 </head>
 <body>
 
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
+  <!-- Floating Particles -->
+  <div class="particles" id="particles"></div>
+
   <header>
-    <a href="index.html">
-      <img src="assets/logo.png" alt="MATIC logo" />
-    </a>
     <nav>
-      <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
-      <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
-      <a href="index.html#contact"><span id="navContact">Contact</span></a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/></svg>
-        <span>/MATICStudio</span>
-      </a>
-      <div class="lang-container">
-        <button onclick="toggleLangDropdown()" class="language-selector">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24"><path fill="#fff" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2Zm7.938 9h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 19.938 11ZM12 4.062c.936 1.308 1.77 3.14 1.97 6.938h-3.94c.2-3.798 1.034-5.63 1.97-6.938ZM5.86 16a7.963 7.963 0 0 1-1.79-5h3.02c.09 2.14.75 4.12 1.78 5.7A8.019 8.019 0 0 1 5.86 16Zm2.23-5H4.062A8.019 8.019 0 0 1 8.22 5.3C7.19 6.88 6.44 8.86 6.34 11Zm1.24 2c.2 3.798 1.034 5.63 1.97 6.938C9.064 18.63 8.23 16.798 8.03 13.999h3.94Zm2.67 6.938c.936-1.308 1.77-3.14 1.97-6.938h-3.94c.2 3.798 1.034 5.63 1.97 6.938ZM18.14 8a7.963 7.963 0 0 1 1.79 5h-3.02c-.09-2.14-.75-4.12-1.78-5.7A8.019 8.019 0 0 1 18.14 8Zm-2.23 5h3.938A8.019 8.019 0 0 1 15.78 18.7c1.03-1.58 1.78-3.56 1.88-5.7Z"/></svg>
-          <span id="currentLang">EN</span>
-        </button>
-        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
-          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
-          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Taglish</div>
-          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
-          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
-          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
-        </div>
-      </div>
-    </nav>
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html#solutions">Solutions</a>
       <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank">/MATICStudio</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#contact">Contact Us</a>
+    </nav>
+    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button" style="margin-left: 20px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+      </svg>
+      <span style="position: relative; top: 1px;">/MATICStudio</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()">
+      ☰
+    </button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#contact">Contact Us</a>
     </div>
   </header>
 
   <main class="content">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="matic logo" style="height: 60px; margin-bottom: 30px; filter: brightness(0) invert(1); cursor: pointer;" />
+      </a>
+    </div>
     <h1>Who We Are</h1>
     <p><strong>MATIC Studio</strong> is a business process automation studio focused on building streamlined digital solutions for local teams and global players alike.</p>
 
@@ -346,16 +489,134 @@
   </footer>
 
 <script>
-// Hamburger menu toggle
-function toggleMenu() {
-  const nav = document.getElementById('mobileNav');
-  nav.classList.toggle('show');
-}
+  function toggleMenu() {
+    const mobileNav = document.getElementById('mobileNav');
+    mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
+  }
 
-function toggleLangDropdown() {
-  const dropdown = document.getElementById("langDropdown");
-  dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-}
+  function toggleLangDropdown() {
+    const dropdown = document.getElementById("langDropdown");
+    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+  }
+
+  // Custom Cursor
+  const cursor = document.querySelector('.cursor');
+  const cursorDot = document.querySelector('.cursor-dot');
+
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    cursorDot.style.left = e.clientX + 'px';
+    cursorDot.style.top = e.clientY + 'px';
+  });
+
+  // Cursor hover effects
+  const interactiveElements = document.querySelectorAll('a, button, .team-card, .blog-card');
+  
+  interactiveElements.forEach(element => {
+    element.addEventListener('mouseenter', () => {
+      cursor.classList.add('hover');
+    });
+    
+    element.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover');
+    });
+  });
+
+  // Floating Particles
+  function createParticle() {
+    const particlesContainer = document.getElementById('particles');
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Random position
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 6 + 's';
+    particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+    
+    particlesContainer.appendChild(particle);
+    
+    // Remove particle after animation
+    setTimeout(() => {
+      if (particle.parentNode) {
+        particle.parentNode.removeChild(particle);
+      }
+    }, 8000);
+  }
+
+  // Create particles periodically
+  setInterval(createParticle, 2000);
+  
+  // Create initial particles
+  for (let i = 0; i < 10; i++) {
+    setTimeout(createParticle, i * 200);
+  }
+
+  // Parallax effect for content sections
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const content = document.querySelector('.content');
+    const rate = scrolled * -0.3;
+    
+    if (content) {
+      content.style.transform = `translateY(${rate}px)`;
+    }
+  });
+
+  // 3D tilt effect for interactive elements
+  const interactiveCards = document.querySelectorAll('a, button, .content h1, .content h2');
+  
+  interactiveCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / 20;
+      const rotateY = (centerX - x) / 20;
+      
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(5px)`;
+    });
+    
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+    });
+  });
+
+  // Glow effect on scroll
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = scrolled / maxScroll;
+    
+    document.documentElement.style.setProperty('--glow-opacity', scrollProgress * 0.5);
+  });
+
+  // Smooth reveal animations for content
+  const observerOptions = {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, observerOptions);
+
+  // Observe all content elements
+  document.querySelectorAll('.content h1, .content h2, .content p, .content ul').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
 </script>
 </body>
 </html>

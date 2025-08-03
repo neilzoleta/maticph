@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MATIC Studio - Enhanced Scheduler</title>
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+      --glow: #00ffff;
+      --shadow: rgba(0, 255, 255, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      min-height: 100vh;
+    }
+
+    .scheduler-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scheduler-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 900px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 0, 0, 0.9);
+      color: white;
+      border: 2px solid white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .close-btn:hover {
+      background: rgba(255, 0, 0, 1);
+      transform: scale(1.1);
+    }
+
+    .scheduler-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .scheduler-header h2 {
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+
+    .scheduler-header p {
+      color: var(--gray);
+      font-size: 1.1em;
+    }
+
+    .scheduler-steps {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      gap: 20px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .step.active {
+      color: var(--glow);
+    }
+
+    .step.completed {
+      color: #00ff88;
+    }
+
+    .step-number {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      background: var(--gray);
+      color: var(--bg);
+    }
+
+    .step.active .step-number {
+      background: var(--glow);
+    }
+
+    .step.completed .step-number {
+      background: #00ff88;
+    }
+
+    .calendar-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    .calendar-section {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .calendar-nav button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-nav button:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: var(--glow);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      padding: 10px 5px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .calendar-day:hover {
+      background: rgba(0, 255, 255, 0.2);
+    }
+
+    .calendar-day.available {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+    }
+
+    .calendar-day.selected {
+      background: var(--glow);
+      color: var(--bg);
+      border-color: var(--glow);
+    }
+
+    .calendar-day.disabled {
+      color: var(--gray);
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .time-slot {
+      padding: 12px 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .time-slot:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: var(--glow);
+    }
+
+    .time-slot.selected {
+      background: var(--glow);
+      color: var(--bg);
+      border-color: var(--glow);
+    }
+
+    .time-slot.disabled {
+      color: var(--gray);
+      cursor: not-allowed;
+      opacity: 0.3;
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--glow);
+      box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .navigation-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .nav-btn {
+      padding: 12px 24px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .nav-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: var(--glow);
+    }
+
+    .nav-btn.primary {
+      background: linear-gradient(135deg, var(--glow), #0080ff);
+      color: var(--bg);
+      border: none;
+    }
+
+    .nav-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .nav-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .confirmation-details {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .confirmation-details h3 {
+      margin-bottom: 15px;
+      color: var(--accent);
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      font-weight: 600;
+      color: var(--gray);
+    }
+
+    .detail-value {
+      color: var(--text);
+    }
+
+    .success-message {
+      text-align: center;
+      color: #00ff88;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(0, 255, 136, 0.1);
+      border-radius: 8px;
+      display: none;
+    }
+
+    .error-message {
+      text-align: center;
+      color: #ff4444;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(255, 68, 68, 0.1);
+      border-radius: 8px;
+      display: none;
+    }
+
+    /* Success Modal Styling */
+    .success-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 10001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .success-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .success-content {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 255, 136, 0.3);
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #00ff88, #00cc6a);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      color: white;
+      margin: 0 auto 20px;
+      animation: successPulse 2s ease-in-out;
+    }
+
+    @keyframes successPulse {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .success-content h3 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: #00ff88;
+    }
+
+    .success-content p {
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+
+    .success-details {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .success-details .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .success-details .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .email-notification {
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 12px;
+      padding: 15px;
+      margin: 20px 0;
+    }
+
+    .email-notification p {
+      margin: 5px 0;
+      color: #00ff88;
+      font-size: 14px;
+    }
+
+    .success-btn {
+      background: linear-gradient(135deg, var(--glow), #0080ff);
+      color: var(--bg);
+      border: none;
+      border-radius: 8px;
+      padding: 15px 30px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .success-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .scheduler-content {
+        padding: 30px 20px;
+        margin: 20px;
+      }
+      
+      .calendar-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .time-slots {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .scheduler-steps {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="scheduler-modal" id="schedulerModal">
+    <div class="scheduler-content">
+      <div class="close-btn" onclick="closeScheduler()">✕</div>
+      
+      <div class="scheduler-header">
+        <h2>Schedule Tune-Up Call</h2>
+        <p>Book a 30-minute consultation with MATIC Studio</p>
+      </div>
+
+      <!-- Progress Steps -->
+      <div class="scheduler-steps">
+        <div class="step active" id="step1">
+          <div class="step-number">1</div>
+          <span>Select Date & Time</span>
+        </div>
+        <div class="step" id="step2">
+          <div class="step-number">2</div>
+          <span>Your Information</span>
+        </div>
+        <div class="step" id="step3">
+          <div class="step-number">3</div>
+          <span>Confirmation</span>
+        </div>
+      </div>
+
+      <!-- Step 1: Date & Time Selection -->
+      <div class="form-section active" id="step1Content">
+        <div class="calendar-container">
+          <div class="calendar-section">
+            <div class="calendar-header">
+              <h3>Select Date</h3>
+              <div class="calendar-nav">
+                <button onclick="previousMonth()">‹</button>
+                <span id="currentMonth">January 2025</span>
+                <button onclick="nextMonth()">›</button>
+              </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid">
+              <!-- Calendar will be generated by JavaScript -->
+            </div>
+          </div>
+
+          <div class="calendar-section">
+            <h3>Select Time</h3>
+            <div class="time-slots" id="timeSlots">
+              <!-- Time slots will be populated based on selected date -->
+            </div>
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="nav-btn" onclick="closeScheduler()">Cancel</button>
+          <button class="nav-btn primary" onclick="nextStep()" id="nextBtn" disabled>Next</button>
+        </div>
+      </div>
+
+      <!-- Step 2: Information Form -->
+      <div class="form-section" id="step2Content">
+        <form id="schedulerForm">
+          <div class="form-group">
+            <label for="name">Full Name *</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="company">Company Name</label>
+            <input type="text" id="company" name="company">
+          </div>
+
+          <div class="form-group">
+            <label for="topic">What would you like to discuss? *</label>
+            <textarea id="topic" name="topic" placeholder="Tell us about your automation needs, current challenges, or specific questions..." required></textarea>
+          </div>
+        </form>
+
+        <div class="navigation-buttons">
+          <button class="nav-btn" onclick="previousStep()">Back</button>
+          <button class="nav-btn primary" onclick="nextStep()" id="nextBtn2">Next</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Confirmation -->
+      <div class="form-section" id="step3Content">
+        <div class="confirmation-details">
+          <h3>Meeting Details</h3>
+          <div id="meetingDetails">
+            <!-- Meeting details will be populated here -->
+          </div>
+        </div>
+
+        <div class="navigation-buttons">
+          <button class="nav-btn" onclick="previousStep()">Back</button>
+          <button class="nav-btn primary" onclick="scheduleMeeting()" id="scheduleBtn">Schedule Meeting</button>
+        </div>
+      </div>
+
+      <!-- Success Modal -->
+      <div class="success-modal" id="successModal">
+        <div class="success-content">
+          <div class="success-icon">✓</div>
+          <h3>Meeting Scheduled Successfully!</h3>
+          <p>Your 30-minute consultation has been booked.</p>
+          <div class="success-details" id="successDetails">
+            <!-- Meeting details will be shown here -->
+          </div>
+          <div class="email-notification">
+            <p>📧 Check your email for Google Meet details</p>
+            <p>📧 Admin has been notified of your booking</p>
+          </div>
+          <button class="success-btn" onclick="redirectToHomepage()">
+            Return to Homepage
+          </button>
+        </div>
+      </div>
+
+      <div class="error-message" id="errorMessage">
+        There was an error scheduling your meeting. Please try again.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentStep = 1;
+    let selectedDate = null;
+    let selectedTime = null;
+    let currentMonth = new Date();
+    let currentYear = currentMonth.getFullYear();
+    let currentMonthIndex = currentMonth.getMonth();
+
+    // Available time slots (you can customize these)
+    const availableTimes = [
+      '09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'
+    ];
+
+    // Initialize the scheduler
+    document.addEventListener('DOMContentLoaded', function() {
+      generateCalendar();
+      updateMonthDisplay();
+    });
+
+    function generateCalendar() {
+      const calendarGrid = document.getElementById('calendarGrid');
+      calendarGrid.innerHTML = '';
+
+      // Add day headers
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      days.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'calendar-day-header';
+        dayHeader.textContent = day;
+        calendarGrid.appendChild(dayHeader);
+      });
+
+      // Get first day of month and number of days
+      const firstDay = new Date(currentYear, currentMonthIndex, 1);
+      const lastDay = new Date(currentYear, currentMonthIndex + 1, 0);
+      const startDate = new Date(firstDay);
+      startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+      // Generate calendar days
+      for (let i = 0; i < 42; i++) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        
+        dayElement.textContent = currentDate.getDate();
+        
+        // Check if date is available (not past, not weekends, etc.)
+        const isAvailable = isDateAvailable(currentDate);
+        const isCurrentMonth = currentDate.getMonth() === currentMonthIndex;
+        const isPast = currentDate < new Date().setHours(0, 0, 0, 0);
+        
+        if (!isCurrentMonth) {
+          dayElement.classList.add('disabled');
+        } else if (isPast) {
+          dayElement.classList.add('disabled');
+        } else if (isAvailable) {
+          dayElement.classList.add('available');
+          dayElement.addEventListener('click', () => selectDate(currentDate));
+        } else {
+          dayElement.classList.add('disabled');
+        }
+
+        calendarGrid.appendChild(dayElement);
+      }
+    }
+
+    function isDateAvailable(date) {
+      // Customize this function based on your availability
+      const day = date.getDay();
+      const today = new Date();
+      
+      // Available on weekdays (Monday-Friday)
+      return day >= 1 && day <= 5 && date >= today;
+    }
+
+    function selectDate(date) {
+      selectedDate = date;
+      
+      // Update calendar display
+      document.querySelectorAll('.calendar-day').forEach(day => {
+        day.classList.remove('selected');
+      });
+      
+      event.target.classList.add('selected');
+      
+      // Generate time slots for selected date
+      generateTimeSlots();
+      
+      // Enable next button if time is selected
+      updateNextButton();
+    }
+
+    function generateTimeSlots() {
+      const timeSlotsContainer = document.getElementById('timeSlots');
+      timeSlotsContainer.innerHTML = '';
+
+      availableTimes.forEach(time => {
+        const timeSlot = document.createElement('div');
+        timeSlot.className = 'time-slot';
+        timeSlot.textContent = formatTime(time);
+        timeSlot.dataset.time = time;
+        
+        // Check if time slot is available
+        if (isTimeAvailable(time)) {
+          timeSlot.addEventListener('click', () => selectTime(time));
+        } else {
+          timeSlot.classList.add('disabled');
+        }
+        
+        timeSlotsContainer.appendChild(timeSlot);
+      });
+    }
+
+    function isTimeAvailable(time) {
+      // Customize this function based on your availability
+      // For now, all times are available
+      return true;
+    }
+
+    function selectTime(time) {
+      selectedTime = time;
+      
+      // Update time slots display
+      document.querySelectorAll('.time-slot').forEach(slot => {
+        slot.classList.remove('selected');
+      });
+      
+      event.target.classList.add('selected');
+      
+      // Enable next button
+      updateNextButton();
+    }
+
+    function formatTime(time) {
+      const [hours, minutes] = time.split(':');
+      const hour = parseInt(hours);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      return `${displayHour}:${minutes} ${ampm}`;
+    }
+
+    function updateNextButton() {
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.disabled = !(selectedDate && selectedTime);
+    }
+
+    function previousMonth() {
+      currentMonthIndex--;
+      if (currentMonthIndex < 0) {
+        currentMonthIndex = 11;
+        currentYear--;
+      }
+      generateCalendar();
+      updateMonthDisplay();
+    }
+
+    function nextMonth() {
+      currentMonthIndex++;
+      if (currentMonthIndex > 11) {
+        currentMonthIndex = 0;
+        currentYear++;
+      }
+      generateCalendar();
+      updateMonthDisplay();
+    }
+
+    function updateMonthDisplay() {
+      const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+      ];
+      document.getElementById('currentMonth').textContent = 
+        `${monthNames[currentMonthIndex]} ${currentYear}`;
+    }
+
+    function nextStep() {
+      if (currentStep === 1 && (!selectedDate || !selectedTime)) {
+        return;
+      }
+      
+      if (currentStep === 2) {
+        // Validate form
+        const form = document.getElementById('schedulerForm');
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+        
+        // Populate confirmation details
+        populateConfirmationDetails();
+      }
+
+      // Hide current step
+      document.getElementById(`step${currentStep}Content`).classList.remove('active');
+      document.getElementById(`step${currentStep}`).classList.remove('active');
+      
+      // Show next step
+      currentStep++;
+      document.getElementById(`step${currentStep}Content`).classList.add('active');
+      document.getElementById(`step${currentStep}`).classList.add('active');
+      
+      // Update step indicators
+      for (let i = 1; i < currentStep; i++) {
+        document.getElementById(`step${i}`).classList.add('completed');
+      }
+    }
+
+    function previousStep() {
+      // Hide current step
+      document.getElementById(`step${currentStep}Content`).classList.remove('active');
+      document.getElementById(`step${currentStep}`).classList.remove('active');
+      
+      // Show previous step
+      currentStep--;
+      document.getElementById(`step${currentStep}Content`).classList.add('active');
+      document.getElementById(`step${currentStep}`).classList.add('active');
+      
+      // Update step indicators
+      document.getElementById(`step${currentStep + 1}`).classList.remove('completed');
+    }
+
+    function populateConfirmationDetails() {
+      const detailsContainer = document.getElementById('meetingDetails');
+      const formData = new FormData(document.getElementById('schedulerForm'));
+      
+      const details = [
+        { label: 'Date', value: selectedDate.toLocaleDateString('en-US', { 
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        })},
+        { label: 'Time', value: formatTime(selectedTime)},
+        { label: 'Duration', value: '30 minutes'},
+        { label: 'Name', value: formData.get('name')},
+        { label: 'Email', value: formData.get('email')},
+        { label: 'Company', value: formData.get('company') || 'Not specified'},
+        { label: 'Topic', value: formData.get('topic')}
+      ];
+
+      detailsContainer.innerHTML = details.map(detail => `
+        <div class="detail-row">
+          <span class="detail-label">${detail.label}:</span>
+          <span class="detail-value">${detail.value}</span>
+        </div>
+      `).join('');
+    }
+
+    async function scheduleMeeting() {
+      const scheduleBtn = document.getElementById('scheduleBtn');
+      scheduleBtn.disabled = true;
+      scheduleBtn.textContent = 'Scheduling...';
+
+      try {
+        const formData = new FormData(document.getElementById('schedulerForm'));
+        const meetingData = {
+          name: formData.get('name'),
+          email: formData.get('email'),
+          company: formData.get('company'),
+          date: selectedDate.toISOString(),
+          time: selectedTime,
+          topic: formData.get('topic')
+        };
+
+        // Here you would integrate with your backend API
+        // For now, we'll simulate a successful response
+        const result = await simulateScheduling(meetingData);
+        
+        if (result.success) {
+          showSuccessModal(meetingData);
+        } else {
+          showError('Failed to schedule meeting. Please try again.');
+        }
+        
+      } catch (error) {
+        showError('Failed to schedule meeting. Please try again.');
+      } finally {
+        scheduleBtn.disabled = false;
+        scheduleBtn.textContent = 'Schedule Meeting';
+      }
+    }
+
+    function showSuccessModal(meetingData) {
+      // Populate success details
+      const successDetails = document.getElementById('successDetails');
+      const details = [
+        { label: 'Date', value: selectedDate.toLocaleDateString('en-US', { 
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+        })},
+        { label: 'Time', value: formatTime(selectedTime)},
+        { label: 'Duration', value: '30 minutes'},
+        { label: 'Name', value: meetingData.name},
+        { label: 'Email', value: meetingData.email},
+        { label: 'Company', value: meetingData.company || 'Not specified'},
+        { label: 'Topic', value: meetingData.topic}
+      ];
+
+      successDetails.innerHTML = details.map(detail => `
+        <div class="detail-row">
+          <span class="detail-label">${detail.label}:</span>
+          <span class="detail-value">${detail.value}</span>
+        </div>
+      `).join('');
+
+      // Show success modal
+      document.getElementById('successModal').classList.add('active');
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('errorMessage');
+      errorEl.textContent = message;
+      errorEl.style.display = 'block';
+      document.getElementById('successMessage').style.display = 'none';
+    }
+
+    async function simulateScheduling(data) {
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // In a real implementation, you would:
+      // 1. Send data to your backend
+      // 2. Backend creates Google Calendar event with Google Meet
+      // 3. Backend sends confirmation email with meeting details
+      // 4. Backend sends admin notification email
+      // 5. Return success response
+      
+      console.log('Meeting data:', data);
+      
+      // Simulate sending emails
+      console.log('📧 Sending confirmation email to:', data.email);
+      console.log('📧 Sending admin notification to: admin@maticstudio.net');
+      
+      return { success: true };
+    }
+
+    function redirectToHomepage() {
+      // Close the scheduler window and redirect to homepage
+      window.opener.location.href = 'index.html';
+      window.close();
+    }
+
+    function closeScheduler() {
+      // Reset form and selections
+      document.getElementById('schedulerForm').reset();
+      selectedDate = null;
+      selectedTime = null;
+      currentStep = 1;
+      
+      // Reset step indicators
+      document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active', 'completed');
+      });
+      document.getElementById('step1').classList.add('active');
+      
+      // Show first step
+      document.querySelectorAll('.form-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById('step1Content').classList.add('active');
+      
+      // Hide messages
+      document.getElementById('successMessage').style.display = 'none';
+      document.getElementById('errorMessage').style.display = 'none';
+      
+      // Close modal (in real implementation, this would close the modal)
+      console.log('Scheduler closed');
+    }
+
+    // Make functions globally available
+    window.closeScheduler = closeScheduler;
+  </script>
+</body>
+</html> 

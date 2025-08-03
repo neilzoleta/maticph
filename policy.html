@@ -29,18 +29,130 @@
       position: relative;
       min-height: 100vh;
       padding-bottom: 100px;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #e63946;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-dot {
+      width: 4px;
+      height: 4px;
+      background: #e63946;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.15s ease;
+    }
+
+    .cursor.hover {
+      transform: scale(1.5);
+      background: rgba(230, 57, 70, 0.1);
+      border-color: #e63946;
+    }
+
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      z-index: 1001;
+      flex-direction: column;
+      gap: 5px;
+      margin-left: auto;
+    }
+    .mobile-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white !important;
+      transition: 0.3s;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      top: 60px;
+      right: 24px;
+      left: 24px;
+      text-align: center;
+      padding: 30px 0;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 1001;
+    }
+
+    .mobile-nav a {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--hover);
+    }
+
+    @media (max-width: 768px) {
+      header {
+        display: none;
+      }
+    }
+    /* Stronger rule for header hiding on small viewports */
+    @media screen and (max-width: 768px) {
+      header {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+      }
     }
 
     header {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 699px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 9px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 24px 60px;
-      background-color: var(--bg);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: sticky;
-      top: 0;
       z-index: 1000;
+      transition: all 0.3s ease;
+      margin: 0 20px;
+      box-sizing: border-box;
     }
 
     header img {
@@ -48,33 +160,25 @@
       filter: brightness(0) invert(1);
     }
 
+    nav {
+      display: flex;
+      gap: 40px;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 1 1 auto;
+      margin-right: auto;
+      min-width: 0;
+    }
     nav a {
       color: var(--text);
       text-decoration: none;
-      margin-left: 40px;
+      margin-left: 0;
+      margin-right: 0;
       font-weight: 500;
       font-size: 0.95rem;
       transition: color 0.3s ease;
       position: relative;
-    }
-
-    nav a::after {
-      content: '';
-      position: absolute;
-      bottom: -6px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background-color: white;
-      transition: width 0.3s;
-    }
-
-    nav a:hover::after {
-      width: 100%;
-    }
-
-    nav a:hover {
-      color: var(--hover);
+      padding: 0 6px;
     }
 
     .linkedin-button {
@@ -130,7 +234,7 @@
     }
 
     .content {
-      padding: 80px 20px;
+      padding: 120px 20px 80px 20px;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -174,6 +278,121 @@
 
     .contact-email a:hover {
       color: var(--hover);
+    }
+
+    /* 3D Shield Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+      }
+      25% {
+        transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
+      }
+      50% {
+        transform: translateY(-5px) rotateX(0deg) rotateY(0deg);
+      }
+      75% {
+        transform: translateY(-10px) rotateX(-5deg) rotateY(5deg);
+      }
+    }
+
+    @keyframes shield-activate {
+      0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+      25% {
+        transform: translateY(-20px) rotateX(15deg) rotateY(-15deg) scale(1.1);
+      }
+      50% {
+        transform: translateY(-10px) rotateX(0deg) rotateY(0deg) scale(1.05);
+      }
+      75% {
+        transform: translateY(-5px) rotateX(-10deg) rotateY(10deg) scale(1.08);
+      }
+      100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+    }
+
+    @keyframes shield-deactivate {
+      0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+      25% {
+        transform: translateY(-15px) rotateX(-10deg) rotateY(10deg) scale(1.1);
+      }
+      50% {
+        transform: translateY(-8px) rotateX(0deg) rotateY(0deg) scale(1.05);
+      }
+      75% {
+        transform: translateY(-3px) rotateX(5deg) rotateY(-5deg) scale(1.08);
+      }
+      100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+    }
+
+    @keyframes twirl-to-left {
+      0% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
+      }
+      20% {
+        transform: translateY(-8px) rotateX(15deg) rotateY(-45deg) scale(1.05);
+      }
+      40% {
+        transform: translateY(-12px) rotateX(8deg) rotateY(-90deg) scale(1.08);
+      }
+      60% {
+        transform: translateY(-6px) rotateX(4deg) rotateY(-135deg) scale(1.06);
+      }
+      80% {
+        transform: translateY(-3px) rotateX(2deg) rotateY(-160deg) scale(1.03);
+      }
+      100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(-180deg) scale(1);
+      }
+    }
+
+    @keyframes float-left {
+      0%, 100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(-180deg);
+      }
+      25% {
+        transform: translateY(-8px) rotateX(3deg) rotateY(-183deg);
+      }
+      50% {
+        transform: translateY(-4px) rotateX(0deg) rotateY(-180deg);
+      }
+      75% {
+        transform: translateY(-8px) rotateX(-3deg) rotateY(-177deg);
+      }
+    }
+
+    #building {
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    #building:hover {
+      animation-play-state: paused;
+      transform: scale(1.1) rotateX(10deg) rotateY(10deg);
+    }
+
+    #building-container {
+      transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    #building-container.positioned-left {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+    }
+
+    #building-container.positioned-left #building:hover {
+      animation-play-state: paused;
+      transform: scale(1.1) rotateX(10deg) rotateY(-170deg);
     }
 
     .privacy-link {
@@ -263,48 +482,68 @@
 </head>
 <body>
 
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
   <header>
-    <a href="index.html">
-  <img src="assets/logo.png" alt="MATIC logo" />
-</a>
     <nav>
-      <a href="index.html#solutions"><span id="navSolutions">Solutions</span></a>
-      <a href="aboutmatic.html"><span id="navAbout">Who We Are</span></a>
-      <a href="index.html#contact"><span id="navContact">Contact</span></a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-          <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-        </svg>
-        <span style="position: relative; top: 1px;">/MATICStudio</span>
-      </a>
-      <div class="lang-container" style="position: relative;">
-        <button onclick="toggleLangDropdown()" class="language-selector">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" viewBox="0 0 24 24"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm6.929 6h-3.196a15.964 15.964 0 0 0-1.4-4.337A8.026 8.026 0 0 1 18.929 8zM12 4.062A13.978 13.978 0 0 1 13.935 8h-3.87A13.978 13.978 0 0 1 12 4.062zM4.527 16a7.948 7.948 0 0 1-.489-2H8.06a17.902 17.902 0 0 0 .842 4.664A7.983 7.983 0 0 1 4.527 16zM4.071 14c.058-.684.197-1.346.41-1.975.016-.014.029-.03.045-.045.015-.015.031-.029.046-.045A7.923 7.923 0 0 1 6.06 10h3.871A15.961 15.961 0 0 0 8.53 4.337 8.026 8.026 0 0 1 4.071 14zm7.929 5.938A13.979 13.979 0 0 1 10.065 16h3.87A13.979 13.979 0 0 1 12 19.938zM15.1 14h3.827a7.948 7.948 0 0 1-.489 2 7.984 7.984 0 0 1-4.375 2.664A17.901 17.901 0 0 0 15.1 14zm-6.273 0h6.346a15.978 15.978 0 0 1-.81 4H9.637a15.978 15.978 0 0 1-.81-4zm6.273-2H8.9a17.901 17.901 0 0 0 1.037-4.664A7.983 7.983 0 0 1 19.473 14H15.1a15.978 15.978 0 0 0 .81-4z"/></svg>
-          <span id="currentLang">EN</span>
-        </button>
-        <div id="langDropdown" style="display: none; position: absolute; top: 100%; right: 0; background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 0; z-index: 2000; min-width: 160px;">
-          <div onclick="setLanguage('en')" style="padding: 8px 16px; cursor: pointer;">EN - English</div>
-          <div onclick="setLanguage('tl')" style="padding: 8px 16px; cursor: pointer;">FIL - Tagalog</div>
-          <div onclick="setLanguage('kr')" style="padding: 8px 16px; cursor: pointer;">KR - 한국어</div>
-          <div onclick="setLanguage('jp')" style="padding: 8px 16px; cursor: pointer;">JP - 日本語</div>
-          <div onclick="setLanguage('th')" style="padding: 8px 16px; cursor: pointer;">TH - ภาษาไทย</div>
-        </div>
-      </div>
-    </nav>
-    <div class="hamburger" onclick="toggleMenu()">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="index.html#solutions">Solutions</a>
       <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#contact">Contact</a>
-      <a href="https://www.linkedin.com/company/maticstudio" target="_blank">/MATICStudio</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#contact">Contact Us</a>
+    </nav>
+    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button" style="margin-left: 20px;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+      </svg>
+      <span style="position: relative; top: 1px;">/MATICStudio</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()">
+      ☰
+    </button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#contact">Contact Us</a>
     </div>
   </header>
 
   <section class="content">
+    <div style="text-align: center; margin-bottom: 60px;">
+      <a href="index.html">
+        <img src="assets/logo.png" alt="matic logo" style="height: 60px; margin-bottom: 30px; filter: brightness(0) invert(1); cursor: pointer;" />
+      </a>
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 30px;">
+      <div id="building-container" style="perspective: 1000px; display: inline-block; margin-bottom: 20px;">
+        <div id="building" style="transform-style: preserve-3d; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); animation: float 3s ease-in-out infinite;">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(0 8px 16px rgba(230, 57, 70, 0.3));">
+            <!-- Inactive building with 3D effect -->
+            <path id="inactive-building" d="M12 7V3H2V21H22V7H12ZM6 19H4V17H6V19ZM6 15H4V13H6V15ZM6 11H4V9H6V11ZM6 7H4V5H6V7ZM10 19H8V17H10V19ZM10 15H8V13H10V15ZM10 11H8V9H10V11ZM10 7H8V5H10V7ZM14 19H12V17H14V19ZM14 15H12V13H14V15ZM14 11H12V9H14V11ZM14 7H12V5H14V7ZM18 19H16V17H18V19ZM18 15H16V13H18V15ZM18 11H16V9H18V11ZM18 7H16V5H18V7Z" fill="url(#gradient-inactive)" stroke="#e63946" stroke-width="0.5"/>
+            <!-- Active building with 3D effect -->
+            <path id="active-building" d="M12 7V3H2V21H22V7H12ZM6 19H4V17H6V19ZM6 15H4V13H6V15ZM6 11H4V9H6V11ZM6 7H4V5H6V7ZM10 19H8V17H10V19ZM10 15H8V13H10V15ZM10 11H8V9H10V11ZM10 7H8V5H10V7ZM14 19H12V17H14V19ZM14 15H12V13H14V15ZM14 11H12V9H14V11ZM14 7H12V5H14V7ZM18 19H16V17H18V19ZM18 15H16V13H18V15ZM18 11H16V9H18V11ZM18 7H16V5H18V7Z" fill="url(#gradient-active)" stroke="#22c55e" stroke-width="0.5" style="opacity: 0;"/>
+            
+            <!-- Gradients for 3D effect -->
+            <defs>
+              <linearGradient id="gradient-inactive" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#e63946;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#ff6b7a;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#c41e3a;stop-opacity:1" />
+              </linearGradient>
+              <linearGradient id="gradient-active" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#4ade80;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#16a34a;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      </div>
+    </div>
+    
     <div class="language-group en">
       <h1>Our Company Policy</h1>
       <h2>Workplace Model</h2>
@@ -379,9 +618,33 @@
 </footer>
   <script>
     function toggleMenu() {
-      const nav = document.getElementById('mobileNav');
-      nav.classList.toggle('show');
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
     }
+
+    // Custom Cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorDot.style.left = e.clientX + 'px';
+      cursorDot.style.top = e.clientY + 'px';
+    });
+
+    // Cursor hover effects
+    const interactiveElements = document.querySelectorAll('a, button, #building');
+    
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
+    });
 
     function toggleLangDropdown() {
       const dropdown = document.getElementById('langDropdown');
@@ -412,6 +675,102 @@
     document.addEventListener("DOMContentLoaded", () => {
       const savedLang = localStorage.getItem("preferredLang") || 'en'; // Load saved language
       setLanguage(savedLang);
+      
+      // 3D Building animation on scroll
+      const building = document.getElementById('building');
+      const buildingContainer = document.getElementById('building-container');
+      const inactiveBuilding = document.getElementById('inactive-building');
+      const activeBuilding = document.getElementById('active-building');
+      
+      let isActive = false;
+      let hasTwirled = false;
+      
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Activate the building when scrolled down more than 100px
+        if (scrollTop > 100 && !isActive) {
+          isActive = true;
+          
+          // Seamless activation sequence
+          building.style.animation = 'shield-activate 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          
+          setTimeout(() => {
+            inactiveBuilding.style.opacity = '0';
+            activeBuilding.style.opacity = '1';
+          }, 300);
+          
+          setTimeout(() => {
+            // Seamless transition to twirling
+            if (!hasTwirled) {
+              building.style.animation = 'twirl-to-left 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              buildingContainer.classList.add('positioned-left');
+              hasTwirled = true;
+              
+              setTimeout(() => {
+                building.style.animation = 'float-left 4s ease-in-out infinite';
+              }, 1000);
+            } else {
+              building.style.animation = 'float-left 4s ease-in-out infinite';
+            }
+          }, 600);
+          
+        } else if (scrollTop <= 100 && isActive) {
+          isActive = false;
+          hasTwirled = false;
+          
+          // Seamless deactivation sequence
+          buildingContainer.classList.remove('positioned-left');
+          building.style.animation = 'shield-deactivate 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          
+          setTimeout(() => {
+            inactiveBuilding.style.opacity = '1';
+            activeBuilding.style.opacity = '0';
+          }, 300);
+          
+          setTimeout(() => {
+            building.style.animation = 'float 4s ease-in-out infinite';
+          }, 600);
+        }
+      });
+      
+      // Add click interaction for extra fun
+      building.addEventListener('click', () => {
+        if (!isActive) {
+          building.style.animation = 'shield-activate 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          setTimeout(() => {
+            inactiveBuilding.style.opacity = '0';
+            activeBuilding.style.opacity = '1';
+            isActive = true;
+          }, 300);
+          setTimeout(() => {
+            // Seamless transition to twirling
+            if (!hasTwirled) {
+              building.style.animation = 'twirl-to-left 1.0s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+              buildingContainer.classList.add('positioned-left');
+              hasTwirled = true;
+              
+              setTimeout(() => {
+                building.style.animation = 'float-left 4s ease-in-out infinite';
+              }, 1000);
+            } else {
+              building.style.animation = 'float-left 4s ease-in-out infinite';
+            }
+          }, 600);
+        } else {
+          hasTwirled = false;
+          buildingContainer.classList.remove('positioned-left');
+          building.style.animation = 'shield-deactivate 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+          setTimeout(() => {
+            inactiveBuilding.style.opacity = '1';
+            activeBuilding.style.opacity = '0';
+            isActive = false;
+          }, 300);
+          setTimeout(() => {
+            building.style.animation = 'float 4s ease-in-out infinite';
+          }, 600);
+        }
+      });
     });
   </script>
 </body>
