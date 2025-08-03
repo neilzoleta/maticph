@@ -404,69 +404,350 @@
     </div>
     <h1>Inside Our Workshop</h1>
     <p>At MATIC Studio, we approach business process automation like tuning up a high-performance machine. Here's how we work under the hood:</p>
-    <h2>1. Discovery & Diagnostics</h2>
-    <p>We run a full system check. Our team listens under the hood of your business, identifying process leaks, workflow clunks, and areas that could run smoother with automation.</p>
-    <h2>2. Deep Process Mapping</h2>
-    <p>We lift the lid and map out your operations, bolt by bolt. From intake to output, we sketch the flow and spot where a custom-fit automation engine can be dropped in.</p>
-    <h2>3. Custom-Built Automation</h2>
-    <p>This is where the real build begins. We engineer streamlined solutions using automation tools, tailored to fit your exact process, not just off-the-shelf parts.</p>
-    <h2>4. Testing & Fine-Tuning</h2>
-    <p>Before handing you the keys, we test on every turn. From QA to feedback loops, we make sure the solution doesn't just run—it glides.</p>
-    <h2>5. Deployment & Support</h2>
-    <p>Once tuned and tightened, we launch your automation with full support. We don't just send you off—we ride with you for the long haul.</p>
-    <h2>Operational Roadblocks for SMEs</h2>
-    <p>
-      As businesses grow, many processes outpace the capabilities of spreadsheets. What starts as a quick fix often turns into a fragile system—difficult to scale, vulnerable to errors, and risky for critical operations.<br>
-      Spreadsheets can't ensure data integrity or real-time collaboration at scale, yet many SMEs hesitate to invest in purpose-built solutions due to cost concerns or a lack of technical resources.<br>
-      This gap holds back efficiency, visibility, and growth.
-    </p>
+    
+    <!-- Process Steps Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin: 4rem 0;">
+      
+      <!-- Discovery & Diagnostics -->
+      <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+              <path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+            </svg>
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">1. Discovery & Diagnostics</h2>
+        </div>
+        <p style="color: #ccc; line-height: 1.6; margin: 0;">
+          We run a full system check. Our team listens under the hood of your business, identifying process leaks, workflow clunks, and areas that could run smoother with automation.
+        </p>
+      </div>
 
-    <section style="background-color: #000; color: #fff; padding: 60px 20px;">
-      <div style="max-width: 1200px; margin: auto; text-align: center;">
-        <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem;">Our Expertise in Automation & Development</h2>
-        <p style="font-size: 1.1rem; color: #aaa; max-width: 800px; margin: auto;">
+      <!-- Deep Process Mapping -->
+      <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+              <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z"/>
+            </svg>
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">2. Deep Process Mapping</h2>
+        </div>
+        <p style="color: #ccc; line-height: 1.6; margin: 0;">
+          We lift the lid and map out your operations, bolt by bolt. From intake to output, we sketch the flow and spot where a custom-fit automation engine can be dropped in.
+        </p>
+      </div>
+
+      <!-- Custom-Built Automation -->
+      <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+              <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+            </svg>
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">3. Custom-Built Automation</h2>
+        </div>
+        <p style="color: #ccc; line-height: 1.6; margin: 0;">
+          This is where the real build begins. We engineer streamlined solutions using automation tools, tailored to fit your exact process, not just off-the-shelf parts.
+        </p>
+      </div>
+
+      <!-- Testing & Fine-Tuning -->
+      <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+              <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+            </svg>
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">4. Testing & Fine-Tuning</h2>
+        </div>
+        <p style="color: #ccc; line-height: 1.6; margin: 0;">
+          Before handing you the keys, we test on every turn. From QA to feedback loops, we make sure the solution doesn't just run—it glides.
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Deployment & Support - Full Width -->
+    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; margin: 4rem 0; text-align: center;">
+      <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+          </svg>
+        </div>
+        <h2 style="font-size: 2rem; font-weight: 600; color: #fff; margin: 0;">5. Deployment & Support</h2>
+      </div>
+      <p style="color: #ccc; line-height: 1.8; font-size: 1.1rem; max-width: 800px; margin: 0 auto;">
+        Once tuned and tightened, we launch your automation with full support. We don't just send you off—we ride with you for the long haul.
+      </p>
+    </div>
+
+    <!-- Operational Roadblocks Section -->
+    <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 40px; margin: 4rem 0; text-align: center;">
+      <h2 style="font-size: 2rem; font-weight: 600; margin-bottom: 1.5rem; color: #fff;">Operational Roadblocks for SMEs</h2>
+      <p style="color: #ccc; line-height: 1.8; font-size: 1.1rem; max-width: 800px; margin: 0 auto;">
+        As businesses grow, many processes outpace the capabilities of spreadsheets. What starts as a quick fix often turns into a fragile system—difficult to scale, vulnerable to errors, and risky for critical operations.<br><br>
+        Spreadsheets can't ensure data integrity or real-time collaboration at scale, yet many SMEs hesitate to invest in purpose-built solutions due to cost concerns or a lack of technical resources.<br><br>
+        This gap holds back efficiency, visibility, and growth.
+      </p>
+    </div>
+
+    <!-- Expertise Section with Card Design -->
+    <section style="background: linear-gradient(135deg, #000 0%, #0a0a0a 50%, #000 100%); color: #fff; padding: 100px 20px; position: relative; overflow: hidden;">
+      <div style="max-width: 1200px; margin: auto; text-align: center; position: relative; z-index: 2;">
+        <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(45deg, #fff, var(--glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          Our Expertise in Automation & Development
+        </h2>
+        <p style="font-size: 1.3rem; color: #ccc; max-width: 800px; margin: auto; margin-bottom: 3rem; line-height: 1.6;">
           From automating repetitive tasks to building tailored business systems, we leverage best-in-class tools to create powerful, reliable, and scalable automation solutions.
         </p>
-        <p style="margin-top: 30px; font-weight: 500;">
-          <a href="brb.html" style="color: var(--accent); text-decoration: underline;">Browse all blueprints</a>
-        </p>
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 3rem;">
-          <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px; text-align: center;">
-            <img src="https://img.icons8.com/ios-filled/100/ffffff/microsoft.png" alt="Microsoft Power Platform" style="width: 50px; height: 50px; margin-bottom: 15px; filter: brightness(0) invert(1);">
-            <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Microsoft Power Platform</h3>
-            <p style="font-size: 0.95rem; color: #ccc;">Low-code solutions for apps, workflows, and automations built with Power Apps, Power Automate, and Power Virtual Agents.</p>
+        
+        <!-- Expertise Cards Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 4rem;">
+          
+          <!-- Microsoft Power Platform -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">Microsoft Power Platform</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Low-code solutions for apps, workflows, and automations built with Power Apps, Power Automate, and Power Virtual Agents.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Power Apps</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Power Automate</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Power BI</span>
+            </div>
           </div>
-          <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px; text-align: center;">
-            <img src="https://img.icons8.com/ios-filled/100/ffffff/calculator.png" alt="M365 & VBA" style="width: 50px; height: 50px; margin-bottom: 15px; filter: brightness(0) invert(1);">
-            <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">M365 & VBA Macros</h3>
-            <p style="font-size: 0.95rem; color: #ccc;">Excel and Office-based automations using robust macro scripting and data workflows embedded within M365 apps.</p>
+
+          <!-- M365 & VBA -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">M365 & VBA Macros</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Excel and Office-based automations using robust macro scripting and data workflows embedded within M365 apps.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Excel VBA</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Office 365</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Data Workflows</span>
+            </div>
           </div>
-          <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px; text-align: center;">
-            <img src="https://img.icons8.com/ios-filled/100/ffffff/robot.png" alt="RPA" style="width: 50px; height: 50px; margin-bottom: 15px; filter: brightness(0) invert(1);">
-            <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Robotic Process Automation (RPA)</h3>
-            <p style="font-size: 0.95rem; color: #ccc;">End-to-end process automation using tools like Automation Anywhere and UiPath to replicate human tasks at scale.</p>
+
+          <!-- RPA -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">Robotic Process Automation</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              End-to-end process automation using tools like Automation Anywhere and UiPath to replicate human tasks at scale.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">UiPath</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Automation Anywhere</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Process Mining</span>
+            </div>
           </div>
-          <div style="background: #111; padding: 20px; border-radius: 12px; width: 250px; text-align: center;">
-            <img src="https://img.icons8.com/ios-filled/100/ffffff/bar-chart.png" alt="Data Visualization" style="width: 50px; height: 50px; margin-bottom: 15px; filter: brightness(0) invert(1);">
-            <h3 style="font-size: 1.2rem; color: #e63946; margin-bottom: 0.5rem;">Data Visualization & Business Intelligence</h3>
-            <p style="font-size: 0.95rem; color: #ccc;">Transform data into insights using Power BI, Tableau, and integrated dashboards tailored to your business needs.</p>
+
+          <!-- Data Visualization -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff; margin: 0;">Data Visualization & BI</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Transform data into insights using Power BI, Tableau, and integrated dashboards tailored to your business needs.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Power BI</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Tableau</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Dashboards</span>
+            </div>
           </div>
+
+        </div>
+
+        <!-- Blueprint Link -->
+        <div style="margin-top: 3rem;">
+          <a href="blueprintandai.html" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(45deg, var(--glow), #0066cc); color: #000; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(0, 255, 255, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0, 255, 255, 0.3)'">
+            Browse All Blueprints
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+            </svg>
+          </a>
         </div>
       </div>
     </section>
 
-    <section style="background-color: #000; color: #fff; padding: 80px 20px;">
-      <div style="max-width: 1000px; margin: auto; text-align: center;">
-        <h2 style="font-size: 2.2rem; font-weight: 600; margin-bottom: 1rem;">Start a Project With Us</h2>
-        <p style="font-size: 1.1rem; color: #ccc; max-width: 700px; margin: auto; margin-bottom: 3rem;">
-          Ready to streamline your operations or build something bold? Let's talk about how automation can move your business forward. Tell us your pain points—we'll take care of the rest.
+    <!-- AI Automation Section -->
+    <section style="background: linear-gradient(135deg, #000 0%, #0a0a0a 50%, #000 100%); color: #fff; padding: 100px 20px; position: relative; overflow: hidden;">
+      <!-- AI Background Elements -->
+      <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.1;">
+        <div style="position: absolute; top: 10%; left: 10%; width: 100px; height: 100px; border: 2px solid var(--glow); border-radius: 50%; animation: pulse 3s infinite;"></div>
+        <div style="position: absolute; top: 60%; right: 15%; width: 80px; height: 80px; border: 2px solid var(--glow); border-radius: 50%; animation: pulse 3s infinite 1s;"></div>
+        <div style="position: absolute; bottom: 20%; left: 20%; width: 60px; height: 60px; border: 2px solid var(--glow); border-radius: 50%; animation: pulse 3s infinite 2s;"></div>
+      </div>
+
+      <div style="max-width: 1200px; margin: auto; text-align: center; position: relative; z-index: 2;">
+        <h2 style="font-size: 3rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(45deg, #fff, var(--glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          AI-Powered Automation
+        </h2>
+        <p style="font-size: 1.3rem; color: #ccc; max-width: 800px; margin: auto; margin-bottom: 3rem; line-height: 1.6;">
+          Where artificial intelligence meets business process automation. We're not just automating tasks—we're creating intelligent systems that learn, adapt, and evolve with your business.
         </p>
-        <a href="form.html" class="cta-button" style="margin-top: 2.5rem; display: inline-block;">
-          Let's Get Started →
-          <div class="arrow-indicator"></div>
-        </a>
+
+        <!-- AI Capabilities Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 4rem;">
+          
+          <!-- Intelligent Document Processing -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff;">Intelligent Document Processing</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Transform unstructured data into actionable insights. Our AI systems can extract, classify, and process information from invoices, contracts, forms, and reports with 95%+ accuracy.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">OCR</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">NLP</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Machine Learning</span>
+            </div>
+          </div>
+
+          <!-- Predictive Analytics -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff;">Predictive Analytics & Forecasting</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Anticipate trends, optimize inventory, and make data-driven decisions. Our AI models analyze historical data to predict future outcomes and identify optimization opportunities.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Time Series</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Regression</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Anomaly Detection</span>
+            </div>
+          </div>
+
+          <!-- Conversational AI -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M8,17V15H16V17H8M8,13V11H16V13H8M8,9V7H16V9H8Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff;">Conversational AI & Chatbots</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Intelligent virtual assistants that handle customer inquiries, process requests, and automate support workflows. Natural language processing for human-like interactions.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">NLP</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Intent Recognition</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Multi-language</span>
+            </div>
+          </div>
+
+          <!-- Process Optimization -->
+          <div style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; text-align: left; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-10px)'; this.style.boxShadow='0 20px 40px rgba(0, 255, 255, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <div style="display: flex; align-items: center; margin-bottom: 20px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(45deg, var(--glow), #0066cc); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                  <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z"/>
+                </svg>
+              </div>
+              <h3 style="font-size: 1.4rem; font-weight: 600; color: #fff;">AI-Powered Process Optimization</h3>
+            </div>
+            <p style="color: #ccc; line-height: 1.6; margin-bottom: 20px;">
+              Continuously improve your workflows with AI that learns from patterns, identifies bottlenecks, and suggests optimizations for maximum efficiency and cost savings.
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Process Mining</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Optimization</span>
+              <span style="background: rgba(0, 255, 255, 0.2); color: var(--glow); padding: 4px 12px; border-radius: 20px; font-size: 0.9rem;">Auto-scaling</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- AI Success Stories -->
+        <div style="margin-top: 5rem; text-align: center;">
+          <h3 style="font-size: 2rem; font-weight: 600; margin-bottom: 2rem; color: #fff;">AI-Ready Capabilities</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 2rem;">
+            <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px; padding: 25px; text-align: center;">
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--glow); margin-bottom: 10px;">95%+</div>
+              <div style="color: #fff; font-weight: 600; margin-bottom: 8px;">Document Processing Accuracy</div>
+              <div style="color: #ccc; font-size: 0.9rem;">AI-powered OCR and NLP capabilities for intelligent data extraction</div>
+            </div>
+            <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px; padding: 25px; text-align: center;">
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--glow); margin-bottom: 10px;">24/7</div>
+              <div style="color: #fff; font-weight: 600; margin-bottom: 8px;">Intelligent Support</div>
+              <div style="color: #ccc; font-size: 0.9rem;">Conversational AI and chatbot solutions for automated customer service</div>
+            </div>
+            <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 15px; padding: 25px; text-align: center;">
+              <div style="font-size: 2.5rem; font-weight: bold; color: var(--glow); margin-bottom: 10px;">Real-time</div>
+              <div style="color: #fff; font-weight: 600; margin-bottom: 8px;">Predictive Analytics</div>
+              <div style="color: #ccc; font-size: 0.9rem;">Machine learning models for forecasting and optimization insights</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="margin-top: 4rem; text-align: center;">
+          <p style="font-size: 1.2rem; color: #ccc; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Ready to harness the power of AI for your business processes? Let's explore how intelligent automation can transform your operations.
+          </p>
+          <a href="form.html" style="display: inline-flex; align-items: center; gap: 10px; background: linear-gradient(45deg, var(--glow), #0066cc); color: #000; padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 15px 40px rgba(0, 255, 255, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0, 255, 255, 0.3)'">
+            Start Your AI Project →
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+            </svg>
+          </a>
+        </div>
       </div>
     </section>
+
+    <style>
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); opacity: 0.3; }
+        50% { transform: scale(1.1); opacity: 0.6; }
+      }
+    </style>
+
   </main>
 
   <footer>

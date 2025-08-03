@@ -1,0 +1,2078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MATIC Studio - Automation Blueprints & Solutions</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --bg: #000;
+      --text: #fff;
+      --gray: #aaa;
+      --accent: #e5e5e5;
+      --hover: #ccc;
+      --glow: #00ffff;
+      --shadow: rgba(0, 255, 255, 0.3);
+      --code-bg: #1a1a1a;
+      --code-border: #333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      font-size: 18px;
+      cursor: none;
+      overflow-x: hidden;
+    }
+
+    /* Custom Cursor */
+    .cursor {
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.1s ease;
+      mix-blend-mode: difference;
+    }
+
+    .cursor-dot {
+      width: 4px;
+      height: 4px;
+      background: var(--glow);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transition: all 0.15s ease;
+    }
+
+    .cursor.hover {
+      transform: scale(1.5);
+      background: rgba(0, 255, 255, 0.1);
+      border-color: var(--glow);
+    }
+
+    /* Floating Particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: var(--glow);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: float 6s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      top: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 699px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 9px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: all 0.3s ease;
+      margin: 0 20px;
+      box-sizing: border-box;
+    }
+
+    nav {
+      display: flex;
+      gap: 40px;
+      justify-content: flex-start;
+      align-items: center;
+      flex: 1 1 auto;
+      margin-right: auto;
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+      padding: 0 6px;
+    }
+
+    nav a:hover {
+      color: var(--hover);
+    }
+
+
+
+    .linkedin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background-color: transparent;
+      border: 1px solid white;
+      padding: 6px 14px;
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1;
+      transition: background-color 0.3s;
+    }
+
+    .linkedin-button:hover {
+      background-color: white;
+      color: black;
+    }
+
+    .linkedin-button svg {
+      fill: currentColor;
+      transition: fill 0.3s;
+    }
+
+    .linkedin-button:hover svg {
+      fill: black;
+    }
+
+    /* Mobile Navigation */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: white;
+      cursor: pointer;
+      z-index: 1001;
+      margin-left: auto;
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background-color: rgba(0, 0, 0, 0.9);
+      position: absolute;
+      top: 60px;
+      right: 24px;
+      left: 24px;
+      text-align: center;
+      padding: 30px 0;
+      border-radius: 16px;
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-nav a {
+      color: var(--text);
+      text-decoration: none;
+      padding: 12px 20px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--hover);
+    }
+
+    /* Main Content */
+    main {
+      margin-top: 100px;
+      padding: 0 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 4rem 0;
+      position: relative;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #fff, var(--glow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #ccc;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    /* Solution Showcase */
+    .solution-showcase {
+      margin: 4rem 0;
+    }
+
+    .solution-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 3rem;
+      transition: all 0.3s ease;
+    }
+
+    .solution-card:hover {
+      border-color: rgba(0, 255, 255, 0.3);
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.1);
+    }
+
+    .solution-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .solution-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(45deg, var(--glow), #0066cc);
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 20px;
+    }
+
+    .solution-title {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .solution-description {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-bottom: 25px;
+    }
+
+    /* Demo Section */
+    .demo-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      margin: 25px 0;
+    }
+
+    .demo-visual {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 15px;
+      padding: 20px;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-visual::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 30px;
+      background: linear-gradient(90deg, #ff5f56, #ffbd2e, #27ca3f);
+      border-radius: 15px 15px 0 0;
+    }
+
+    .demo-visual::after {
+      content: '● ● ●';
+      position: absolute;
+      top: 8px;
+      left: 15px;
+      color: #333;
+      font-size: 12px;
+      letter-spacing: 2px;
+    }
+
+    .demo-code {
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 15px;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-x: auto;
+    }
+
+    .code-line {
+      margin-bottom: 8px;
+    }
+
+    .code-comment {
+      color: #6a9955;
+    }
+
+    .code-keyword {
+      color: #569cd6;
+    }
+
+    .code-string {
+      color: #ce9178;
+    }
+
+    .code-number {
+      color: #b5cea8;
+    }
+
+    /* Interactive Demo */
+    .interactive-demo {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .demo-button {
+      background: linear-gradient(45deg, var(--glow), #0066cc);
+      color: #000;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 10px;
+    }
+
+    .demo-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0, 255, 255, 0.4);
+    }
+
+    .demo-result {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Animation Demo */
+    .animation-demo {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(45deg, #1a1a1a, #2a2a2a);
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+      margin: 25px 0;
+    }
+
+    .animated-element {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(45deg, var(--glow), #0066cc);
+      border-radius: 10px;
+      animation: demoAnimation 3s infinite ease-in-out;
+    }
+
+    @keyframes demoAnimation {
+      0%, 100% { 
+        left: 20px; 
+        top: 50%; 
+        transform: translateY(-50%) rotate(0deg);
+      }
+      25% { 
+        left: calc(100% - 70px); 
+        top: 20px; 
+        transform: translateY(0) rotate(90deg);
+      }
+      50% { 
+        left: calc(100% - 70px); 
+        top: calc(100% - 70px); 
+        transform: translateY(0) rotate(180deg);
+      }
+      75% { 
+        left: 20px; 
+        top: calc(100% - 70px); 
+        transform: translateY(0) rotate(270deg);
+      }
+    }
+
+
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 4rem 0;
+      background: linear-gradient(135deg, #000 0%, #0a0a0a 50%, #000 100%);
+      border-radius: 20px;
+      margin: 4rem 0;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(45deg, var(--glow), #0066cc);
+      color: #000;
+      padding: 15px 30px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 255, 255, 0.4);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      margin-top: 4rem;
+    }
+
+    footer p {
+      color: #ccc;
+      margin-bottom: 0.5rem;
+    }
+
+    footer a {
+      color: var(--glow);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .demo-section {
+        grid-template-columns: 1fr;
+      }
+
+      .solution-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .solution-icon {
+        margin-bottom: 1rem;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .mobile-nav {
+        display: flex;
+      }
+
+      nav {
+        gap: 20px;
+      }
+
+      .linkedin-button {
+        display: none;
+      }
+
+      header {
+        padding: 8px 12px;
+        margin: 0 10px;
+      }
+    }
+
+    /* Mock Demo Enhancements */
+    .mock-demo {
+      background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 25px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .demo-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .demo-status {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .status-ready {
+      background: rgba(0, 255, 0, 0.2);
+      color: #00ff00;
+      border: 1px solid rgba(0, 255, 0, 0.3);
+    }
+
+    .status-processing {
+      background: rgba(255, 165, 0, 0.2);
+      color: #ffa500;
+      border: 1px solid rgba(255, 165, 0, 0.3);
+      animation: pulse 2s infinite;
+    }
+
+    .status-complete {
+      background: rgba(0, 255, 255, 0.2);
+      color: var(--glow);
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+
+    /* File Upload Mock */
+    .file-upload-area {
+      border: 2px dashed rgba(0, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      margin: 20px 0;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .file-upload-area:hover {
+      border-color: var(--glow);
+      background: rgba(0, 255, 255, 0.05);
+    }
+
+    .file-upload-area.dragover {
+      border-color: var(--glow);
+      background: rgba(0, 255, 255, 0.1);
+      transform: scale(1.02);
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.7;
+    }
+
+    .upload-text {
+      color: #ccc;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .upload-hint {
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 10px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--glow), #0066cc);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    /* Processing Steps */
+    .processing-steps {
+      margin: 20px 0;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .step.pending {
+      background: rgba(255, 255, 255, 0.05);
+      color: #888;
+    }
+
+    .step.processing {
+      background: rgba(255, 165, 0, 0.1);
+      color: #ffa500;
+      animation: pulse 2s infinite;
+    }
+
+    .step.complete {
+      background: rgba(0, 255, 0, 0.1);
+      color: #00ff00;
+    }
+
+    .step-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .step.pending .step-icon {
+      background: #333;
+      color: #888;
+    }
+
+    .step.processing .step-icon {
+      background: #ffa500;
+      color: #000;
+    }
+
+    .step.complete .step-icon {
+      background: #00ff00;
+      color: #000;
+    }
+
+    /* Results Display */
+    .results-container {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .result-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .result-item:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      color: #ccc;
+      font-weight: 500;
+    }
+
+    .result-value {
+      color: var(--glow);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    /* Chat Interface */
+    .chat-interface {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 20px;
+      margin: 20px 0;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .chat-message {
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .chat-user {
+      background: rgba(0, 255, 255, 0.2);
+      color: #fff;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .chat-bot {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ccc;
+    }
+
+    .chat-input {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .chat-input input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 10px 15px;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .chat-input input:focus {
+      outline: none;
+      border-color: var(--glow);
+    }
+
+    .chat-send {
+      background: var(--glow);
+      color: #000;
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    /* Dashboard Mock */
+    .dashboard-mock {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--glow);
+      margin-bottom: 5px;
+    }
+
+    .metric-label {
+      color: #ccc;
+      font-size: 0.9rem;
+    }
+
+    .metric-change {
+      font-size: 0.8rem;
+      margin-top: 5px;
+    }
+
+    .change-positive {
+      color: #00ff00;
+    }
+
+    .change-negative {
+      color: #ff4444;
+    }
+
+    /* Animation Keyframes */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.5s ease;
+    }
+
+    /* Form Automation Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #fff;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--glow);
+      background: rgba(0, 255, 255, 0.05);
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+    }
+
+    .form-group input::placeholder {
+      color: #888;
+    }
+
+    .validation-message {
+      font-size: 0.8rem;
+      margin-top: 5px;
+      min-height: 16px;
+    }
+
+    .validation-message.error {
+      color: #ff4444;
+    }
+
+    .validation-message.success {
+      color: #00ff00;
+    }
+
+    .validation-message.info {
+      color: var(--glow);
+    }
+
+    /* Preview Container */
+    .preview-container {
+      background: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .preview-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .preview-item:last-child {
+      border-bottom: none;
+    }
+
+    .preview-label {
+      color: #ccc;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .preview-value {
+      color: var(--glow);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    /* Auto Suggestions */
+    .auto-suggestions {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: rgba(0, 255, 255, 0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    .suggestion-item:hover {
+      background: rgba(0, 255, 255, 0.2);
+      color: #fff;
+      transform: translateX(5px);
+    }
+
+    .suggestion-item span:first-child {
+      font-size: 1.1rem;
+    }
+
+    /* Form Button States */
+    .demo-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #666;
+    }
+
+    .demo-button:disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Input States */
+    .form-group input.valid {
+      border-color: #00ff00;
+      background: rgba(0, 255, 0, 0.05);
+    }
+
+    .form-group input.invalid {
+      border-color: #ff4444;
+      background: rgba(255, 68, 68, 0.05);
+    }
+
+    .form-group input.auto-filled {
+      border-color: var(--glow);
+      background: rgba(0, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Cursor -->
+  <div class="cursor"></div>
+  <div class="cursor-dot"></div>
+
+  <!-- Floating Particles -->
+  <div id="particles" class="particles"></div>
+
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="form.html">Contact</a>
+    </nav>
+    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
+        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
+      </svg>
+      <span style="position: relative; top: 1px;">/MATICStudio</span>
+    </a>
+    <button class="hamburger" onclick="toggleMenu()">
+      ☰
+    </button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="form.html">Contact</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div style="text-align: center; margin-bottom: 40px;">
+        <a href="index.html">
+          <img src="assets/logo.png" alt="MATIC Studio Logo" style="height: 60px; margin-bottom: 20px; filter: brightness(0) invert(1); cursor: pointer; transition: all 0.3s ease;" />
+        </a>
+      </div>
+      <h1>Automation Blueprints & Solutions</h1>
+      <p>Explore real-world automation implementations with interactive demonstrations. See how we transform business processes through intelligent automation, from form processing to workflow management and data analytics.</p>
+    </section>
+
+    <!-- Solution Showcase -->
+    <section class="solution-showcase">
+      
+      <!-- Solution 1: Smart Form Automation -->
+      <div class="solution-card">
+        <div class="solution-header">
+          <div class="solution-icon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+              <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+            </svg>
+          </div>
+          <div>
+            <h2 class="solution-title">Intelligent Form Processing</h2>
+            <p class="solution-description">Streamline data entry with smart validation, auto-completion, and automated workflow integration</p>
+          </div>
+        </div>
+
+        <!-- Enhanced Mock Demo 1: Interactive Form Automation -->
+        <div class="mock-demo">
+          <div class="demo-header">
+            <div class="demo-title">Employee Onboarding Automation</div>
+            <div class="demo-status status-ready" id="form-status">Ready</div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 20px 0;">
+            <!-- Form Input Section -->
+            <div>
+              <h4 style="color: #fff; margin-bottom: 20px;">📝 Employee Onboarding Form</h4>
+              <div class="form-group">
+                <label>Employee Full Name *</label>
+                <input type="text" id="fullName" placeholder="Enter employee's full name" oninput="validateForm()" onblur="autoComplete()">
+                <div class="validation-message" id="name-validation"></div>
+              </div>
+              
+              <div class="form-group">
+                <label>Email Address *</label>
+                <input type="email" id="email" placeholder="Enter email address" oninput="validateForm()" onblur="generateEmail()">
+                <div class="validation-message" id="email-validation"></div>
+              </div>
+              
+              <div class="form-group">
+                <label>Department *</label>
+                <select id="department" onchange="validateForm(); updateManager();">
+                  <option value="">Select Department</option>
+                  <option value="IT">Information Technology</option>
+                  <option value="HR">Human Resources</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Sales">Sales</option>
+                </select>
+                <div class="validation-message" id="dept-validation"></div>
+              </div>
+              
+              <div class="form-group">
+                <label>Start Date *</label>
+                <input type="date" id="startDate" onchange="validateForm(); calculateBenefits()">
+                <div class="validation-message" id="date-validation"></div>
+              </div>
+              
+              <div class="form-group">
+                <label>Salary Range</label>
+                <select id="salaryRange" onchange="validateForm(); updateBenefits()">
+                  <option value="">Select Range</option>
+                  <option value="30-40k">$30,000 - $40,000</option>
+                  <option value="40-50k">$40,000 - $50,000</option>
+                  <option value="50-60k">$50,000 - $60,000</option>
+                  <option value="60-70k">$60,000 - $70,000</option>
+                  <option value="70k+">$70,000+</option>
+                </select>
+              </div>
+              
+              <button class="demo-button" onclick="processForm()" id="submit-btn" disabled>Submit Application</button>
+            </div>
+            
+            <!-- Live Preview Section -->
+            <div>
+              <h4 style="color: #fff; margin-bottom: 20px;">📋 Live Preview & Auto-Generated Data</h4>
+              <div class="preview-container">
+                <div class="preview-item">
+                  <span class="preview-label">Company Email:</span>
+                  <span class="preview-value" id="company-email">Enter name to generate</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-label">Manager:</span>
+                  <span class="preview-value" id="manager-name">Select department</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-label">Employee ID:</span>
+                  <span class="preview-value" id="employee-id">Will be generated</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-label">Benefits Package:</span>
+                  <span class="preview-value" id="benefits-package">Select salary range</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-label">Onboarding Timeline:</span>
+                  <span class="preview-value" id="timeline">Select start date</span>
+                </div>
+                <div class="preview-item">
+                  <span class="preview-label">Required Training:</span>
+                  <span class="preview-value" id="training-list">Department specific</span>
+                </div>
+              </div>
+              
+              <div class="auto-suggestions" id="auto-suggestions" style="display: none;">
+                <h5 style="color: var(--glow); margin-bottom: 10px;">💡 Smart Suggestions</h5>
+                <div class="suggestion-item" onclick="applySuggestion('name')">
+                  <span>📝</span> Complete name format
+                </div>
+                <div class="suggestion-item" onclick="applySuggestion('email')">
+                  <span>📧</span> Use company email domain
+                </div>
+                <div class="suggestion-item" onclick="applySuggestion('department')">
+                  <span>🏢</span> Based on previous hires
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-container" id="form-progress" style="display: none;">
+            <div class="progress-text">
+              <span>Processing onboarding...</span>
+              <span id="form-progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="form-progress-fill"></div>
+            </div>
+          </div>
+
+          <div class="processing-steps" id="form-steps" style="display: none;">
+            <div class="step pending" id="form-step-1">
+              <div class="step-icon">1</div>
+              <div>Data Validation</div>
+            </div>
+            <div class="step pending" id="form-step-2">
+              <div class="step-icon">2</div>
+              <div>Generate Credentials</div>
+            </div>
+            <div class="step pending" id="form-step-3">
+              <div class="step-icon">3</div>
+              <div>Setup Accounts</div>
+            </div>
+            <div class="step pending" id="form-step-4">
+              <div class="step-icon">4</div>
+              <div>Send Welcome Email</div>
+            </div>
+          </div>
+
+          <div class="results-container" id="form-results" style="display: none;">
+            <h4 style="color: var(--glow); margin-bottom: 15px;">✅ Onboarding Complete!</h4>
+            <div class="result-item">
+              <span class="result-label">Employee ID:</span>
+              <span class="result-value">EMP-2024-001</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Email Created:</span>
+              <span class="result-value">john.doe@company.com</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Slack Invite:</span>
+              <span class="result-value">Sent to john.doe@company.com</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Training Assigned:</span>
+              <span class="result-value">3 courses in Learning Management System</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Welcome Email:</span>
+              <span class="result-value">Scheduled for 9:00 AM on start date</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Next Steps:</span>
+              <span class="result-value">Manager notified, calendar invites sent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- Enhanced Mock Demo 2: Workflow Automation -->
+        <div class="mock-demo">
+          <div class="demo-header">
+            <div class="demo-title">Approval Workflow</div>
+            <div class="demo-status status-ready" id="workflow-status">Ready</div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+            <div>
+              <h4 style="color: #fff; margin-bottom: 15px;">📝 Request Details</h4>
+              <div class="result-item">
+                <span class="result-label">Request ID:</span>
+                <span class="result-value">REQ-2024-045</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Requester:</span>
+                <span class="result-value">john.doe@company.com</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Amount:</span>
+                <span class="result-value">$15,000.00</span>
+              </div>
+              <div class="result-item">
+                <span class="result-label">Category:</span>
+                <span class="result-value">Equipment Purchase</span>
+              </div>
+            </div>
+            <div>
+              <h4 style="color: #fff; margin-bottom: 15px;">🔄 Workflow Status</h4>
+              <div class="processing-steps">
+                <div class="step complete" id="wf-step-1">
+                  <div class="step-icon">✓</div>
+                  <div>Request Submitted</div>
+                </div>
+                <div class="step pending" id="wf-step-2">
+                  <div class="step-icon">2</div>
+                  <div>Manager Approval</div>
+                </div>
+                <div class="step pending" id="wf-step-3">
+                  <div class="step-icon">3</div>
+                  <div>Finance Review</div>
+                </div>
+                <div class="step pending" id="wf-step-4">
+                  <div class="step-icon">4</div>
+                  <div>Purchase Order</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin: 20px 0;">
+            <button class="demo-button" onclick="startWorkflowDemo()">Start Workflow</button>
+            <button class="demo-button" onclick="approveWorkflow()">Approve Request</button>
+            <button class="demo-button" onclick="rejectWorkflow()">Reject Request</button>
+          </div>
+
+          <div class="results-container" id="workflow-results" style="display: none;">
+            <h4 style="color: var(--glow); margin-bottom: 15px;">📧 Notifications Sent</h4>
+            <div class="result-item">
+              <span class="result-label">To Manager:</span>
+              <span class="result-value">sarah.manager@company.com</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">To Requester:</span>
+              <span class="result-value">john.doe@company.com</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">System Log:</span>
+              <span class="result-value">Status updated in SharePoint</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Mock Demo 3: Dashboard -->
+        <div class="mock-demo">
+          <div class="demo-header">
+            <div class="demo-title">Real-time Dashboard</div>
+            <div class="demo-status status-ready" id="dashboard-status">Live</div>
+          </div>
+
+          <div class="dashboard-mock">
+            <div class="metric-card">
+              <div class="metric-value">$45,230</div>
+              <div class="metric-label">Total Sales</div>
+              <div class="metric-change change-positive">+12.5% vs last month</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">$28,450</div>
+              <div class="metric-label">Total Expenses</div>
+              <div class="metric-change change-negative">-3.2% vs last month</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">37.1%</div>
+              <div class="metric-label">Profit Margin</div>
+              <div class="metric-change change-positive">+2.1% vs last month</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">156</div>
+              <div class="metric-label">Active Orders</div>
+              <div class="metric-change change-positive">+8 new today</div>
+            </div>
+          </div>
+
+          <div style="text-align: center; margin: 20px 0;">
+            <button class="demo-button" onclick="refreshDashboard()">🔄 Refresh Data</button>
+            <button class="demo-button" onclick="exportDashboard()">📊 Export Report</button>
+            <button class="demo-button" onclick="scheduleReport()">📅 Schedule Report</button>
+          </div>
+
+          <div class="results-container" id="dashboard-results" style="display: none;">
+            <h4 style="color: var(--glow); margin-bottom: 15px;">📈 Data Update</h4>
+            <div class="result-item">
+              <span class="result-label">Last Updated:</span>
+              <span class="result-value" id="update-time">Just now</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Data Source:</span>
+              <span class="result-value">SQL Server, Excel, APIs</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Next Refresh:</span>
+              <span class="result-value">In 5 minutes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Enhanced Mock Demo 4: Chatbot -->
+        <div class="mock-demo">
+          <div class="demo-header">
+            <div class="demo-title">AI Chatbot Assistant</div>
+            <div class="demo-status status-ready" id="chatbot-status">Online</div>
+          </div>
+
+          <div class="chat-interface" id="chat-interface">
+            <div class="chat-message chat-bot">
+              👋 Hello! I'm your AI assistant. How can I help you today? I can help with order status, refunds, product information, and more.
+            </div>
+          </div>
+
+          <div class="chat-input">
+            <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatInput(event)">
+            <button class="chat-send" onclick="sendChatMessage()">➤</button>
+          </div>
+
+          <div style="text-align: center; margin: 20px 0;">
+            <button class="demo-button" onclick="quickQuestion('order status')">📦 Check Order Status</button>
+            <button class="demo-button" onclick="quickQuestion('refund')">💰 Request Refund</button>
+            <button class="demo-button" onclick="quickQuestion('product')">🛍️ Product Info</button>
+          </div>
+        </div>
+
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(45deg, #fff, var(--glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+        Ready to Implement?
+      </h2>
+      <p style="font-size: 1.2rem; color: #ccc; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+        These are just samples of what we can build. Let's discuss your specific automation needs and create a custom solution for your business.
+      </p>
+      <a href="form.html" class="cta-button">
+        Start Your Automation Project →
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"/>
+        </svg>
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 MATIC Studio. All rights reserved.</p>
+    <p><a href="policy.html">Company Policy</a> | <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize the page
+    });
+
+    // Custom Cursor
+    const cursor = document.querySelector('.cursor');
+    const cursorDot = document.querySelector('.cursor-dot');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorDot.style.left = e.clientX + 'px';
+      cursorDot.style.top = e.clientY + 'px';
+    });
+
+    // Cursor hover effects
+    const interactiveElements = document.querySelectorAll('a, button, .solution-card');
+    
+    interactiveElements.forEach(element => {
+      element.addEventListener('mouseenter', () => {
+        cursor.classList.add('hover');
+      });
+      
+      element.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hover');
+      });
+    });
+
+    // Floating Particles
+    function createParticle() {
+      const particlesContainer = document.getElementById('particles');
+      const particle = document.createElement('div');
+      particle.className = 'particle';
+      
+      particle.style.left = Math.random() * 100 + '%';
+      particle.style.animationDelay = Math.random() * 6 + 's';
+      particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      
+      particlesContainer.appendChild(particle);
+      
+      setTimeout(() => {
+        if (particle.parentNode) {
+          particle.parentNode.removeChild(particle);
+        }
+      }, 8000);
+    }
+
+    setInterval(createParticle, 2000);
+    
+    for (let i = 0; i < 10; i++) {
+      setTimeout(createParticle, i * 200);
+    }
+
+    // Enhanced Mock Demo Functions
+    function uploadDocument() {
+      const status = document.getElementById('doc-status');
+      const progressContainer = document.getElementById('progress-container');
+      const processingSteps = document.getElementById('processing-steps');
+      const resultsContainer = document.getElementById('results-container');
+      const progressFill = document.getElementById('progress-fill');
+      const progressPercent = document.getElementById('progress-percent');
+
+      // Update status
+      status.textContent = 'Processing';
+      status.className = 'demo-status status-processing';
+
+      // Show progress
+      progressContainer.style.display = 'block';
+      processingSteps.style.display = 'block';
+
+      // Simulate processing steps
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 2;
+        progressFill.style.width = progress + '%';
+        progressPercent.textContent = progress + '%';
+
+        // Update steps based on progress
+        if (progress >= 25) {
+          document.getElementById('step-ocr').className = 'step complete';
+          document.getElementById('step-ocr').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 50) {
+          document.getElementById('step-ai').className = 'step complete';
+          document.getElementById('step-ai').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 75) {
+          document.getElementById('step-validate').className = 'step complete';
+          document.getElementById('step-validate').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 100) {
+          document.getElementById('step-save').className = 'step complete';
+          document.getElementById('step-save').querySelector('.step-icon').textContent = '✓';
+          
+          // Show results
+          setTimeout(() => {
+            status.textContent = 'Complete';
+            status.className = 'demo-status status-complete';
+            resultsContainer.style.display = 'block';
+            resultsContainer.classList.add('slide-in');
+          }, 500);
+          
+          clearInterval(interval);
+        }
+      }, 50);
+    }
+
+    // Form Automation Functions
+    function validateForm() {
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const department = document.getElementById('department').value;
+      const startDate = document.getElementById('startDate').value;
+      const submitBtn = document.getElementById('submit-btn');
+      
+      let isValid = true;
+      
+      // Name validation
+      const nameValidation = document.getElementById('name-validation');
+      const nameInput = document.getElementById('fullName');
+      if (name.length < 2) {
+        nameValidation.textContent = 'Name must be at least 2 characters';
+        nameValidation.className = 'validation-message error';
+        nameInput.className = 'invalid';
+        isValid = false;
+      } else if (!/^[a-zA-Z\s]+$/.test(name)) {
+        nameValidation.textContent = 'Name should only contain letters and spaces';
+        nameValidation.className = 'validation-message error';
+        nameInput.className = 'invalid';
+        isValid = false;
+      } else {
+        nameValidation.textContent = '✓ Valid name format';
+        nameValidation.className = 'validation-message success';
+        nameInput.className = 'valid';
+      }
+      
+      // Email validation
+      const emailValidation = document.getElementById('email-validation');
+      const emailInput = document.getElementById('email');
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        emailValidation.textContent = 'Please enter a valid email address';
+        emailValidation.className = 'validation-message error';
+        emailInput.className = 'invalid';
+        isValid = false;
+      } else {
+        emailValidation.textContent = '✓ Valid email format';
+        emailValidation.className = 'validation-message success';
+        emailInput.className = 'valid';
+      }
+      
+      // Department validation
+      const deptValidation = document.getElementById('dept-validation');
+      const deptInput = document.getElementById('department');
+      if (!department) {
+        deptValidation.textContent = 'Please select a department';
+        deptValidation.className = 'validation-message error';
+        deptInput.className = 'invalid';
+        isValid = false;
+      } else {
+        deptValidation.textContent = '✓ Department selected';
+        deptValidation.className = 'validation-message success';
+        deptInput.className = 'valid';
+      }
+      
+      // Date validation
+      const dateValidation = document.getElementById('date-validation');
+      const dateInput = document.getElementById('startDate');
+      if (!startDate) {
+        dateValidation.textContent = 'Please select a start date';
+        dateValidation.className = 'validation-message error';
+        dateInput.className = 'invalid';
+        isValid = false;
+      } else {
+        const selectedDate = new Date(startDate);
+        const today = new Date();
+        if (selectedDate < today) {
+          dateValidation.textContent = 'Start date cannot be in the past';
+          dateValidation.className = 'validation-message error';
+          dateInput.className = 'invalid';
+          isValid = false;
+        } else {
+          dateValidation.textContent = '✓ Valid start date';
+          dateValidation.className = 'validation-message success';
+          dateInput.className = 'valid';
+        }
+      }
+      
+      // Enable/disable submit button
+      submitBtn.disabled = !isValid;
+      
+      return isValid;
+    }
+
+    function autoComplete() {
+      const name = document.getElementById('fullName').value.trim();
+      const suggestions = document.getElementById('auto-suggestions');
+      
+      if (name.length > 0 && name.length < 3) {
+        suggestions.style.display = 'block';
+      } else {
+        suggestions.style.display = 'none';
+      }
+    }
+
+    function generateEmail() {
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      
+      if (name && !email) {
+        const nameParts = name.toLowerCase().split(' ');
+        const suggestedEmail = `${nameParts[0]}.${nameParts[nameParts.length - 1]}@company.com`;
+        document.getElementById('company-email').textContent = suggestedEmail;
+      } else if (email) {
+        document.getElementById('company-email').textContent = email;
+      }
+    }
+
+    function updateManager() {
+      const department = document.getElementById('department').value;
+      const managerMap = {
+        'IT': 'Sarah Johnson (IT Director)',
+        'HR': 'Mike Chen (HR Manager)',
+        'Finance': 'Lisa Rodriguez (Finance Director)',
+        'Marketing': 'David Kim (Marketing Manager)',
+        'Sales': 'Jennifer Smith (Sales Director)'
+      };
+      
+      if (department) {
+        document.getElementById('manager-name').textContent = managerMap[department];
+        updateTrainingList(department);
+      } else {
+        document.getElementById('manager-name').textContent = 'Select department';
+      }
+    }
+
+    function updateTrainingList(department) {
+      const trainingMap = {
+        'IT': 'Cybersecurity, System Access, Development Tools',
+        'HR': 'Employee Policies, HRIS System, Compliance Training',
+        'Finance': 'Financial Systems, Expense Policies, Budget Tools',
+        'Marketing': 'Brand Guidelines, Marketing Tools, Analytics Platform',
+        'Sales': 'CRM System, Sales Process, Product Training'
+      };
+      
+      document.getElementById('training-list').textContent = trainingMap[department] || 'Department specific';
+    }
+
+    function calculateBenefits() {
+      const startDate = document.getElementById('startDate').value;
+      if (startDate) {
+        const date = new Date(startDate);
+        const timeline = `Week 1: Orientation, Week 2: Training, Week 3: Shadowing, Week 4: Independent Work`;
+        document.getElementById('timeline').textContent = timeline;
+      }
+    }
+
+    function updateBenefits() {
+      const salaryRange = document.getElementById('salaryRange').value;
+      const benefitsMap = {
+        '30-40k': 'Basic Health, 401k (3% match), 15 PTO days',
+        '40-50k': 'Premium Health, 401k (5% match), 20 PTO days',
+        '50-60k': 'Premium Health + Dental, 401k (6% match), 25 PTO days',
+        '60-70k': 'Premium Health + Dental + Vision, 401k (8% match), 30 PTO days',
+        '70k+': 'Executive Benefits Package, 401k (10% match), Unlimited PTO'
+      };
+      
+      if (salaryRange) {
+        document.getElementById('benefits-package').textContent = benefitsMap[salaryRange];
+      } else {
+        document.getElementById('benefits-package').textContent = 'Select salary range';
+      }
+    }
+
+    function applySuggestion(type) {
+      switch(type) {
+        case 'name':
+          document.getElementById('fullName').value = 'John Doe';
+          validateForm();
+          generateEmail();
+          break;
+        case 'email':
+          document.getElementById('email').value = 'john.doe@company.com';
+          validateForm();
+          break;
+        case 'department':
+          document.getElementById('department').value = 'IT';
+          validateForm();
+          updateManager();
+          break;
+      }
+      
+      document.getElementById('auto-suggestions').style.display = 'none';
+    }
+
+    function processForm() {
+      if (!validateForm()) return;
+      
+      const status = document.getElementById('form-status');
+      const progressContainer = document.getElementById('form-progress');
+      const processingSteps = document.getElementById('form-steps');
+      const resultsContainer = document.getElementById('form-results');
+      const progressFill = document.getElementById('form-progress-fill');
+      const progressPercent = document.getElementById('form-progress-percent');
+      
+      // Update status
+      status.textContent = 'Processing';
+      status.className = 'demo-status status-processing';
+      
+      // Show progress
+      progressContainer.style.display = 'block';
+      processingSteps.style.display = 'block';
+      
+      // Generate employee ID
+      const employeeId = 'EMP-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+      document.getElementById('employee-id').textContent = employeeId;
+      
+      // Simulate processing
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += 2;
+        progressFill.style.width = progress + '%';
+        progressPercent.textContent = progress + '%';
+        
+        // Update steps based on progress
+        if (progress >= 25) {
+          document.getElementById('form-step-1').className = 'step complete';
+          document.getElementById('form-step-1').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 50) {
+          document.getElementById('form-step-2').className = 'step complete';
+          document.getElementById('form-step-2').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 75) {
+          document.getElementById('form-step-3').className = 'step complete';
+          document.getElementById('form-step-3').querySelector('.step-icon').textContent = '✓';
+        }
+        if (progress >= 100) {
+          document.getElementById('form-step-4').className = 'step complete';
+          document.getElementById('form-step-4').querySelector('.step-icon').textContent = '✓';
+          
+          // Show results
+          setTimeout(() => {
+            status.textContent = 'Complete';
+            status.className = 'demo-status status-complete';
+            resultsContainer.style.display = 'block';
+            resultsContainer.classList.add('slide-in');
+            
+            // Update results with actual form data
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const nameParts = name.toLowerCase().split(' ');
+            const companyEmail = `${nameParts[0]}.${nameParts[nameParts.length - 1]}@company.com`;
+            
+            document.querySelector('#form-results .result-item:nth-child(2) .result-value').textContent = companyEmail;
+            document.querySelector('#form-results .result-item:nth-child(3) .result-value').textContent = `Sent to ${companyEmail}`;
+          }, 500);
+          
+          clearInterval(interval);
+        }
+      }, 50);
+    }
+
+    // Workflow Demo Functions
+    function startWorkflowDemo() {
+      const status = document.getElementById('workflow-status');
+      const results = document.getElementById('workflow-results');
+      
+      status.textContent = 'Processing';
+      status.className = 'demo-status status-processing';
+      
+      // Simulate workflow progression
+      setTimeout(() => {
+        document.getElementById('wf-step-2').className = 'step processing';
+        document.getElementById('wf-step-2').querySelector('.step-icon').textContent = '⏳';
+      }, 1000);
+      
+      setTimeout(() => {
+        document.getElementById('wf-step-2').className = 'step complete';
+        document.getElementById('wf-step-2').querySelector('.step-icon').textContent = '✓';
+        document.getElementById('wf-step-3').className = 'step processing';
+        document.getElementById('wf-step-3').querySelector('.step-icon').textContent = '⏳';
+      }, 3000);
+      
+      setTimeout(() => {
+        document.getElementById('wf-step-3').className = 'step complete';
+        document.getElementById('wf-step-3').querySelector('.step-icon').textContent = '✓';
+        document.getElementById('wf-step-4').className = 'step processing';
+        document.getElementById('wf-step-4').querySelector('.step-icon').textContent = '⏳';
+      }, 5000);
+      
+      setTimeout(() => {
+        document.getElementById('wf-step-4').className = 'step complete';
+        document.getElementById('wf-step-4').querySelector('.step-icon').textContent = '✓';
+        status.textContent = 'Complete';
+        status.className = 'demo-status status-complete';
+        results.style.display = 'block';
+        results.classList.add('slide-in');
+      }, 7000);
+    }
+
+    function approveWorkflow() {
+      const status = document.getElementById('workflow-status');
+      status.textContent = 'Approved';
+      status.className = 'demo-status status-complete';
+      
+      // Update workflow steps
+      document.getElementById('wf-step-2').className = 'step complete';
+      document.getElementById('wf-step-2').querySelector('.step-icon').textContent = '✓';
+      
+      const results = document.getElementById('workflow-results');
+      results.style.display = 'block';
+      results.classList.add('slide-in');
+    }
+
+    function rejectWorkflow() {
+      const status = document.getElementById('workflow-status');
+      status.textContent = 'Rejected';
+      status.className = 'demo-status status-processing';
+      
+      // Reset workflow
+      setTimeout(() => {
+        status.textContent = 'Ready';
+        status.className = 'demo-status status-ready';
+        document.getElementById('wf-step-2').className = 'step pending';
+        document.getElementById('wf-step-2').querySelector('.step-icon').textContent = '2';
+        document.getElementById('workflow-results').style.display = 'none';
+      }, 2000);
+    }
+
+    // Demo Functions
+    function processDocument() {
+      const result = document.getElementById('document-result');
+      result.innerHTML = '📄 Processing invoice...<br>✅ Extracted: Invoice #INV-2024-001<br>✅ Amount: $1,250.00<br>✅ Vendor: ABC Supplies<br>✅ Date: 2024-01-15';
+    }
+
+    function startWorkflow() {
+      const result = document.getElementById('workflow-result');
+      result.innerHTML = '🔄 Starting approval workflow...<br>📧 Email sent to manager@company.com<br>⏳ Waiting for approval...';
+    }
+
+    function approveRequest() {
+      const result = document.getElementById('workflow-result');
+      result.innerHTML = '✅ Request approved!<br>📋 Status updated in system<br>📧 Notification sent to requester';
+    }
+
+    function rejectWorkflow() {
+      const status = document.getElementById('workflow-status');
+      status.textContent = 'Rejected';
+      status.className = 'demo-status status-processing';
+      
+      // Reset workflow
+      setTimeout(() => {
+        status.textContent = 'Ready';
+        status.className = 'demo-status status-ready';
+        document.getElementById('wf-step-2').className = 'step pending';
+        document.getElementById('wf-step-2').querySelector('.step-icon').textContent = '2';
+        document.getElementById('workflow-results').style.display = 'none';
+      }, 2000);
+    }
+
+    function refreshDashboard() {
+      const status = document.getElementById('dashboard-status');
+      const results = document.getElementById('dashboard-results');
+      
+      status.textContent = 'Refreshing';
+      status.className = 'demo-status status-processing';
+      
+      // Update metrics with animation
+      const metrics = document.querySelectorAll('.metric-value');
+      metrics.forEach((metric, index) => {
+        setTimeout(() => {
+          metric.style.transform = 'scale(1.1)';
+          setTimeout(() => {
+            metric.style.transform = 'scale(1)';
+          }, 200);
+        }, index * 200);
+      });
+      
+      setTimeout(() => {
+        status.textContent = 'Live';
+        status.className = 'demo-status status-ready';
+        results.style.display = 'block';
+        results.classList.add('slide-in');
+        
+        // Update time
+        const now = new Date();
+        document.getElementById('update-time').textContent = now.toLocaleTimeString();
+      }, 2000);
+    }
+
+    function exportDashboard() {
+      const status = document.getElementById('dashboard-status');
+      status.textContent = 'Exporting';
+      status.className = 'demo-status status-processing';
+      
+      setTimeout(() => {
+        status.textContent = 'Live';
+        status.className = 'demo-status status-ready';
+        alert('📊 Dashboard exported successfully!\n\nFile: Dashboard_Report_2024.pdf\nSize: 2.3 MB\nLocation: Downloads folder');
+      }, 1500);
+    }
+
+    function scheduleReport() {
+      const status = document.getElementById('dashboard-status');
+      status.textContent = 'Scheduling';
+      status.className = 'demo-status status-processing';
+      
+      setTimeout(() => {
+        status.textContent = 'Live';
+        status.className = 'demo-status status-ready';
+        alert('📅 Report scheduled successfully!\n\nFrequency: Weekly\nDay: Every Monday\nTime: 9:00 AM\nRecipients: management@company.com');
+      }, 1500);
+    }
+
+    // Chatbot Functions
+    function handleChatInput(event) {
+      if (event.key === 'Enter') {
+        sendChatMessage();
+      }
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      
+      if (message) {
+        addChatMessage(message, 'user');
+        input.value = '';
+        
+        // Simulate bot response
+        setTimeout(() => {
+          const botResponse = generateBotResponse(message);
+          addChatMessage(botResponse, 'bot');
+        }, 1000);
+      }
+    }
+
+    function addChatMessage(message, sender) {
+      const chatInterface = document.getElementById('chat-interface');
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `chat-message chat-${sender}`;
+      messageDiv.textContent = message;
+      messageDiv.classList.add('slide-in');
+      
+      chatInterface.appendChild(messageDiv);
+      chatInterface.scrollTop = chatInterface.scrollHeight;
+    }
+
+    function generateBotResponse(message) {
+      const lowerMessage = message.toLowerCase();
+      
+      if (lowerMessage.includes('order') || lowerMessage.includes('status')) {
+        return '📦 I can help you check your order status. I found 3 recent orders:\n\n1. Order #ORD-2024-001 - Delivered (Jan 15)\n2. Order #ORD-2024-002 - In Transit (Jan 20)\n3. Order #ORD-2024-003 - Processing (Jan 22)\n\nWhich order would you like to know more about?';
+      } else if (lowerMessage.includes('refund') || lowerMessage.includes('return')) {
+        return '💰 I can help you with refunds. To process a refund, I need:\n\n• Order number\n• Reason for return\n• Item condition\n\nPlease provide your order number to get started.';
+      } else if (lowerMessage.includes('product') || lowerMessage.includes('info')) {
+        return '🛍️ I can provide product information. What specific product are you looking for? I can help with:\n\n• Product specifications\n• Pricing\n• Availability\n• Reviews';
+      } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+        return '👋 Hello! How can I assist you today? I can help with orders, refunds, product information, and more.';
+      } else {
+        return 'I understand you\'re asking about "' + message + '". Let me connect you with a human agent who can better assist you with this specific request.';
+      }
+    }
+
+    function quickQuestion(type) {
+      let question = '';
+      switch(type) {
+        case 'order status':
+          question = 'What\'s the status of my recent orders?';
+          break;
+        case 'refund':
+          question = 'I need to request a refund for order #ORD-2024-002';
+          break;
+        case 'product':
+          question = 'Can you tell me about the latest product features?';
+          break;
+      }
+      
+      if (question) {
+        addChatMessage(question, 'user');
+        setTimeout(() => {
+          const botResponse = generateBotResponse(question);
+          addChatMessage(botResponse, 'bot');
+        }, 1000);
+      }
+    }
+
+    // File upload drag and drop
+    document.addEventListener('DOMContentLoaded', function() {
+      const uploadArea = document.getElementById('upload-area');
+      
+      uploadArea.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        uploadArea.classList.add('dragover');
+      });
+      
+      uploadArea.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+      });
+      
+      uploadArea.addEventListener('drop', function(e) {
+        e.preventDefault();
+        uploadArea.classList.remove('dragover');
+        uploadDocument();
+      });
+    });
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
