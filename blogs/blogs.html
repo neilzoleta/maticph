@@ -216,7 +216,8 @@
     }
 
     .blog-card:hover {
-      transform: scale(1.02);
+      transform: scale(1.02) rotateX(2deg);
+      box-shadow: 0 15px 35px rgba(0, 255, 255, 0.2);
     }
 
     .blog-image {
@@ -224,7 +225,12 @@
       height: 100%;
       object-fit: cover;
       display: block;
-      transition: opacity 0.3s ease;
+      transition: all 0.3s ease;
+      filter: brightness(1);
+    }
+
+    .blog-card:hover .blog-image {
+      filter: brightness(0.05);
     }
 
     .blog-overlay {
