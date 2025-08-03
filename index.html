@@ -1200,8 +1200,8 @@
     }
 
     .team-card:hover {
-      transform: translateY(-10px) rotateY(5deg);
-      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+      transform: translateY(-10px) rotateY(5deg) scale(1.05);
+      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
     }
 
     .team-card::before {
@@ -1227,6 +1227,13 @@
       aspect-ratio: 1/1;
       object-fit: cover;
       display: block;
+      transition: all 0.3s ease;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .team-card:hover .team-img {
+      filter: brightness(1.1) contrast(1.1);
+      transform: scale(1.02);
     }
 
     .team-role {
@@ -2255,19 +2262,19 @@
     <div class="team-wrapper">
       <a href="https://www.linkedin.com/in/zoletanm/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
         <div class="team-card">
-          <video class="team-img" src="assets/team/neil.MOV" autoplay muted loop playsinline></video>
+          <video class="team-img" src="assets/team/neil.MOV" muted loop playsinline></video>
           <div class="team-role">Neil Zoleta<br><span style="font-weight: 400;">Lead Architect, Founder</span></div>
         </div>
       </a>
       <a href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
         <div class="team-card">
-          <video class="team-img" src="assets/team/shiela.MOV" autoplay muted loop playsinline></video>
+          <video class="team-img" src="assets/team/shiela.MOV" muted loop playsinline></video>
           <div class="team-role">Shiela Joyce Canent<br><span style="font-weight: 400;">Chief Engineer, Partner</span></div>
         </div>
       </a>
       <a href="https://www.linkedin.com/in/norjane-grace-toriaga-b24a21203/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
         <div class="team-card">
-          <video class="team-img" src="assets/team/jane.MOV" autoplay muted loop playsinline></video>
+          <video class="team-img" src="assets/team/jane.MOV" muted loop playsinline></video>
           <div class="team-role">Jane Toriaga<br><span style="font-weight: 400;">Chief Engineer, Partner</span></div>
         </div>
       </a>
@@ -2817,6 +2824,38 @@
               element.style.transform = element.style.transform.replace(` translateY(-${riseAmount}px)`, '');
             }, duration);
           }, 6000 + index * 800);
+        });
+
+        // Team Card Video Hover Interactions
+        const teamCards = document.querySelectorAll('.team-card');
+        teamCards.forEach(card => {
+          const video = card.querySelector('.team-img');
+          
+          if (video) {
+            // Pause video initially
+            video.pause();
+            
+            // Play video on hover
+            card.addEventListener('mouseenter', () => {
+              video.play().catch(e => console.log('Video play failed:', e));
+              card.style.transform = 'scale(1.05) rotateY(5deg)';
+            });
+            
+            // Pause video on mouse leave
+            card.addEventListener('mouseleave', () => {
+              video.pause();
+              video.currentTime = 0; // Reset to beginning
+              card.style.transform = 'scale(1) rotateY(0deg)';
+            });
+            
+            // Add click effect
+            card.addEventListener('click', () => {
+              card.style.transform = 'scale(0.95) rotateY(10deg)';
+              setTimeout(() => {
+                card.style.transform = 'scale(1.05) rotateY(5deg)';
+              }, 150);
+            });
+          }
         });
       }
     });
