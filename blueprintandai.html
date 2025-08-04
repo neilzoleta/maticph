@@ -189,6 +189,14 @@
     }
 
     /* Mobile Navigation */
+    .mobile-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      display: none;
+    }
+
     .hamburger {
       display: none;
       background: none;
@@ -197,7 +205,16 @@
       color: white;
       cursor: pointer;
       z-index: 1001;
+      flex-direction: column;
+      gap: 5px;
       margin-left: auto;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white !important;
+      transition: 0.3s;
     }
 
     .mobile-nav {
@@ -213,6 +230,21 @@
       border-radius: 16px;
       backdrop-filter: blur(20px);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 1001;
+    }
+
+    .mobile-nav a {
+      margin: 10px 0;
+      font-size: 1rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .mobile-nav a:hover {
+      color: var(--hover);
     }
 
     .mobile-nav a {
@@ -547,12 +579,16 @@
         margin-bottom: 1rem;
       }
 
+      header {
+        display: none;
+      }
+
       .hamburger {
-        display: block;
+        display: none;
       }
 
       .mobile-nav {
-        display: flex;
+        display: none;
       }
 
       nav {
@@ -562,10 +598,15 @@
       .linkedin-button {
         display: none;
       }
-
+    }
+    
+    /* Stronger rule for header hiding on small viewports */
+    @media screen and (max-width: 768px) {
       header {
-        padding: 8px 12px;
-        margin: 0 10px;
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
       }
     }
 
@@ -1090,6 +1131,19 @@
       <a href="form.html">Contact</a>
     </div>
   </header>
+
+  <!-- Mobile Navigation Container -->
+  <div class="mobile-container">
+    <button class="hamburger" onclick="toggleMenu()">
+      ☰
+    </button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="workshop.html">Workshop</a>
+      <a href="blogs.html">Blogs</a>
+      <a href="form.html">Contact</a>
+    </div>
+  </div>
 
   <!-- Main Content -->
   <main>
@@ -2071,7 +2125,7 @@
     // Mobile menu toggle
     function toggleMenu() {
       const mobileNav = document.getElementById('mobileNav');
-      mobileNav.classList.toggle('active');
+      mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
     }
   </script>
 </body>

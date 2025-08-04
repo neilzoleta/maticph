@@ -193,6 +193,14 @@
     }
 
     /* Mobile Navigation */
+    .mobile-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      display: none;
+    }
+
     .hamburger {
       display: none;
       background: none;
@@ -201,7 +209,16 @@
       color: white;
       cursor: pointer;
       z-index: 1001;
+      flex-direction: column;
+      gap: 5px;
       margin-left: auto;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background-color: white !important;
+      transition: 0.3s;
     }
 
     .mobile-nav {
@@ -307,16 +324,36 @@
         display: none;
       }
 
-      .hamburger {
-        display: block;
-      }
-
-      nav {
+      header {
         display: none;
       }
 
-      .mobile-nav.show {
-        display: flex;
+      .mobile-container {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+      }
+
+      .hamburger {
+        display: none;
+      }
+    }
+    
+    /* Stronger rule for header hiding on small viewports */
+    @media screen and (max-width: 768px) {
+      header {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
+      }
+      
+      .mobile-container {
+        display: none !important;
+        visibility: hidden;
+        height: 0;
+        overflow: hidden;
       }
     }
 
@@ -395,6 +432,19 @@
       <a href="index.html#contact">Contact Us</a>
     </div>
   </header>
+
+  <!-- Mobile Navigation Container -->
+  <div class="mobile-container">
+    <button class="hamburger" onclick="toggleMenu()">
+      ☰
+    </button>
+    <div class="mobile-nav" id="mobileNav">
+      <a href="aboutmatic.html">Who We Are</a>
+      <a href="index.html#team">Team</a>
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#contact">Contact Us</a>
+    </div>
+  </div>
 
   <main>
     <div style="text-align: center; margin-top: 120px; margin-bottom: 80px;">
@@ -762,8 +812,8 @@
   });
 
   function toggleMenu() {
-    const nav = document.getElementById('mobileNav');
-    nav.classList.toggle('show');
+    const mobileNav = document.getElementById('mobileNav');
+    mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
   }
 
   // Custom Cursor
