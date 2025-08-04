@@ -611,12 +611,144 @@
     }
 
     .hero-title {
-      font-size: 4rem;
-      font-weight: 500;
-      color: white;
-      margin-bottom: 20px;
-      text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-      animation: title-glow 3s infinite ease-in-out;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .changing-word {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--glow);
+      transition: opacity 0.5s ease;
+      display: inline-block;
+    }
+
+    /* Enhanced FIDS-style Animation */
+    .fids-container {
+      display: inline-block;
+      height: 4.5rem;
+      overflow: hidden;
+      position: relative;
+      background: transparent;
+      border: none;
+      padding: 0 10px;
+      box-shadow: none;
+    }
+
+    .fids-scroll {
+      animation: fidsScroll 8s ease-in-out infinite;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fids-item {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      color: var(--glow);
+      height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      font-size: 3.5rem;
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      opacity: 0.8;
+    }
+
+    .fids-item:nth-child(3) {
+      font-size: 3rem;
+    }
+
+    .fids-item.active {
+      opacity: 1;
+      text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.8);
+      transform: scale(1.02);
+    }
+
+    /* Style for the "that actually works" text */
+    .hero-title span {
+      color: #fff;
+      font-size: 3.5rem;
+      font-weight: 400;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      z-index: 10;
+    }
+
+    /* Enhanced typography for better readability */
+    .fids-item {
+      letter-spacing: 0.02em;
+      font-feature-settings: "liga" 1, "kern" 1;
+    }
+
+    /* Smooth scrolling animation with proper timing */
+    @keyframes fidsScroll {
+      0%, 28% {
+        transform: translateY(0);
+      }
+      30%, 58% {
+        transform: translateY(-4.5rem);
+      }
+      60%, 88% {
+        transform: translateY(-9rem);
+      }
+      90%, 100% {
+        transform: translateY(-13.5rem);
+      }
+    }
+
+    /* Enhanced glow effect for active item */
+    .fids-item.active {
+      text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.8);
+      transform: scale(1.02);
+    }
+
+    /* FIDS container glow pulse */
+    .fids-container {
+      /* Removed glow animation for subtlety */
+    }
+
+    @keyframes fidsGlow {
+      0%, 100% {
+        box-shadow: none;
+      }
+      50% {
+        box-shadow: none;
+      }
+    }
+
+    /* Special styling for multi-word items like "AI Enablement" */
+    .fids-item:nth-child(3) {
+      font-size: 3rem; /* Slightly smaller to accommodate longer text */
+      letter-spacing: 0.01em;
+    }
+
+    /* Smooth transition for container width adjustments */
+    .fids-container {
+      transition: all 0.3s ease;
+    }
+
+    /* Enhanced hover effects */
+    .fids-container:hover {
+      background: rgba(0, 255, 255, 0.08);
+      border-color: rgba(0, 255, 255, 0.4);
+      transform: scale(1.02);
+    }
+
+    .fids-container:hover .fids-item {
+      text-shadow: 0 0 25px rgba(0, 255, 255, 1), 0 0 35px rgba(0, 255, 255, 0.9);
+    }
+
+    /* Loading animation for FIDS */
+    .fids-container::after {
+      display: none;
     }
 
     .hero-description {
@@ -1618,6 +1750,42 @@
         gap: 10px;
       }
 
+      /* Mobile FIDS animation adjustments */
+      .fids-container {
+        height: 3.5rem;
+        padding: 0 8px;
+      }
+
+      .fids-item {
+        height: 3.5rem;
+        font-size: 2.5rem;
+      }
+
+      .fids-item:nth-child(3) {
+        font-size: 2.2rem;
+      }
+
+      @keyframes fidsScroll {
+        0%, 28% {
+          transform: translateY(0);
+        }
+        30%, 58% {
+          transform: translateY(-3.5rem);
+        }
+        60%, 88% {
+          transform: translateY(-7rem);
+        }
+        90%, 100% {
+          transform: translateY(-10.5rem);
+        }
+      }
+
+      .fids-scroll {
+        animation: fidsScroll 8s ease-in-out infinite;
+        display: flex;
+        flex-direction: column;
+      }
+
       .scroll-line {
         height: 40px;
       }
@@ -2090,6 +2258,65 @@
         gap: 10px;
       }
     }
+
+    /* Mobile styling for "that actually works" text */
+    .hero-title span {
+      font-size: 2.5rem !important;
+    }
+
+    /* Pencil Underline Effect for "works" */
+    .works-encircled {
+      position: relative;
+      display: inline-block;
+      margin: 0 5px;
+    }
+
+    .pencil-underline {
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 140px;
+      height: 30px;
+      z-index: 10;
+      animation: pencil-draw-once 2s ease-in-out forwards;
+      pointer-events: none;
+    }
+
+    .pencil-underline path {
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: draw-line-once 1.5s ease-in-out forwards;
+    }
+
+    @keyframes pencil-draw-once {
+      0% {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes draw-line-once {
+      0% {
+        stroke-dashoffset: 100;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* Mobile responsive for pencil underline */
+    @media (max-width: 768px) {
+      .pencil-underline {
+        width: 120px;
+        height: 25px;
+        bottom: -1px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2223,7 +2450,32 @@
         </div>
       </div>
       
-      <h1 class="hero-title"><span style="font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--glow);">Automation</span> that actually works.</h1>
+      <h1 class="hero-title">
+        <div class="fids-container">
+          <div class="fids-scroll" id="fidsScroll">
+            <div class="fids-item">Automation</div>
+            <div class="fids-item">Innovation</div>
+            <div class="fids-item">AI Enablement</div>
+            <div class="fids-item">Automation</div>
+          </div>
+        </div>
+        <span style="font-family: 'Inter', sans-serif; font-weight: 400; color: #fff; font-size: 3.5rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); z-index: 10; display: inline-flex; align-items: center; position: relative;">
+          that actually 
+          <span class="works-encircled">
+            works
+            <svg class="pencil-underline" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5,20 Q15,18 25,20 Q35,22 45,20 Q55,18 65,20 Q75,22 85,20 Q95,18 105,20 Q115,22 125,20" 
+                    stroke="#00ffff" 
+                    stroke-width="6" 
+                    fill="none" 
+                    stroke-linecap="round"
+                    stroke-dasharray="4,5"
+                    opacity="0.9"/>
+            </svg>
+          </span>
+          .
+        </span>
+      </h1>
       <p class="hero-description">
         
       </p>
@@ -2858,6 +3110,164 @@
           }
         });
       }
+    });
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const mobileNav = document.getElementById('mobileNav');
+      mobileNav.classList.toggle('active');
+    }
+
+    // Enhanced word scrolling animation
+    function initWordAnimation() {
+      const changingWord = document.getElementById('changingWord');
+      const words = ['Automation', 'Innovation', 'AI Enablement'];
+      let currentIndex = 0;
+      
+      if (changingWord) {
+        setInterval(() => {
+          // Fade out
+          changingWord.style.opacity = '0';
+          
+          setTimeout(() => {
+            // Change word
+            currentIndex = (currentIndex + 1) % words.length;
+            changingWord.textContent = words[currentIndex];
+            
+            // Fade in
+            changingWord.style.opacity = '1';
+          }, 250);
+        }, 3000); // Change every 3 seconds
+      }
+    }
+
+    // Initialize animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initWordAnimation();
+    });
+
+    // Enhanced FIDS-style word animation
+    function initFidsAnimation() {
+      const fidsScroll = document.getElementById('fidsScroll');
+      const fidsItems = document.querySelectorAll('.fids-item');
+      
+      if (fidsScroll) {
+        // Pause animation on hover
+        fidsScroll.addEventListener('mouseenter', () => {
+          fidsScroll.style.animationPlayState = 'paused';
+        });
+        
+        fidsScroll.addEventListener('mouseleave', () => {
+          fidsScroll.style.animationPlayState = 'running';
+        });
+
+        // Active state management based on animation progress
+        let currentActiveIndex = 0;
+        
+        function updateActiveState() {
+          // Remove active class from all items
+          fidsItems.forEach(item => item.classList.remove('active'));
+          
+          // Add active class to current item
+          if (fidsItems[currentActiveIndex]) {
+            fidsItems[currentActiveIndex].classList.add('active');
+          }
+        }
+
+        // Update active state every 3 seconds (matching the animation timing)
+        setInterval(() => {
+          currentActiveIndex = (currentActiveIndex + 1) % fidsItems.length;
+          updateActiveState();
+        }, 3000);
+
+        // Initialize active state
+        updateActiveState();
+
+        // Add click interaction for manual control
+        fidsItems.forEach((item, index) => {
+          item.addEventListener('click', () => {
+            // Pause animation
+            fidsScroll.style.animationPlayState = 'paused';
+            
+            // Update active state
+            currentActiveIndex = index;
+            updateActiveState();
+            
+            // Resume animation after 2 seconds
+            setTimeout(() => {
+              fidsScroll.style.animationPlayState = 'running';
+            }, 2000);
+          });
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            
+            // Pause animation
+            fidsScroll.style.animationPlayState = 'paused';
+            
+            if (e.key === 'ArrowUp') {
+              currentActiveIndex = (currentActiveIndex - 1 + fidsItems.length) % fidsItems.length;
+            } else {
+              currentActiveIndex = (currentActiveIndex + 1) % fidsItems.length;
+            }
+            
+            updateActiveState();
+            
+            // Resume animation after 2 seconds
+            setTimeout(() => {
+              fidsScroll.style.animationPlayState = 'running';
+            }, 2000);
+          }
+        });
+      }
+    }
+
+    // Initialize animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      initFidsAnimation();
+    });
+
+    // Pencil underline animation reset on scroll
+    let pencilAnimated = false;
+    let lastScrollTop = 0;
+
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const heroSection = document.querySelector('.hero');
+      
+      if (heroSection) {
+        const heroTop = heroSection.offsetTop;
+        const heroHeight = heroSection.offsetHeight;
+        
+        // Check if we're back at the top of the hero section
+        if (scrollTop <= heroTop + 100 && pencilAnimated) {
+          // Reset animation
+          const pencilUnderline = document.querySelector('.pencil-underline');
+          if (pencilUnderline) {
+            pencilUnderline.style.animation = 'none';
+            pencilUnderline.offsetHeight; // Trigger reflow
+            pencilUnderline.style.animation = 'pencil-draw-once 2s ease-in-out forwards';
+            
+            const pencilPath = pencilUnderline.querySelector('path');
+            if (pencilPath) {
+              pencilPath.style.animation = 'none';
+              pencilPath.offsetHeight; // Trigger reflow
+              pencilPath.style.animation = 'draw-line-once 1.5s ease-in-out forwards';
+            }
+          }
+          pencilAnimated = false;
+        }
+        
+        // Mark as animated when we scroll past hero
+        if (scrollTop > heroTop + heroHeight / 2 && !pencilAnimated) {
+          pencilAnimated = true;
+        }
+      }
+      
+      lastScrollTop = scrollTop;
     });
   </script>
 
