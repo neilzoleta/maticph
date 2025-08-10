@@ -572,42 +572,48 @@
             }
             
             const apiUrl = `${CHAT_API_URL}/api/chat`;
-            
+
             const requestBody = {
                 message: message,
                 conversation_history: conversationHistory,
                 session_id: sessionId
             };
             
+            // Abortable fetch with timeout to avoid hanging on some mobile networks
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 12000);
+            let response;
+            try {
+                response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody),
+                    signal: controller.signal,
+                    mode: 'cors'
+                });
+            } finally {
+                clearTimeout(timeoutId);
+            }
 
-            
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(requestBody)
-            });
-            
-
-            
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            
-            const data = await response.json();
-            
 
-            
+            const data = await response.json();
+
             hideTypingIndicator();
-            
-            if (data.status === 'success') {
-                addBotMessage(data.response);
+
+            // Accept both new and legacy API schemas
+            const isSuccess = data && (data.status === 'success' || (typeof data.response === 'string' && data.response.length > 0));
+            if (isSuccess) {
+                const reply = data.response || 'Okay.';
+                addBotMessage(reply);
                 conversationHistory.push(
                     { role: 'user', content: message },
-                    { role: 'assistant', content: data.response }
+                    { role: 'assistant', content: reply }
                 );
-                
                 if (data.session_id) {
                     sessionId = data.session_id;
                 }
