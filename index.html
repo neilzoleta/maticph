@@ -2724,24 +2724,23 @@
       document.documentElement.style.setProperty('--glow-opacity', scrollProgress * 0.5);
     });
 
-    // Calendly integration
-    function openScheduler() {
-      console.log('Calendly button clicked!');
-      // Prevent multiple tabs from opening
-      if (window.calendlyWindow && !window.calendlyWindow.closed) {
-        window.calendlyWindow.focus();
-        return;
+    // Chat Agent integration
+    let chatAgent = null;
+
+    function openChatAgent() {
+      console.log('Chat button clicked!');
+      if (chatAgent) {
+        chatAgent.open();
       }
-      // Open Calendly link in new tab
-      window.calendlyWindow = window.open('https://calendly.com/maticsolutionsph/30min', '_blank');
     }
 
     // Add event listener when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
-      const schedulerButton = document.querySelector('.calendly-cta');
-      if (schedulerButton) {
-        schedulerButton.addEventListener('click', openScheduler);
-      }
+      // Initialize chat agent
+      chatAgent = new ChatAgent({
+        maxMessages: 50,
+        typingDelay: 1000
+      });
     });
 
     function initializeScheduler() {
@@ -3273,32 +3272,12 @@
 
 
 
-  <!-- Custom Scheduler CTA - Floating Button -->
-  <div class="calendly-cta" style="cursor: pointer;">
-    <div class="calendly-cta-content">
-      <div class="calendly-cta-text">
-        <span style="transform: rotate(0deg)">S</span>
-        <span style="transform: rotate(18deg)">E</span>
-        <span style="transform: rotate(36deg)">T</span>
-        <span style="transform: rotate(54deg)">&nbsp;</span>
-        <span style="transform: rotate(72deg)">T</span>
-        <span style="transform: rotate(90deg)">U</span>
-        <span style="transform: rotate(108deg)">N</span>
-        <span style="transform: rotate(126deg)">E</span>
-        <span style="transform: rotate(144deg)">-</span>
-        <span style="transform: rotate(162deg)">U</span>
-        <span style="transform: rotate(180deg)">P</span>
-        <span style="transform: rotate(198deg)">&nbsp;</span>
-        <span style="transform: rotate(216deg)">C</span>
-        <span style="transform: rotate(234deg)">A</span>
-        <span style="transform: rotate(252deg)">L</span>
-        <span style="transform: rotate(270deg)">L</span>
-        <span style="transform: rotate(288deg)">&nbsp;</span>
-        <span style="transform: rotate(306deg)">•</span>
-      </div>
-      <img src="assets/logo.png" alt="MATIC Logo" class="calendly-cta-icon" style="width: 45px; height: 45px; filter: brightness(0) invert(1);">
-    </div>
-  </div>
+
+
+
+
+  <!-- MATIC Studio Chat Agent Integration -->
+  <script src="website-integration.js"></script>
 
 
 </body>
