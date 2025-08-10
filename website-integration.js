@@ -508,18 +508,30 @@
     
     // Calendly integration
     function openCalendly() {
+        const calendlyUrl = 'https://calendly.com/maticstudio/tune-up-call';
 
-        // Prevent multiple tabs from opening
+        // If a Calendly tab is already open, reuse it
         if (window.calendlyWindow && !window.calendlyWindow.closed) {
-            window.calendlyWindow.focus();
-            return;
+            try {
+                window.calendlyWindow.location.href = calendlyUrl;
+                window.calendlyWindow.focus();
+                return;
+            } catch (_) { /* ignore cross-origin errors and continue */ }
         }
-        // Open Calendly link in new tab
-        window.calendlyWindow = window.open('https://calendly.com/maticsolutionsph/30min', '_blank');
-        
+
+        // Try opening a new tab; if blocked, fall back to same-tab navigation
+        const newWin = window.open(calendlyUrl, '_blank', 'noopener');
+        if (newWin) {
+            window.calendlyWindow = newWin;
+        } else {
+            window.location.href = calendlyUrl;
+        }
+
         // Add a message to the chat
         addBotMessage("Perfect! I've opened our scheduling calendar for you. You can book a 30-minute tune-up call with our team. If you need any help or have questions while scheduling, feel free to ask me!");
     }
+    // Expose for inline onclick handlers
+    window.openCalendly = openCalendly;
 
     // Send message to API
     async function sendToAPI(message) {
