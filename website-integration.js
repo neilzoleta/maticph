@@ -89,16 +89,17 @@
             <style>
                 .maticstudio-chat-widget {
                     position: fixed;
-                    bottom: 20px;
-                    right: 20px;
+                    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+                    right: calc(20px + env(safe-area-inset-right, 0px));
                     width: 350px;
                     max-height: 800px;
                     background: #000;
                     border-radius: 12px;
                     box-shadow: 0 4px 20px rgba(0,255,255,0.2);
                     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    z-index: 10000;
+                    z-index: 2147483647 !important;
                     border: 1px solid #333;
+                    -webkit-tap-highlight-color: transparent;
                 }
                 
                 .chat-header {
@@ -162,8 +163,8 @@
                 
                 .floating-chat-icon {
                     position: fixed;
-                    bottom: 20px;
-                    right: 20px;
+                    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+                    right: calc(20px + env(safe-area-inset-right, 0px));
                     width: 60px;
                     height: 60px;
                     background: #00ffff;
@@ -173,9 +174,11 @@
                     justify-content: center;
                     cursor: pointer;
                     box-shadow: 0 4px 20px rgba(0,255,255,0.3);
-                    z-index: 10000;
+                    z-index: 2147483647 !important;
                     transition: all 0.3s ease;
                     color: #000;
+                    pointer-events: auto;
+                    -webkit-tap-highlight-color: transparent;
                 }
                 
                 .floating-chat-icon:hover {
@@ -266,6 +269,7 @@
                     flex-shrink: 0;
                     min-height: 60px;
                 }
+                .chat-input { padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px)); }
                 
                 .chat-input input {
                     flex: 1;
@@ -318,10 +322,13 @@
                 @media (max-width: 480px) {
                     .maticstudio-chat-widget {
                         width: calc(100vw - 40px);
-                        right: 20px;
-                        left: 20px;
+                        right: calc(20px + env(safe-area-inset-right, 0px));
+                        left: calc(20px + env(safe-area-inset-left, 0px));
                     }
                 }
+
+                /* Improve touch responsiveness */
+                .quick-reply-btn, .chat-input button { touch-action: manipulation; }
             </style>
         `;
         
