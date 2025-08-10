@@ -49,7 +49,6 @@
                     </div>
                     
                     <div class="quick-replies" id="quick-replies" style="display: none;">
-                        <button class="quick-reply-btn" onclick="openCalendly()">Schedule a Tune-up Call</button>
                         <button class="quick-reply-btn" onclick="sendQuickReply('What do you offer?')">What do you offer?</button>
                         <button class="quick-reply-btn" onclick="sendQuickReply('Learn more about MATICStudio')">Learn more about MATICStudio</button>
                     </div>
