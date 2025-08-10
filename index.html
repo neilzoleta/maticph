@@ -2724,24 +2724,7 @@
       document.documentElement.style.setProperty('--glow-opacity', scrollProgress * 0.5);
     });
 
-    // Chat Agent integration
-    let chatAgent = null;
-
-    function openChatAgent() {
-      console.log('Chat button clicked!');
-      if (chatAgent) {
-        chatAgent.open();
-      }
-    }
-
-    // Add event listener when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      // Initialize chat agent
-      chatAgent = new ChatAgent({
-        maxMessages: 50,
-        typingDelay: 1000
-      });
-    });
+    // Chat Agent integration is handled by website-integration.js
 
     function initializeScheduler() {
       // Set minimum date to today
@@ -3269,16 +3252,6 @@
       lastScrollTop = scrollTop;
     });
   </script>
-
-
-
-
-
-
-
-  <!-- MATIC Studio Chat Agent Integration -->
-  <script src="website-integration.js"></script>
-
-
+  <script src="/website-integration.js"></script>
 </body>
 </html>
