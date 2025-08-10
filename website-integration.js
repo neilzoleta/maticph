@@ -9,9 +9,8 @@
     'use strict';
     
     // Configuration
-    const CHAT_API_URL = 'http://localhost:3001'; // Local CORS proxy
-    // Set to false when Render CORS is updated
-    const USE_CORS_PROXY = false;
+    const CHAT_API_URL = 'https://maticstudio-chat-agent.onrender.com'; // Render API
+
     const CHAT_CONTAINER_ID = 'maticstudio-chat';
     
     // Chat state
@@ -412,7 +411,7 @@
         messageInput.value = '';
         messageInput.focus();
         
-        console.log('Chat reset successfully');
+
     };
     
     // Send message
@@ -509,7 +508,7 @@
     
     // Calendly integration
     function openCalendly() {
-        console.log('Opening Calendly...');
+
         // Prevent multiple tabs from opening
         if (window.calendlyWindow && !window.calendlyWindow.closed) {
             window.calendlyWindow.focus();
@@ -554,11 +553,7 @@
                 return;
             }
             
-            console.log('Sending message to API:', message);
             const apiUrl = `${CHAT_API_URL}/api/chat`;
-            console.log('API URL:', apiUrl);
-            console.log('Session ID:', sessionId);
-            console.log('Conversation history:', conversationHistory);
             
             const requestBody = {
                 message: message,
@@ -566,7 +561,7 @@
                 session_id: sessionId
             };
             
-            console.log('Request body:', requestBody);
+
             
             const response = await fetch(apiUrl, {
                 method: 'POST',
@@ -576,9 +571,7 @@
                 body: JSON.stringify(requestBody)
             });
             
-            console.log('Response status:', response.status);
-            console.log('Response headers:', response.headers);
-            console.log('Response ok:', response.ok);
+
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -586,7 +579,7 @@
             
             const data = await response.json();
             
-            console.log('Response data:', data);
+
             
             hideTypingIndicator();
             
