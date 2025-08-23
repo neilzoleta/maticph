@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Signal Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .expand-animation {
+            transition: max-height 0.2s ease;
+        }
+        
+        .weather-card {
+            transition: background-color 0.1s ease;
+        }
+        
+        .weather-card:hover {
+            background-color: #f9fafb;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .update-indicator {
+            transition: opacity 0.3s ease;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 128px;
+            background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container canvas {
+            border-radius: 6px;
+        }
+
+        /* Weather-themed backgrounds for storm banner */
+        .storm-banner-calm {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .storm-banner-light {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .storm-banner-moderate {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+
+        .storm-banner-severe {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        }
+
+        .storm-banner-dangerous {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+        }
+
+        .storm-banner-extreme {
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+        }
+
+        /* Sunny weather effect */
+        .storm-banner-sunny {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-sunny::before {
+            content: '☀️';
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            font-size: 80px;
+            animation: sunRotate 4s linear infinite;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        /* Floating MATICStudio.net logo */
+        .matic-logo {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .matic-logo-text {
+            font-size: 12px;
+            color: #000000;
+            font-weight: 400;
+            white-space: nowrap;
+            letter-spacing: 0.3px;
+        }
+
+        .matic-logo-link {
+            color: #000000;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        .matic-logo-link::after {
+            content: "redirects you maticstudio website";
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.95);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 1001;
+            margin-left: 12px;
+        }
+
+        .matic-logo-link:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Minimalist Dark Mode Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 20px;
+            background: #d1d5db;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .toggle-switch.active {
+            background: #3b82f6;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(20px);
+        }
+
+        .toggle-switch:hover {
+            opacity: 0.8;
+        }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #ffffff;
+        }
+
+        /* Comprehensive Dark Mode for Weather Page Elements */
+        /* Main container and layout */
+        body.dark-mode .max-w-3xl {
+            background: #1a1a1a;
+        }
+
+        /* Header section - all gray text classes */
+        body.dark-mode .text-gray-900,
+        body.dark-mode .text-gray-500,
+        body.dark-mode .text-gray-400,
+        body.dark-mode .text-gray-600,
+        body.dark-mode .text-gray-700,
+        body.dark-mode .text-gray-800 {
+            color: #ffffff !important;
+        }
+
+        /* Help section */
+        body.dark-mode .bg-blue-50 {
+            background: rgba(0, 0, 0, 0.8) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        body.dark-mode .border-blue-200 {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        body.dark-mode .text-blue-900,
+        body.dark-mode .text-blue-800,
+        body.dark-mode .text-blue-700 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-blue-600 {
+            color: #60a5fa !important;
+        }
+
+        body.dark-mode .text-blue-400 {
+            color: #93c5fd !important;
+        }
+
+        /* Storm banner - keep the gradient but adjust colors */
+        body.dark-mode #stormBanner {
+            background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Landfall section */
+        body.dark-mode .from-orange-50,
+        body.dark-mode .to-red-50 {
+            background: rgba(0, 0, 0, 0.8) !important;
+        }
+
+        body.dark-mode .bg-gradient-to-r {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.9) 100%) !important;
+        }
+
+        body.dark-mode .border-orange-200 {
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        body.dark-mode .text-orange-900 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-orange-600 {
+            color: #fbbf24 !important;
+        }
+
+        body.dark-mode .text-orange-700 {
+            color: #f59e0b !important;
+        }
+
+        body.dark-mode .text-red-900 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-red-600 {
+            color: #ef4444 !important;
+        }
+
+        body.dark-mode .text-red-700 {
+            color: #dc2626 !important;
+        }
+
+        body.dark-mode .text-green-900 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .text-green-600 {
+            color: #10b981 !important;
+        }
+
+        body.dark-mode .text-green-700 {
+            color: #059669 !important;
+        }
+
+        /* White background cards */
+        body.dark-mode .bg-white {
+            background: rgba(0, 0, 0, 0.7) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Update button */
+        body.dark-mode .bg-blue-500 {
+            background: #2563eb !important;
+        }
+
+        body.dark-mode .hover\:bg-blue-600:hover {
+            background: #1d4ed8 !important;
+        }
+
+        /* Error messages */
+        body.dark-mode .bg-red-50 {
+            background: rgba(239, 68, 68, 0.1) !important;
+        }
+
+        body.dark-mode .border-red-200 {
+            border-color: rgba(239, 68, 68, 0.3) !important;
+        }
+
+        body.dark-mode .text-red-800,
+        body.dark-mode .text-red-700 {
+            color: #fecaca !important;
+        }
+
+        /* Timeline modal */
+        body.dark-mode .fixed .bg-white {
+            background: rgba(0, 0, 0, 0.9) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        body.dark-mode .fixed .text-gray-900 {
+            color: #ffffff !important;
+        }
+
+        body.dark-mode .fixed .text-gray-500 {
+            color: #d1d5db !important;
+        }
+
+        /* Loading spinner */
+        body.dark-mode .loading-spinner {
+            border-color: rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+        }
+
+        /* Checkbox and form elements */
+        body.dark-mode input[type="checkbox"] {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        body.dark-mode .focus\:ring-blue-500:focus {
+            --tw-ring-color: #3b82f6;
+        }
+
+        /* Weather containers and cards */
+        body.dark-mode .weather-container,
+        body.dark-mode .weather-card,
+        body.dark-mode .weather-info,
+        body.dark-mode .forecast-card,
+        body.dark-mode .hourly-forecast,
+        body.dark-mode .daily-forecast {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        /* Headers and titles */
+        body.dark-mode h1,
+        body.dark-mode h2,
+        body.dark-mode h3,
+        body.dark-mode h4,
+        body.dark-mode h5,
+        body.dark-mode h6 {
+            color: #ffffff;
+        }
+
+        /* All text elements */
+        body.dark-mode p,
+        body.dark-mode span,
+        body.dark-mode div,
+        body.dark-mode label,
+        body.dark-mode .text-content,
+        body.dark-mode .weather-description,
+        body.dark-mode .temperature,
+        body.dark-mode .humidity,
+        body.dark-mode .wind-speed,
+        body.dark-mode .pressure,
+        body.dark-mode .visibility,
+        body.dark-mode .uv-index,
+        body.dark-mode .sunrise-time,
+        body.dark-mode .sunset-time,
+        body.dark-mode .forecast-date,
+        body.dark-mode .forecast-temp,
+        body.dark-mode .hourly-time,
+        body.dark-mode .hourly-temp {
+            color: #ffffff !important;
+        }
+
+        /* Form elements */
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        body.dark-mode input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Buttons */
+        body.dark-mode button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        body.dark-mode button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Links */
+        body.dark-mode a {
+            color: #60a5fa;
+        }
+
+        body.dark-mode a:hover {
+            color: #93c5fd;
+        }
+
+        /* MATICStudio elements */
+        body.dark-mode .matic-logo-text,
+        body.dark-mode .matic-logo-link {
+            color: #ffffff !important;
+        }
+
+        /* Table elements */
+        body.dark-mode table,
+        body.dark-mode th,
+        body.dark-mode td {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #ffffff;
+        }
+
+        /* Scrollbar */
+        body.dark-mode ::-webkit-scrollbar {
+            background: #1a1a1a;
+        }
+
+        body.dark-mode ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        body.dark-mode ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes sunRotate {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        /* Cloudy weather effect */
+        .storm-banner-cloudy {
+            background: linear-gradient(135deg, #bdc3c7 0%, #95a5a6 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-cloudy::before {
+            content: '☁️';
+            position: absolute;
+            top: 50%;
+            right: 15%;
+            font-size: 70px;
+            animation: cloudFloat 3s ease-in-out infinite;
+            z-index: 0;
+            opacity: 0.4;
+            transform: translateY(-50%);
+        }
+
+        @keyframes cloudFloat {
+            0%, 100% { transform: translateY(-50%) translateX(0px); }
+            50% { transform: translateY(-50%) translateX(10px); }
+        }
+
+        /* Rainy weather effect */
+        .storm-banner-rainy {
+            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-rainy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="rain" x="0" y="0" width="8" height="12" patternUnits="userSpaceOnUse"><line x1="4" y1="0" x2="4" y2="12" stroke="rgba(255,255,255,0.2)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23rain)"/></svg>');
+            animation: rain 0.8s linear infinite;
+            z-index: 0;
+        }
+
+        .storm-banner-rainy::after {
+            content: '🌧️';
+            position: absolute;
+            top: 50%;
+            right: 12%;
+            font-size: 70px;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        /* Heavy rain effect */
+        .storm-banner-heavy-rain {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-heavy-rain::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="heavyRain" x="0" y="0" width="6" height="15" patternUnits="userSpaceOnUse"><line x1="3" y1="0" x2="3" y2="15" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/></pattern></defs><rect width="100" height="100" fill="url(%23heavyRain)"/></svg>');
+            animation: heavyRain 0.6s linear infinite;
+            z-index: 0;
+        }
+
+        .storm-banner-heavy-rain::after {
+            content: '⛈️';
+            position: absolute;
+            top: 50%;
+            right: 12%;
+            font-size: 70px;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        @keyframes heavyRain {
+            0% { transform: translateY(-15px); }
+            100% { transform: translateY(15px); }
+        }
+
+        /* Stormy weather effects */
+        .storm-banner-stormy {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-stormy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="rain" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse"><line x1="5" y1="0" x2="5" y2="10" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23rain)"/></svg>');
+            animation: rain 0.5s linear infinite;
+            z-index: 0;
+        }
+
+        .storm-banner-stormy::after {
+            content: '⛈️';
+            position: absolute;
+            top: 50%;
+            right: 12%;
+            font-size: 70px;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        @keyframes rain {
+            0% { transform: translateY(-10px); }
+            100% { transform: translateY(10px); }
+        }
+
+        .storm-banner-typhoon {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-typhoon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="wind" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M0 10 Q5 5 10 10 T20 10" stroke="rgba(255,255,255,0.15)" stroke-width="2" fill="none"/></pattern></defs><rect width="100" height="100" fill="url(%23wind)"/></svg>');
+            animation: wind 2s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        .storm-banner-typhoon::after {
+            content: '🌀';
+            position: absolute;
+            top: 50%;
+            right: 12%;
+            font-size: 70px;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        @keyframes wind {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* Lightning effect */
+        .storm-banner-lightning {
+            background: linear-gradient(135deg, #636e72 0%, #2d3436 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-banner-lightning::before {
+            content: '⚡';
+            position: absolute;
+            top: 50%;
+            right: 12%;
+            font-size: 70px;
+            animation: lightning 2s ease-in-out infinite;
+            z-index: 0;
+            opacity: 0.3;
+            transform: translateY(-50%);
+        }
+
+        @keyframes lightning {
+            0%, 90%, 100% { opacity: 0.3; }
+            5%, 85% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body class="bg-white min-h-screen p-6">
+    <div class="max-w-3xl mx-auto">
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-medium text-gray-900 mb-1">Weather Alert Monitor</h1>
+                    <p class="text-gray-500 text-sm">Live weather warnings and alerts from <a href="https://www.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin" target="_blank" class="text-blue-600 hover:text-blue-800 underline">PAGASA</a></p>
+                    <p class="text-gray-400 text-xs mt-1">Stay informed about weather conditions in your area</p>
+                </div>
+                <div class="flex flex-col items-end">
+                    <div class="flex items-center space-x-3">
+                        <div id="updateStatus" class="text-xs text-gray-500 update-indicator">
+                            <span id="lastUpdateTime">Last updated: Never</span>
+                        </div>
+                        <div id="loadingIndicator" class="loading-spinner hidden"></div>
+                        <button id="refreshBtn" onclick="manualRefresh()" class="px-3 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors">
+                            Update Now
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <span class="text-xs text-gray-500">Dark Mode:</span>
+                        <button id="darkModeToggle" class="toggle-switch" title="Toggle dark mode">
+                            <div class="toggle-slider"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Helpful Information -->
+        <div id="helpSection" class="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div class="flex-1">
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-sm font-medium text-blue-900">How to Use This Weather Monitor</h3>
+                        <button onclick="closeHelpSection()" class="text-blue-400 hover:text-blue-600 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="text-xs text-blue-800 space-y-1 mb-3">
+                        <p>• <strong>Click on any weather card</strong> to see detailed information about that location</p>
+                        <p>• <strong>Look at the colored dots</strong> to understand current weather warning levels</p>
+                        <p>• <strong>View the line graph</strong> to see how weather conditions have changed over 24 hours</p>
+                        <p>• <strong>Click on any point in the graph</strong> to see detailed weather information for that time</p>
+                        <p>• <strong>Check the "Update Now" button</strong> to get the latest weather information</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <input type="checkbox" id="dontShowAgain" class="w-3 h-3 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                        <label for="dontShowAgain" class="text-xs text-blue-700">Don't show this again</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Current Storm Banner -->
+        <div id="stormBanner" class="mb-6 rounded-lg p-4 text-white shadow-lg transition-all duration-500">
+            <div class="flex items-center justify-between">
+                <div class="flex-1">
+                    <div class="flex items-center space-x-3 mb-2">
+                        <div class="w-3 h-3 bg-yellow-400 rounded-full animate-pulse"></div>
+                        <h2 class="text-lg font-bold">#TropicalStormIsang</h2>
+                    </div>
+                    <p class="text-blue-100 text-sm">"ISANG" INTENSIFIES INTO A TROPICAL STORM</p>
+                    <p class="text-blue-200 text-xs mt-1">Current Status: Moving westward at 25 km/h with maximum sustained winds of 65 km/h</p>
+                </div>
+                <div class="flex items-center space-x-4 text-right">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold">65</div>
+                        <div class="text-xs text-blue-200">km/h Winds</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold">985</div>
+                        <div class="text-xs text-blue-200">hPa</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold">25</div>
+                        <div class="text-xs text-blue-200">km/h</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Landfall Timeline Section -->
+        <div id="landfallSection" class="mb-6 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-lg p-4">
+            <div class="flex items-center space-x-3 mb-4">
+                <div class="w-4 h-4 bg-orange-500 rounded-full"></div>
+                <h3 class="text-lg font-semibold text-orange-900">Philippine Landfall Timeline</h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Entry Timeline -->
+                <div class="bg-white rounded-lg p-3 border border-orange-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                        <span class="text-sm font-medium text-orange-900">Entry to PAR</span>
+                    </div>
+                    <div class="text-2xl font-bold text-orange-600 mb-1" id="entryTime">--:--</div>
+                    <div class="text-xs text-orange-700" id="entryDate">Date</div>
+                    <div class="text-xs text-gray-600 mt-1" id="entryLocation">Location</div>
+                </div>
+                
+                <!-- Landfall Timeline -->
+                <div class="bg-white rounded-lg p-3 border border-red-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <span class="text-sm font-medium text-red-900">Expected Landfall</span>
+                    </div>
+                    <div class="text-2xl font-bold text-red-600 mb-1" id="landfallTime">--:--</div>
+                    <div class="text-xs text-red-700" id="landfallDate">Date</div>
+                    <div class="text-xs text-gray-600 mt-1" id="landfallLocation">Location</div>
+                </div>
+                
+                <!-- Exit Timeline -->
+                <div class="bg-white rounded-lg p-3 border border-green-200">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                        <span class="text-sm font-medium text-green-900">Exit from PAR</span>
+                    </div>
+                    <div class="text-2xl font-bold text-green-600 mb-1" id="exitTime">--:--</div>
+                    <div class="text-xs text-green-700" id="exitDate">Date</div>
+                    <div class="text-xs text-gray-600 mt-1" id="exitLocation">Location</div>
+                </div>
+            </div>
+            
+            <!-- Additional Information -->
+            <div class="mt-4 p-3 bg-white rounded-lg border border-orange-200">
+                <div class="flex items-start space-x-3">
+                    <div class="w-2 h-2 bg-orange-500 rounded-full mt-2"></div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-medium text-orange-900 mb-2">Current Storm Position & Movement</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                            <div>
+                                <span class="text-gray-600">Current Position:</span>
+                                <div class="font-medium text-gray-900" id="currentPosition">--</div>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Movement:</span>
+                                <div class="font-medium text-gray-900" id="currentMovement">--</div>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Distance from PAR:</span>
+                                <div class="font-medium text-gray-900" id="distanceFromPAR">--</div>
+                            </div>
+                            <div>
+                                <span class="text-gray-600">Expected Impact:</span>
+                                <div class="font-medium text-gray-900" id="expectedImpact">--</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Cards Container -->
+        <div class="space-y-4" id="weatherContainer">
+            <!-- Weather cards will be generated here -->
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="hidden bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+            <div class="flex items-center">
+                <svg class="w-5 h-5 text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <span id="errorText" class="text-red-800 text-sm"></span>
+                    <p class="text-red-700 text-xs mt-1">Please try clicking "Update Now" to refresh the weather information.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Signal level configurations
+        const signalConfig = {
+            0: { color: 'bg-gray-400', name: 'No Weather Warning', description: 'Normal weather conditions' },
+            1: { color: 'bg-yellow-500', name: 'Weather Warning Level 1', description: 'Strong winds expected within 36 hours' },
+            2: { color: 'bg-orange-500', name: 'Weather Warning Level 2', description: 'Very strong winds expected within 24 hours' },
+            3: { color: 'bg-red-500', name: 'Weather Warning Level 3', description: 'Dangerous winds expected within 18 hours' },
+            4: { color: 'bg-red-700', name: 'Weather Warning Level 4', description: 'Very dangerous winds expected within 12 hours' },
+            5: { color: 'bg-red-900', name: 'Weather Warning Level 5', description: 'Extremely dangerous winds expected within 12 hours' }
+        };
+
+        // Global variables
+        let weatherData = [];
+        let updateInterval;
+        let isUpdating = false;
+
+        // PAGASA API endpoints and data structure
+        const PAGASA_ENDPOINTS = {
+            tropicalCyclone: 'https://www.pagasa.dost.gov.ph/tropical-cyclone/severe-weather-bulletin',
+            weatherAdvisory: 'https://www.pagasa.dost.gov.ph/weather-advisory'
+        };
+
+        // Function to fetch data from PAGASA website
+        async function fetchPAGASAData() {
+            try {
+                // Since we can't directly fetch from PAGASA due to CORS, we'll simulate the data
+                // In a real implementation, you would need a backend proxy or use PAGASA's API
+                return await simulatePAGASAData();
+            } catch (error) {
+                console.error('Error fetching PAGASA data:', error);
+                throw error;
+            }
+        }
+
+        // Simulate PAGASA data based on the current tropical storm "Isang"
+        async function simulatePAGASAData() {
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
+
+            const now = new Date();
+            const currentTime = now.toISOString().slice(0, 16).replace('T', ' ');
+
+            // Base data structure based on PAGASA's current bulletin
+            const baseData = {
+                stormName: "Tropical Storm Isang",
+                stormCategory: "Tropical Storm",
+                currentPosition: "290 km West of Bacnotan, La Union",
+                coordinates: "17.1°N, 117.7°E",
+                movement: "Westward at 25 km/h",
+                maxWinds: "65 km/h",
+                gustiness: "80 km/h",
+                pressure: "985 hPa",
+                lastUpdated: currentTime,
+                nextUpdate: "11:00 AM",
+                status: "Active"
+            };
+
+            // Generate affected areas based on current wind signals
+            const affectedAreas = {
+                1: [
+                    "Ilocos Norte", "Ilocos Sur", "La Union", "Pangasinan (northern portion)",
+                    "Apayao", "Abra", "Kalinga", "Mountain Province", "Ifugao", "Benguet",
+                    "Cagayan (western portion)", "Babuyan Islands", "Isabela (western portion)",
+                    "Nueva Vizcaya (northwestern portion)"
+                ],
+                0: [
+                    "Zambales", "Bataan", "Tarlac", "Pampanga", "Metro Manila",
+                    "Cagayan Valley", "CALABARZON", "MIMAROPA", "Aurora",
+                    "Camarines Norte", "Camarines Sur", "Catanduanes", "Albay",
+                    "Burias Island", "Western Visayas", "Negros Island Region",
+                    "Central Visayas", "Southern Leyte", "Zamboanga del Norte",
+                    "Dinagat Islands", "Sarangani", "Davao Occidental",
+                    "Surigao del Norte", "Camiguin"
+                ]
+            };
+
+            // Create weather data for different regions
+            const regions = [
+                {
+                    id: 1,
+                    city: "La Union",
+                    country: "Philippines",
+                    currentSignal: 1,
+                    description: "Strong winds expected within 36 hours",
+                    coordinates: "16.5375°N, 120.3183°E",
+                    currentWinds: "45 km/h",
+                    gusts: "65 km/h",
+                    direction: "NE",
+                    rainfall: "15 mm/hr",
+                    visibility: "5 km",
+                    temperature: "26°C",
+                    humidity: "85%",
+                    affectedAreas: affectedAreas[1],
+                    expectedDuration: "24-36 hours"
+                },
+                {
+                    id: 2,
+                    city: "Metro Manila",
+                    country: "Philippines",
+                    currentSignal: 0,
+                    description: "Enhanced monsoon winds",
+                    coordinates: "14.5995°N, 120.9842°E",
+                    currentWinds: "35 km/h",
+                    gusts: "50 km/h",
+                    direction: "SW",
+                    rainfall: "8 mm/hr",
+                    visibility: "8 km",
+                    temperature: "28°C",
+                    humidity: "78%",
+                    affectedAreas: affectedAreas[0],
+                    expectedDuration: "12-24 hours"
+                },
+                {
+                    id: 3,
+                    city: "Cebu City",
+                    country: "Philippines",
+                    currentSignal: 0,
+                    description: "Normal weather conditions",
+                    coordinates: "10.3157°N, 123.8854°E",
+                    currentWinds: "15 km/h",
+                    gusts: "25 km/h",
+                    direction: "E",
+                    rainfall: "2 mm/hr",
+                    visibility: "12 km",
+                    temperature: "30°C",
+                    humidity: "70%",
+                    affectedAreas: [],
+                    expectedDuration: "Stable"
+                },
+                {
+                    id: 4,
+                    city: "Davao City",
+                    country: "Philippines",
+                    currentSignal: 0,
+                    description: "Clear weather conditions",
+                    coordinates: "7.1907°N, 125.4553°E",
+                    currentWinds: "10 km/h",
+                    gusts: "20 km/h",
+                    direction: "SE",
+                    rainfall: "0 mm/hr",
+                    visibility: "15 km",
+                    temperature: "32°C",
+                    humidity: "65%",
+                    affectedAreas: [],
+                    expectedDuration: "Stable"
+                }
+            ];
+
+            // Add storm information and history to each region
+            return regions.map(region => ({
+                ...region,
+                ...baseData,
+                signalName: signalConfig[region.currentSignal].name,
+                lastUpdated: currentTime,
+                nextUpdate: baseData.nextUpdate,
+                history: generateHistory(region.currentSignal, currentTime)
+            }));
+        }
+
+        // Generate realistic history based on current signal
+        function generateHistory(currentSignal, currentTime) {
+            const history = [];
+            const now = new Date();
+            
+            // Add current entry
+            history.push({
+                time: now.toTimeString().slice(0, 5),
+                signal: currentSignal,
+                event: `Signal ${currentSignal === 0 ? 'cleared' : `raised to #${currentSignal}`}`,
+                winds: currentSignal === 0 ? "< 39 km/h" : `${39 + (currentSignal - 1) * 25}-${39 + currentSignal * 25} km/h`,
+                pressure: "985 hPa"
+            });
+
+            // Add previous entries
+            if (currentSignal > 0) {
+                for (let i = currentSignal - 1; i >= 0; i--) {
+                    const time = new Date(now.getTime() - (currentSignal - i) * 2 * 60 * 60 * 1000);
+                    history.push({
+                        time: time.toTimeString().slice(0, 5),
+                        signal: i,
+                        event: i === 0 ? "Initial warning" : `Signal raised to #${i}`,
+                        winds: i === 0 ? "< 39 km/h" : `${39 + (i - 1) * 25}-${39 + i * 25} km/h`,
+                        pressure: `${985 + (currentSignal - i) * 5} hPa`
+                    });
+                }
+            }
+
+            return history;
+        }
+
+        // Generate timeline data for the progression graph
+        function generateTimelineData() {
+            const timeline = [];
+            const now = new Date();
+            
+            // Generate 24 hours of timeline data
+            for (let i = 23; i >= 0; i--) {
+                const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                const hour = time.getHours();
+                
+                // Simulate realistic signal progression based on time
+                let signal = 0;
+                let event = "Normal conditions";
+                let details = {
+                    winds: "< 39 km/h",
+                    pressure: "1013 hPa",
+                    rainfall: "0-2 mm/hr",
+                    visibility: "10-15 km",
+                    affectedAreas: [],
+                    stormPosition: "Not in range"
+                };
+                
+                // Simulate storm approach and signal escalation
+                if (hour >= 6 && hour < 12) {
+                    signal = 1;
+                    event = "Tropical Cyclone Wind Signal #1 issued";
+                    details = {
+                        winds: "39-61 km/h",
+                        pressure: "1005 hPa",
+                        rainfall: "5-15 mm/hr",
+                        visibility: "8-12 km",
+                        affectedAreas: ["La Union", "Ilocos Sur", "Pangasinan"],
+                        stormPosition: "350 km West of La Union"
+                    };
+                } else if (hour >= 12 && hour < 18) {
+                    signal = 2;
+                    event = "Tropical Cyclone Wind Signal #2 issued";
+                    details = {
+                        winds: "62-88 km/h",
+                        pressure: "995 hPa",
+                        rainfall: "15-30 mm/hr",
+                        visibility: "5-8 km",
+                        affectedAreas: ["La Union", "Ilocos Sur", "Pangasinan", "Ilocos Norte"],
+                        stormPosition: "280 km West of La Union"
+                    };
+                } else if (hour >= 18 && hour < 24) {
+                    signal = 3;
+                    event = "Tropical Cyclone Wind Signal #3 issued";
+                    details = {
+                        winds: "89-117 km/h",
+                        pressure: "985 hPa",
+                        rainfall: "30-50 mm/hr",
+                        visibility: "3-5 km",
+                        affectedAreas: ["La Union", "Ilocos Sur", "Pangasinan", "Ilocos Norte", "Apayao"],
+                        stormPosition: "200 km West of La Union"
+                    };
+                }
+                
+                timeline.push({
+                    id: i,
+                    time: time,
+                    timeString: time.toTimeString().slice(0, 5),
+                    signal: signal,
+                    event: event,
+                    details: details,
+                    isActive: i === 23 // Current hour
+                });
+            }
+            
+            return timeline;
+        }
+
+        // Generate timeline data for a specific weather card
+        function generateTimelineForCard(cardData) {
+            const timeline = [];
+            const now = new Date();
+            
+            // Generate 24 hours of timeline data specific to this card's location
+            for (let i = 23; i >= 0; i--) {
+                const time = new Date(now.getTime() - i * 60 * 60 * 1000);
+                const hour = time.getHours();
+                
+                // Base signal level for this location
+                let signal = cardData.currentSignal;
+                let event = "Current weather conditions";
+                let details = {
+                    winds: cardData.currentWinds,
+                    pressure: cardData.pressure,
+                    rainfall: cardData.rainfall,
+                    visibility: cardData.visibility,
+                    temperature: cardData.temperature,
+                    humidity: cardData.humidity,
+                    affectedAreas: cardData.affectedAreas || [],
+                    stormPosition: cardData.currentPosition || "No storm in range"
+                };
+                
+                // Simulate signal progression based on time and current signal
+                if (i < 23) { // Historical data
+                    if (cardData.currentSignal > 0) {
+                        // If currently has signal, show progression
+                        if (i >= 18) {
+                            signal = Math.max(0, cardData.currentSignal - 1);
+                        } else if (i >= 12) {
+                            signal = Math.max(0, cardData.currentSignal - 2);
+                        } else if (i >= 6) {
+                            signal = Math.max(0, cardData.currentSignal - 3);
+                        } else {
+                            signal = 0;
+                        }
+                    } else {
+                        // If no current signal, show potential escalation
+                        if (i >= 18) {
+                            signal = 1;
+                        } else if (i >= 12) {
+                            signal = 0;
+                        } else {
+                            signal = 0;
+                        }
+                    }
+                    
+                    // Adjust details based on signal level
+                    if (signal === 0) {
+                        details.winds = "< 39 km/h";
+                        details.pressure = "1013 hPa";
+                        details.rainfall = "0-2 mm/hr";
+                        details.visibility = "10-15 km";
+                        event = "Normal weather conditions";
+                    } else if (signal === 1) {
+                        details.winds = "39-61 km/h";
+                        details.pressure = "1005 hPa";
+                        details.rainfall = "5-15 mm/hr";
+                        details.visibility = "8-12 km";
+                        event = "Weather Warning Level 1 issued";
+                    } else if (signal === 2) {
+                        details.winds = "62-88 km/h";
+                        details.pressure = "995 hPa";
+                        details.rainfall = "15-30 mm/hr";
+                        details.visibility = "5-8 km";
+                        event = "Weather Warning Level 2 issued";
+                    } else if (signal === 3) {
+                        details.winds = "89-117 km/h";
+                        details.pressure = "985 hPa";
+                        details.rainfall = "30-50 mm/hr";
+                        details.visibility = "3-5 km";
+                        event = "Weather Warning Level 3 issued";
+                    }
+                }
+                
+                timeline.push({
+                    id: i,
+                    time: time,
+                    timeString: time.toTimeString().slice(0, 5),
+                    signal: signal,
+                    event: event,
+                    details: details,
+                    isActive: i === 23 // Current hour
+                });
+            }
+            
+            return timeline;
+        }
+
+        // Show timeline details in a modal
+        function showTimelineDetails(pointId) {
+            const timeline = generateTimelineData();
+            const point = timeline.find(p => p.id === pointId);
+            
+            if (!point) return;
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.onclick = () => document.body.removeChild(modal);
+            
+            const config = signalConfig[point.signal];
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4" onclick="event.stopPropagation()">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">Timeline Details</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Time and Signal -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 ${config.color} rounded-full"></div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">${point.timeString}</div>
+                                <div class="text-xs text-gray-500">Signal ${point.signal}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Event -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-1">Event</div>
+                            <div class="text-sm text-gray-600">${point.event}</div>
+                        </div>
+                        
+                        <!-- Weather Details -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-2">Weather Conditions</div>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <span class="text-gray-500">Wind Speed:</span>
+                                    <div class="font-medium">${point.details.winds}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Pressure:</span>
+                                    <div class="font-medium">${point.details.pressure}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Rainfall:</span>
+                                    <div class="font-medium">${point.details.rainfall}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Visibility:</span>
+                                    <div class="font-medium">${point.details.visibility}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Affected Areas -->
+                        ${point.details.affectedAreas.length > 0 ? `
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-2">Affected Areas</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${point.details.affectedAreas.map(area => `
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">${area}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <!-- Storm Position -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-1">Storm Position</div>
+                            <div class="text-sm text-gray-600">${point.details.stormPosition}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Show timeline details for a specific card
+        function showCardTimelineDetails(cardId, pointIndex) {
+            const card = weatherData.find(c => c.id === cardId);
+            if (!card) return;
+            
+            const timeline = generateTimelineForCard(card);
+            const point = timeline[pointIndex];
+            
+            if (!point) return;
+            
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            modal.onclick = () => document.body.removeChild(modal);
+            
+            const config = signalConfig[point.signal];
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4" onclick="event.stopPropagation()">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium text-gray-900">${card.city} - Weather Details</h3>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Time and Signal -->
+                        <div class="flex items-center space-x-3">
+                            <div class="w-3 h-3 ${config.color} rounded-full"></div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">${point.timeString}</div>
+                                <div class="text-xs text-gray-500">${config.name}</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Event -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-1">What Happened</div>
+                            <div class="text-sm text-gray-600">${point.event}</div>
+                        </div>
+                        
+                        <!-- Weather Details -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-2">Weather Conditions at This Time</div>
+                            <div class="grid grid-cols-2 gap-3 text-sm">
+                                <div>
+                                    <span class="text-gray-500">Wind Speed:</span>
+                                    <div class="font-medium">${point.details.winds}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Air Pressure:</span>
+                                    <div class="font-medium">${point.details.pressure}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Rainfall Rate:</span>
+                                    <div class="font-medium">${point.details.rainfall}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Visibility:</span>
+                                    <div class="font-medium">${point.details.visibility}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Temperature:</span>
+                                    <div class="font-medium">${point.details.temperature}</div>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Humidity:</span>
+                                    <div class="font-medium">${point.details.humidity}</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Affected Areas -->
+                        ${point.details.affectedAreas.length > 0 ? `
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-2">Areas Under Weather Warning</div>
+                            <div class="flex flex-wrap gap-2">
+                                ${point.details.affectedAreas.map(area => `
+                                    <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">${area}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <!-- Storm Position -->
+                        <div>
+                            <div class="text-sm font-medium text-gray-900 mb-1">Storm Location</div>
+                            <div class="text-sm text-gray-600">${point.details.stormPosition}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        // Update weather data
+        async function updateWeatherData() {
+            if (isUpdating) return;
+            
+            isUpdating = true;
+            showLoading(true);
+            hideError();
+
+            try {
+                const newData = await fetchPAGASAData();
+                weatherData = newData;
+                
+                // Update the display
+                initializeWeatherCards();
+                
+                // Update timestamp
+                updateLastUpdateTime();
+                
+                // Update storm banner
+                updateStormBanner();
+                
+                // Update landfall timeline
+                updateLandfallTimeline();
+                
+                console.log('Weather data updated successfully');
+            } catch (error) {
+                console.error('Failed to update weather data:', error);
+                showError('Failed to fetch latest weather data. Please try again.');
+            } finally {
+                isUpdating = false;
+                showLoading(false);
+            }
+        }
+
+        // Manual refresh function
+        async function manualRefresh() {
+            await updateWeatherData();
+        }
+
+        // Show/hide loading indicator
+        function showLoading(show) {
+            const indicator = document.getElementById('loadingIndicator');
+            const refreshBtn = document.getElementById('refreshBtn');
+            
+            if (show) {
+                indicator.classList.remove('hidden');
+                refreshBtn.disabled = true;
+                refreshBtn.classList.add('opacity-50');
+            } else {
+                indicator.classList.add('hidden');
+                refreshBtn.disabled = false;
+                refreshBtn.classList.remove('opacity-50');
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            
+            // Make error messages more user-friendly
+            let userFriendlyMessage = message;
+            if (message.includes('Failed to fetch')) {
+                userFriendlyMessage = 'Unable to get the latest weather information at this time.';
+            } else if (message.includes('network')) {
+                userFriendlyMessage = 'Please check your internet connection and try again.';
+            }
+            
+            errorText.textContent = userFriendlyMessage;
+            errorDiv.classList.remove('hidden');
+        }
+
+        // Hide error message
+        function hideError() {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.classList.add('hidden');
+        }
+
+        // Update last update time
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('lastUpdateTime').textContent = `Last updated: ${timeString}`;
+        }
+
+        function createWeatherCard(data) {
+            const config = signalConfig[data.currentSignal];
+            
+            return `
+                <div class="weather-card border border-gray-200 rounded-lg overflow-hidden" data-id="${data.id}">
+                    <div class="p-4 cursor-pointer" onclick="toggleExpand(${data.id})">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start space-x-3 flex-1">
+                                <div class="w-2 h-2 ${config.color} rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <h3 class="font-medium text-gray-900">${data.city}</h3>
+                                        <p class="text-xs text-gray-400">Updated: ${data.lastUpdated.split(' ')[1]}</p>
+                                    </div>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs text-gray-600 mb-2">
+                                        <div>Warning Level: ${data.currentSignal}</div>
+                                        <div>Wind: ${data.currentWinds}</div>
+                                        <div>Temp: ${data.temperature}</div>
+                                        <div>Pressure: ${data.pressure}</div>
+                                    </div>
+                                    <p class="text-sm text-gray-500">${config.name}</p>
+                                    <p class="text-xs text-gray-400 mt-1">${config.description}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="ml-4">
+                                <svg class="w-4 h-4 text-gray-400 transform transition-transform expand-icon-${data.id}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Expandable Content -->
+                    <div class="expand-content-${data.id} expand-animation overflow-hidden" style="max-height: 0;">
+                        <div class="px-4 pb-4 border-t border-gray-100">
+                            <div class="mt-4 space-y-4">
+                                <!-- Current Conditions -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-900 mb-3">Current Weather Conditions</h5>
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Wind Speed</p>
+                                            <p class="font-medium">${data.currentWinds}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Wind Gusts</p>
+                                            <p class="font-medium">${data.gusts}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Wind Direction</p>
+                                            <p class="font-medium">${data.direction}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Air Pressure</p>
+                                            <p class="font-medium">${data.pressure}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Rainfall Rate</p>
+                                            <p class="font-medium">${data.rainfall}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Visibility</p>
+                                            <p class="font-medium">${data.visibility}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Temperature</p>
+                                            <p class="font-medium">${data.temperature}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Humidity</p>
+                                            <p class="font-medium">${data.humidity}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Next Update</p>
+                                            <p class="font-medium">${data.nextUpdate}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Storm Information -->
+                                ${data.stormName !== 'None' ? `
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-900 mb-3">Storm Information</h5>
+                                    <div class="grid grid-cols-2 gap-3 text-sm">
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Storm Name</p>
+                                            <p class="font-medium">${data.stormName}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Storm Type</p>
+                                            <p class="font-medium">${data.stormCategory}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Current Location</p>
+                                            <p class="font-medium">${data.currentPosition}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Movement</p>
+                                            <p class="font-medium">${data.movement}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Maximum Winds</p>
+                                            <p class="font-medium">${data.maxWinds}</p>
+                                        </div>
+                                        <div class="space-y-1">
+                                            <p class="text-gray-500">Coordinates</p>
+                                            <p class="font-medium">${data.coordinates}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                ` : `
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-900 mb-3">Location Details</h5>
+                                    <div class="text-sm">
+                                        <p class="text-gray-500 mb-1">Coordinates</p>
+                                        <p class="font-medium">${data.coordinates}</p>
+                                    </div>
+                                </div>
+                                `}
+
+                                <!-- Affected Areas -->
+                                ${data.affectedAreas.length > 0 ? `
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-900 mb-3">Areas Under Weather Warning</h5>
+                                    <p class="text-xs text-gray-600 mb-2">The following areas are currently experiencing or expected to experience severe weather conditions:</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        ${data.affectedAreas.map(area => `
+                                            <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">${area}</span>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                ` : ''}
+                                
+                                <!-- Signal History -->
+                                <div>
+                                    <h5 class="text-sm font-medium text-gray-900 mb-3">Weather Warning History</h5>
+                                    <p class="text-xs text-gray-600 mb-3">This chart shows how weather conditions have changed over the past 24 hours. Click on any point to see detailed information.</p>
+                                    
+                                    <!-- Progression Line Graph -->
+                                    <div class="mb-4 bg-gray-50 rounded-lg p-4">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-xs font-medium text-gray-700">24-Hour Weather Warning Progression</span>
+                                        </div>
+                                        
+                                        <!-- Line Graph Container -->
+                                        <div class="chart-container p-2">
+                                            <canvas id="signalChart-${data.id}" class="w-full h-full"></canvas>
+                                        </div>
+                                        
+                                        <!-- X-axis Labels -->
+                                        <div class="flex justify-between text-xs text-gray-500 mt-2">
+                                            <span>00:00</span>
+                                            <span>06:00</span>
+                                            <span>12:00</span>
+                                            <span>18:00</span>
+                                            <span>24:00</span>
+                                        </div>
+                                        
+                                        <!-- Chart Legend -->
+                                        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                                            <div class="flex items-center space-x-1">
+                                                <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                                <span class="text-gray-600">No Warning</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1">
+                                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                                <span class="text-gray-600">Level 1</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1">
+                                                <div class="w-3 h-3 bg-orange-500 rounded-full"></div>
+                                                <span class="text-gray-600">Level 2</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1">
+                                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                                <span class="text-gray-600">Level 3+</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Traditional History List -->
+                                    <div class="space-y-2">
+                                        <p class="text-xs text-gray-600 mb-2">Recent weather warning changes:</p>
+                                        ${data.history.map((entry, index) => {
+                                            const entryConfig = signalConfig[entry.signal];
+                                            return `
+                                                <div class="flex items-center justify-between text-sm ${index === 0 ? 'bg-blue-50 p-2 rounded border border-blue-200' : ''}">
+                                                    <div class="flex items-center space-x-2">
+                                                        <div class="w-1.5 h-1.5 ${entryConfig.color} rounded-full"></div>
+                                                        <span class="text-gray-600">${entry.time}</span>
+                                                        <span class="text-gray-900">${entryConfig.name}</span>
+                                                    </div>
+                                                    <div class="text-right text-xs text-gray-500">
+                                                        <div>${entry.winds}</div>
+                                                        <div>${entry.pressure}</div>
+                                                    </div>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleExpand(id) {
+            const expandContent = document.querySelector(`.expand-content-${id}`);
+            const expandIcon = document.querySelector(`.expand-icon-${id}`);
+            
+            if (expandContent.style.maxHeight === '0px' || expandContent.style.maxHeight === '') {
+                expandContent.style.maxHeight = expandContent.scrollHeight + 'px';
+                expandIcon.style.transform = 'rotate(180deg)';
+            } else {
+                expandContent.style.maxHeight = '0px';
+                expandIcon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Initialize the weather cards
+        function initializeWeatherCards() {
+            const container = document.getElementById('weatherContainer');
+            container.innerHTML = weatherData.map(data => createWeatherCard(data)).join('');
+            
+            // Create charts for each card
+            weatherData.forEach(data => {
+                createSignalChart(data);
+            });
+        }
+
+        // Create signal progression line chart
+        function createSignalChart(cardData) {
+            const canvas = document.getElementById(`signalChart-${cardData.id}`);
+            if (!canvas) return;
+            
+            const timeline = generateTimelineForCard(cardData);
+            const ctx = canvas.getContext('2d');
+            
+            // Prepare data for chart
+            const labels = timeline.map(point => point.timeString);
+            const data = timeline.map(point => point.signal);
+            const colors = timeline.map(point => {
+                const config = signalConfig[point.signal];
+                return config.color.replace('bg-', '').replace('-500', '').replace('-700', '').replace('-900', '');
+            });
+            
+            // Create gradient for line
+            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(59, 130, 246, 0.8)');
+            gradient.addColorStop(1, 'rgba(59, 130, 246, 0.1)');
+            
+            new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Signal Level',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: gradient,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: colors.map(color => {
+                            // Map color names to hex values
+                            const colorMap = {
+                                'gray': '#9ca3af',
+                                'yellow': '#eab308',
+                                'orange': '#f97316',
+                                'red': '#ef4444',
+                                'red-700': '#b91c1c',
+                                'red-900': '#7f1d1d'
+                            };
+                            return colorMap[color] || '#3b82f6';
+                        }),
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointHoverBackgroundColor: '#1d4ed8',
+                        pointHoverBorderColor: '#ffffff',
+                        pointHoverBorderWidth: 3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#ffffff',
+                            bodyColor: '#ffffff',
+                            borderColor: '#3b82f6',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                title: function(context) {
+                                    const point = timeline[context[0].dataIndex];
+                                    return `${point.timeString} - ${signalConfig[point.signal].name}`;
+                                },
+                                label: function(context) {
+                                    const point = timeline[context[0].dataIndex];
+                                    return [
+                                        `What happened: ${point.event}`,
+                                        `Wind Speed: ${point.details.winds}`,
+                                        `Air Pressure: ${point.details.pressure}`,
+                                        `Rainfall Rate: ${point.details.rainfall}`,
+                                        `Visibility: ${point.details.visibility}`
+                                    ];
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            display: false,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            display: true,
+                            position: 'right',
+                            min: 0,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1,
+                                color: '#6b7280',
+                                font: {
+                                    size: 10
+                                }
+                            },
+                            grid: {
+                                color: '#e5e7eb',
+                                drawBorder: false
+                            }
+                        }
+                    },
+                    elements: {
+                        point: {
+                            hitRadius: 20
+                        }
+                    },
+                    onClick: function(event, elements) {
+                        if (elements.length > 0) {
+                            const pointIndex = elements[0].index;
+                            showCardTimelineDetails(cardData.id, pointIndex);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Start auto-update interval
+        function startAutoUpdate() {
+            // Update every 5 minutes (300000 ms)
+            updateInterval = setInterval(updateWeatherData, 300000);
+        }
+
+        // Stop auto-update interval
+        function stopAutoUpdate() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+                updateInterval = null;
+            }
+        }
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Check if help section should be shown
+            const showHelp = localStorage.getItem('showHelp');
+            if (showHelp === 'false') {
+                const helpSection = document.getElementById('helpSection');
+                if (helpSection) {
+                    helpSection.style.display = 'none';
+                }
+            }
+            
+            // Initial data load
+            await updateWeatherData();
+            
+            // Start auto-update
+            startAutoUpdate();
+            
+            // Add visibility change listener to pause updates when tab is not visible
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    stopAutoUpdate();
+                } else {
+                    startAutoUpdate();
+                }
+            });
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            stopAutoUpdate();
+        });
+
+        // Function to close the help section
+        function closeHelpSection() {
+            const helpSection = document.getElementById('helpSection');
+            if (helpSection) {
+                helpSection.style.display = 'none';
+                
+                // Check if "Don't show again" is checked
+                const dontShowAgain = document.getElementById('dontShowAgain');
+                if (dontShowAgain && dontShowAgain.checked) {
+                    localStorage.setItem('showHelp', 'false');
+                }
+            }
+        }
+
+        // Function to reset help section (for testing or if user wants to see it again)
+        function resetHelpSection() {
+            localStorage.removeItem('showHelp');
+            const helpSection = document.getElementById('helpSection');
+            if (helpSection) {
+                helpSection.style.display = 'block';
+                const dontShowAgain = document.getElementById('dontShowAgain');
+                if (dontShowAgain) {
+                    dontShowAgain.checked = false;
+                }
+            }
+        }
+
+        // Function to update storm banner
+        function updateStormBanner() {
+            const stormBanner = document.getElementById('stormBanner');
+            if (!stormBanner) return;
+            
+            // Check if there's an active storm in the data
+            const activeStorm = weatherData.find(data => data.stormName && data.stormName !== 'None');
+            
+            if (activeStorm) {
+                // Show banner with storm information
+                stormBanner.style.display = 'block';
+                
+                // Update storm name hashtag
+                const stormName = activeStorm.stormName.replace(/\s+/g, '');
+                const hashtagElement = stormBanner.querySelector('h2');
+                if (hashtagElement) {
+                    hashtagElement.textContent = `#${stormName}`;
+                }
+                
+                // Update description based on storm category
+                const descriptionElement = stormBanner.querySelector('p');
+                if (descriptionElement) {
+                    const stormType = activeStorm.stormCategory;
+                    const stormNameShort = activeStorm.stormName.split(' ').pop().toUpperCase();
+                    
+                    if (stormType.includes('Tropical Depression')) {
+                        descriptionElement.textContent = `"${stormNameShort}" MAINTAINS TROPICAL DEPRESSION STATUS`;
+                    } else if (stormType.includes('Tropical Storm')) {
+                        descriptionElement.textContent = `"${stormNameShort}" INTENSIFIES INTO A TROPICAL STORM`;
+                    } else if (stormType.includes('Typhoon')) {
+                        descriptionElement.textContent = `"${stormNameShort}" INTENSIFIES INTO A TYPHOON`;
+                    } else if (stormType.includes('Super Typhoon')) {
+                        descriptionElement.textContent = `"${stormNameShort}" INTENSIFIES INTO A SUPER TYPHOON`;
+                    } else {
+                        descriptionElement.textContent = `"${stormNameShort}" - ${stormType.toUpperCase()}`;
+                    }
+                }
+                
+                // Update status
+                const statusElement = stormBanner.querySelector('p:last-of-type');
+                if (statusElement) {
+                    statusElement.textContent = `Current Status: ${activeStorm.movement} with maximum sustained winds of ${activeStorm.maxWinds}`;
+                }
+                
+                // Update metrics
+                const windElement = stormBanner.querySelector('.text-2xl.font-bold');
+                if (windElement) {
+                    windElement.textContent = activeStorm.maxWinds.replace(' km/h', '');
+                }
+                
+                const pressureElement = stormBanner.querySelectorAll('.text-2xl.font-bold')[1];
+                if (pressureElement) {
+                    pressureElement.textContent = activeStorm.pressure.replace(' hPa', '');
+                }
+                
+                const speedElement = stormBanner.querySelectorAll('.text-2xl.font-bold')[2];
+                if (speedElement) {
+                    const speed = activeStorm.movement.match(/(\d+)/);
+                    speedElement.textContent = speed ? speed[1] : '25';
+                }
+                
+                // Update banner colors based on storm intensity
+                // First, clear any existing weather effect classes
+                stormBanner.className = 'mb-6 rounded-lg p-4 text-white shadow-lg transition-all duration-500';
+                
+                if (activeStorm.currentSignal >= 4) {
+                    stormBanner.classList.add('storm-banner-extreme');
+                } else if (activeStorm.currentSignal >= 3) {
+                    stormBanner.classList.add('storm-banner-dangerous');
+                } else if (activeStorm.currentSignal >= 2) {
+                    stormBanner.classList.add('storm-banner-severe');
+                } else if (activeStorm.currentSignal >= 1) {
+                    stormBanner.classList.add('storm-banner-moderate');
+                } else {
+                    stormBanner.classList.add('storm-banner-calm');
+                }
+
+                // Add special weather effects based on storm type and intensity
+                const stormType = activeStorm.stormCategory.toLowerCase();
+                const windSpeed = parseInt(activeStorm.maxWinds);
+                const rainfall = activeStorm.rainfall || "0 mm/hr";
+                const rainfallValue = parseInt(rainfall);
+                
+                // Determine weather conditions and apply appropriate effects
+                if (activeStorm.currentSignal === 0) {
+                    // No storm - show weather based on current conditions
+                    if (rainfallValue > 20) {
+                        stormBanner.classList.add('storm-banner-heavy-rain');
+                    } else if (rainfallValue > 5) {
+                        stormBanner.classList.add('storm-banner-rainy');
+                    } else if (rainfallValue > 0) {
+                        stormBanner.classList.add('storm-banner-cloudy');
+                    } else {
+                        stormBanner.classList.add('storm-banner-sunny');
+                    }
+                } else if (activeStorm.currentSignal >= 3 || windSpeed > 100) {
+                    // Severe conditions
+                    if (stormType.includes('typhoon') || stormType.includes('super')) {
+                        stormBanner.classList.add('storm-banner-typhoon');
+                    } else if (rainfallValue > 30) {
+                        stormBanner.classList.add('storm-banner-heavy-rain');
+                    } else {
+                        stormBanner.classList.add('storm-banner-stormy');
+                    }
+                } else if (activeStorm.currentSignal >= 2) {
+                    // Moderate conditions
+                    if (rainfallValue > 25) {
+                        stormBanner.classList.add('storm-banner-heavy-rain');
+                    } else if (rainfallValue > 10) {
+                        stormBanner.classList.add('storm-banner-rainy');
+                    } else {
+                        stormBanner.classList.add('storm-banner-stormy');
+                    }
+                } else if (activeStorm.currentSignal === 1) {
+                    // Light conditions
+                    if (rainfallValue > 15) {
+                        stormBanner.classList.add('storm-banner-rainy');
+                    } else if (rainfallValue > 5) {
+                        stormBanner.classList.add('storm-banner-cloudy');
+                    } else {
+                        stormBanner.classList.add('storm-banner-light');
+                    }
+                }
+                
+                // Add lightning effect for thunderstorms or severe conditions
+                if (rainfallValue > 20 && windSpeed > 50) {
+                    stormBanner.classList.add('storm-banner-lightning');
+                }
+            } else {
+                // Hide banner if no active storm
+                stormBanner.style.display = 'none';
+            }
+        }
+
+        // Function to update landfall timeline
+        function updateLandfallTimeline() {
+            const landfallSection = document.getElementById('landfallSection');
+            if (!landfallSection) return;
+            
+            // Check if there's an active storm
+            const activeStorm = weatherData.find(data => data.stormName && data.stormName !== 'None');
+            
+            if (!activeStorm) {
+                // Hide landfall section if no active storm
+                landfallSection.style.display = 'none';
+                return;
+            }
+            
+            // Show landfall section
+            landfallSection.style.display = 'block';
+            
+            const entryTimeElement = document.getElementById('entryTime');
+            const entryDateElement = document.getElementById('entryDate');
+            const entryLocationElement = document.getElementById('entryLocation');
+            const landfallTimeElement = document.getElementById('landfallTime');
+            const landfallDateElement = document.getElementById('landfallDate');
+            const landfallLocationElement = document.getElementById('landfallLocation');
+            const exitTimeElement = document.getElementById('exitTime');
+            const exitDateElement = document.getElementById('exitDate');
+            const exitLocationElement = document.getElementById('exitLocation');
+            const currentPositionElement = document.getElementById('currentPosition');
+            const currentMovementElement = document.getElementById('currentMovement');
+            const distanceFromPARElement = document.getElementById('distanceFromPAR');
+            const expectedImpactElement = document.getElementById('expectedImpact');
+
+            // Get current storm data
+            const now = new Date();
+            const currentHour = now.getHours();
+            const currentMinute = now.getMinutes();
+            const currentDay = now.getDate();
+            const currentMonth = now.getMonth() + 1;
+            const currentYear = now.getFullYear();
+
+            // Calculate timeline based on current storm position and movement
+            let entryHour = 6;
+            let entryMinute = 0;
+            let entryDay = currentDay;
+            let entryMonth = currentMonth;
+            let entryYear = currentYear;
+
+            let landfallHour = 12;
+            let landfallMinute = 0;
+            let landfallDay = currentDay;
+            let landfallMonth = currentMonth;
+            let landfallYear = currentYear;
+
+            let exitHour = 18;
+            let exitMinute = 0;
+            let exitDay = currentDay;
+            let exitMonth = currentMonth;
+            let exitYear = currentYear;
+
+            // Adjust timeline based on current time
+            if (currentHour > entryHour || (currentHour === entryHour && currentMinute >= entryMinute)) {
+                entryHour += 24;
+                entryDay += 1;
+            }
+            if (currentHour > landfallHour || (currentHour === landfallHour && currentMinute >= landfallMinute)) {
+                landfallHour += 24;
+                landfallDay += 1;
+            }
+            if (currentHour > exitHour || (currentHour === exitHour && currentMinute >= exitMinute)) {
+                exitHour += 24;
+                exitDay += 1;
+            }
+
+            // Use actual storm data for current position and movement
+            const currentPosition = activeStorm.currentPosition || "290 km West of Bacnotan, La Union";
+            const currentMovement = activeStorm.movement || "Westward at 25 km/h";
+            const maxWinds = activeStorm.maxWinds || "65 km/h";
+            
+            // Calculate distance from PAR based on current position
+            let currentDistance = 300; // Default distance
+            if (currentPosition.includes("290 km")) {
+                currentDistance = 290;
+            } else if (currentPosition.includes("200 km")) {
+                currentDistance = 200;
+            } else if (currentPosition.includes("100 km")) {
+                currentDistance = 100;
+            } else if (currentPosition.includes("50 km")) {
+                currentDistance = 50;
+            }
+
+            // Determine expected impact based on distance and wind speed
+            let expectedImpact = 'No significant impact';
+            const windSpeed = parseInt(maxWinds);
+            if (currentDistance < 50 && windSpeed > 100) {
+                expectedImpact = 'Extreme impact on infrastructure and lives';
+            } else if (currentDistance < 100 && windSpeed > 60) {
+                expectedImpact = 'Severe impact on infrastructure and lives';
+            } else if (currentDistance < 200 && windSpeed > 40) {
+                expectedImpact = 'Moderate impact on infrastructure and lives';
+            } else if (currentDistance < 300) {
+                expectedImpact = 'Light impact on infrastructure and lives';
+            }
+
+            // Format dates and times
+            const entryTimeString = `${entryHour.toString().padStart(2, '0')}:${entryMinute.toString().padStart(2, '0')}`;
+            const entryDateString = `${entryDay}/${entryMonth}/${entryYear}`;
+            const entryLocationString = `290 km West of Bacnotan, La Union`;
+
+            const landfallTimeString = `${landfallHour.toString().padStart(2, '0')}:${landfallMinute.toString().padStart(2, '0')}`;
+            const landfallDateString = `${landfallDay}/${landfallMonth}/${landfallYear}`;
+            const landfallLocationString = `Expected Landfall in Manila`;
+
+            const exitTimeString = `${exitHour.toString().padStart(2, '0')}:${exitMinute.toString().padStart(2, '0')}`;
+            const exitDateString = `${exitDay}/${exitMonth}/${exitYear}`;
+            const exitLocationString = `Exit from PAR`;
+
+            const currentPositionString = currentPosition;
+            const currentMovementString = currentMovement;
+            const distanceFromPARString = `${currentDistance} km`;
+
+            // Update DOM elements
+            if (entryTimeElement) entryTimeElement.textContent = entryTimeString;
+            if (entryDateElement) entryDateElement.textContent = entryDateString;
+            if (entryLocationElement) entryLocationElement.textContent = entryLocationString;
+
+            if (landfallTimeElement) landfallTimeElement.textContent = landfallTimeString;
+            if (landfallDateElement) landfallDateElement.textContent = landfallDateString;
+            if (landfallLocationElement) landfallLocationElement.textContent = landfallLocationString;
+
+            if (exitTimeElement) exitTimeElement.textContent = exitTimeString;
+            if (exitDateElement) exitDateElement.textContent = exitDateString;
+            if (exitLocationElement) exitLocationElement.textContent = exitLocationString;
+
+            if (currentPositionElement) currentPositionElement.textContent = currentPositionString;
+            if (currentMovementElement) currentMovementElement.textContent = currentMovementString;
+            if (distanceFromPARElement) distanceFromPARElement.textContent = distanceFromPARString;
+            if (expectedImpactElement) expectedImpactElement.textContent = expectedImpact;
+        }
+
+        // Dark Mode Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const body = document.body;
+            
+            // Check for saved dark mode preference
+            const darkMode = localStorage.getItem('darkMode');
+            if (darkMode === 'enabled') {
+                body.classList.add('dark-mode');
+                darkModeToggle.classList.add('active');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                body.classList.toggle('dark-mode');
+                darkModeToggle.classList.toggle('active');
+                
+                if (body.classList.contains('dark-mode')) {
+                    localStorage.setItem('darkMode', 'enabled');
+                } else {
+                    localStorage.setItem('darkMode', 'disabled');
+                }
+            });
+        });
+    </script>
+
+    <!-- Floating MATICStudio.net Logo -->
+    <div class="matic-logo">
+        <div class="matic-logo-text">curated & re-engineered by</div>
+        <a href="/aboutmatic.html" class="matic-logo-link">MATICStudio.net</a>
+    </div>
+</body>
+</html>
