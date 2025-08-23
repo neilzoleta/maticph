@@ -10,6 +10,11 @@ const PORT = process.env.PORT || 3001;
 // Production environment settings
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Log environment info for debugging
+console.log(`Environment: ${isProduction ? 'Production' : 'Development'}`);
+console.log(`Port: ${PORT}`);
+console.log(`Node.js version: ${process.version}`);
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -67,35 +72,47 @@ app.get('/api/pagasa/weather', async (req, res) => {
     }
 });
 
-// Fetch and parse PAGASA data
-async function fetchPAGASAData() {
-    try {
-        // Fetch tropical cyclone bulletin
-        const response = await axios.get(PAGASA_ENDPOINTS.tropicalCyclone, {
-            timeout: 10000,
-            headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-            }
-        });
+        // Fetch and parse PAGASA data
+        async function fetchPAGASAData() {
+            try {
+                console.log(`Fetching PAGASA data from: ${PAGASA_ENDPOINTS.tropicalCyclone}`);
+                
+                // Fetch tropical cyclone bulletin
+                const response = await axios.get(PAGASA_ENDPOINTS.tropicalCyclone, {
+                    timeout: 15000, // Increased timeout for production
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                    }
+                });
 
-        const htmlContent = response.data;
-        const $ = cheerio.load(htmlContent);
-        
-        // Extract storm information
-        const stormData = extractStormData($);
-        
-        // Extract weather warnings
-        const warningData = extractWarningData($);
-        
-        // Generate weather data for different regions
-        const weatherData = generateWeatherData(stormData, warningData);
-        
-        return weatherData;
-    } catch (error) {
-        console.error('Error fetching from PAGASA:', error);
-        throw error;
-    }
-}
+                console.log(`PAGASA response status: ${response.status}`);
+                console.log(`PAGASA response size: ${response.data.length} characters`);
+
+                const htmlContent = response.data;
+                const $ = cheerio.load(htmlContent);
+                
+                // Extract storm information
+                const stormData = extractStormData($);
+                console.log(`Extracted storm data:`, stormData);
+                
+                // Extract weather warnings
+                const warningData = extractWarningData($);
+                console.log(`Extracted warning data:`, warningData);
+                
+                // Generate weather data for different regions
+                const weatherData = generateWeatherData(stormData, warningData);
+                console.log(`Generated weather data for ${weatherData.length} cities`);
+                
+                return weatherData;
+            } catch (error) {
+                console.error('Error fetching from PAGASA:', error.message);
+                if (error.response) {
+                    console.error('Response status:', error.response.status);
+                    console.error('Response headers:', error.response.headers);
+                }
+                throw error;
+            }
+        }
 
 // Extract storm information from PAGASA HTML
 function extractStormData($) {
@@ -426,23 +443,48 @@ function getSignalDescription(signalLevel) {
     return descriptions[signalLevel] || "Unknown warning level";
 }
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'healthy',
-        timestamp: new Date().toISOString(),
-        cacheAge: weatherCache ? Date.now() - cacheTimestamp : null
-    });
-});
+        // Health check endpoint
+        app.get('/api/health', (req, res) => {
+            const uptime = process.uptime();
+            const memoryUsage = process.memoryUsage();
+            
+            res.json({
+                status: 'healthy',
+                timestamp: new Date().toISOString(),
+                environment: isProduction ? 'production' : 'development',
+                port: PORT,
+                uptime: `${Math.floor(uptime / 60)} minutes ${Math.floor(uptime % 60)} seconds`,
+                memory: {
+                    rss: `${Math.round(memoryUsage.rss / 1024 / 1024)} MB`,
+                    heapUsed: `${Math.round(memoryUsage.heapUsed / 1024 / 1024)} MB`,
+                    heapTotal: `${Math.round(memoryUsage.heapTotal / 1024 / 1024)} MB`
+                },
+                cache: {
+                    hasData: !!weatherCache,
+                    age: weatherCache ? Date.now() - cacheTimestamp : null,
+                    ageMinutes: weatherCache ? Math.round((Date.now() - cacheTimestamp) / 1000 / 60) : null
+                },
+                version: process.version,
+                platform: process.platform
+            });
+        });
 
 // Serve the main HTML file
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'weathernowPH.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`PAGASA Weather Proxy Server running on port ${PORT}`);
-    console.log(`Access the weather app at: http://localhost:${PORT}`);
-    console.log(`API endpoint: http://localhost:${PORT}/api/pagasa/weather`);
-});
+        // Start server
+        app.listen(PORT, () => {
+            console.log(`PAGASA Weather Proxy Server running on port ${PORT}`);
+            
+            // Log appropriate URLs based on environment
+            if (isProduction) {
+                console.log(`Server deployed successfully on Render`);
+                console.log(`API endpoint: /api/pagasa/weather`);
+                console.log(`Health check: /api/health`);
+            } else {
+                console.log(`Access the weather app at: http://localhost:${PORT}`);
+                console.log(`API endpoint: http://localhost:${PORT}/api/pagasa/weather`);
+            }
+        });
