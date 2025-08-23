@@ -1,22 +1,32 @@
 {
-  "name": "backend",
+  "name": "pagasa-weather-proxy",
   "version": "1.0.0",
-  "main": "server.js",
+  "description": "Backend proxy server for PAGASA weather data",
+  "main": "pagasa-proxy.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node pagasa-proxy.js",
+    "dev": "nodemon pagasa-proxy.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "keywords": [
+    "pagasa",
+    "weather",
+    "philippines",
+    "tropical-cyclone",
+    "proxy"
+  ],
+  "author": "MATICStudio",
+  "license": "MIT",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.16.3",
-    "nodemailer": "^7.0.5"
+    "express": "^4.18.2",
+    "axios": "^1.6.0",
+    "cheerio": "^1.0.0-rc.12",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
