@@ -1381,16 +1381,80 @@
     .blog-wrapper {
       display: flex;
       flex-direction: row;
-      gap: 40px;
+      gap: 30px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      padding-bottom: 10px;
+      padding: 20px 0 30px 0;
+      justify-content: flex-start;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 255, 255, 0.3) transparent;
+      position: relative;
+      max-width: 100%;
+    }
+
+    .blog-wrapper::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .blog-wrapper::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    .blog-wrapper::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 255, 0.5);
+      border-radius: 3px;
+    }
+
+    .blog-wrapper::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 255, 255, 0.7);
+    }
+
+    .carousel-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .carousel-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
       justify-content: center;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      backdrop-filter: blur(10px);
+    }
+
+    .carousel-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      border-color: var(--glow);
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+    }
+
+    .carousel-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .carousel-btn svg {
+      width: 20px;
+      height: 20px;
     }
 
     .blog-card {
       position: relative;
-      width: 320px;
+      width: 300px;
       height: 200px;
       border-radius: 16px;
       overflow: hidden;
@@ -1869,6 +1933,21 @@
 
       .blog-card {
         width: 280px;
+      }
+
+      .carousel-container {
+        gap: 15px;
+        margin: 30px 0;
+      }
+
+      .carousel-btn {
+        width: 40px;
+        height: 40px;
+      }
+
+      .carousel-btn svg {
+        width: 16px;
+        height: 16px;
       }
 
       .calendly-cta {
@@ -2571,21 +2650,39 @@
   </section>
 
   <section id="highlights" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
+    <div style="max-width: 1200px; margin: 0 auto; position: relative;">
       <h2>MATIC Studio <em>Highlights</em></h2>
-      <div class="blog-wrapper">
-        <a href="blogs/whatisbpa.html" class="blog-card">
-          <img src="blogs/blog-assets/whatisbpa.png" alt="What is BPA?" class="blog-image" />
-          <div class="blog-overlay">
-            <h3 class="blog-title">Latest Blog: What is BPA?</h3>
-          </div>
-        </a>
-        <a href="blogs/launch.html" class="blog-card">
-          <img src="blogs/blog-assets/bloglaunch.png" alt="Launching Innovation" class="blog-image" />
-          <div class="blog-overlay">
-            <h3 class="blog-title">Announcement Blog: Launching Innovation</h3>
-          </div>
-        </a>
+      <div class="carousel-container">
+        <button class="carousel-btn carousel-prev" onclick="scrollCarousel(-1)" aria-label="Previous blogs">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15,18 9,12 15,6"></polyline>
+          </svg>
+        </button>
+        <div class="blog-wrapper" id="blogCarousel">
+          <a href="blogs/ai-for-smes.html" class="blog-card">
+            <img src="blogs/blog-assets/aihype.jpg" alt="AI for SMEs: Beyond the Hype" class="blog-image" />
+            <div class="blog-overlay">
+              <h3 class="blog-title">Latest Blog: AI for SMEs: Beyond the Hype</h3>
+            </div>
+          </a>
+          <a href="blogs/whatisbpa.html" class="blog-card">
+            <img src="blogs/blog-assets/whatisbpa.png" alt="What is BPA?" class="blog-image" />
+            <div class="blog-overlay">
+              <h3 class="blog-title">What is BPA?</h3>
+            </div>
+          </a>
+          <a href="blogs/launch.html" class="blog-card">
+            <img src="blogs/blog-assets/bloglaunch.png" alt="Launching Innovation" class="blog-image" />
+            <div class="blog-overlay">
+              <h3 class="blog-title">Announcement Blog: Launching Innovation</h3>
+            </div>
+          </a>
+        </div>
+        <button class="carousel-btn carousel-next" onclick="scrollCarousel(1)" aria-label="Next blogs">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9,18 15,12 9,6"></polyline>
+          </svg>
+        </button>
       </div>
       <a href="blogs/blogs.html" class="view-all-button" style="margin-top: 40px;">View All Blogs</a>
     </div>
@@ -3210,6 +3307,46 @@
     // Initialize animations when page loads
     document.addEventListener('DOMContentLoaded', function() {
       initFidsAnimation();
+    });
+
+    // Carousel functionality
+    function scrollCarousel(direction) {
+      const carousel = document.getElementById('blogCarousel');
+      const cardWidth = 300 + 30; // card width + gap
+      const scrollAmount = cardWidth * direction;
+      
+      carousel.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+      
+      // Update button states after scroll
+      setTimeout(updateCarouselButtons, 300);
+    }
+
+    function updateCarouselButtons() {
+      const carousel = document.getElementById('blogCarousel');
+      const prevBtn = document.querySelector('.carousel-prev');
+      const nextBtn = document.querySelector('.carousel-next');
+      
+      if (carousel && prevBtn && nextBtn) {
+        const isAtStart = carousel.scrollLeft <= 0;
+        const isAtEnd = carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth);
+        
+        prevBtn.disabled = isAtStart;
+        nextBtn.disabled = isAtEnd;
+      }
+    }
+
+    // Initialize carousel on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCarouselButtons();
+      
+      // Update buttons on scroll
+      const carousel = document.getElementById('blogCarousel');
+      if (carousel) {
+        carousel.addEventListener('scroll', updateCarouselButtons);
+      }
     });
 
     // Pencil underline animation reset on scroll
