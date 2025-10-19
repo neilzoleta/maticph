@@ -132,10 +132,11 @@ function extractStormData($) {
         const textContent = $.text();
         
         // Extract storm name and category
-        const stormMatch = textContent.match(/(?:TROPICAL STORM|TYPHOON|TROPICAL DEPRESSION)\s+([A-Z]+)/i);
+        // Updated regex to handle quoted storm names like "Tropical Storm 'Ramil'"
+        const stormMatch = textContent.match(/(?:TROPICAL STORM|TYPHOON|TROPICAL DEPRESSION)\s+["']?([A-Z]+)["']?/i);
         if (stormMatch) {
             stormData.stormName = stormMatch[1];
-            stormData.stormCategory = stormMatch[0];
+            stormData.stormCategory = stormMatch[0].replace(/["']/g, '');
         }
 
         // Extract wind speed
