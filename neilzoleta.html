@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neil Zoleta - Software Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+            padding: 2rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Header Section */
+        .header {
+            padding: 2rem 0;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-layout {
+            display: flex;
+            align-items: stretch;
+            gap: 1.5rem;
+        }
+
+        .profile-picture {
+            width: 180px;
+            height: 100%;
+            border-radius: 16px;
+            object-fit: cover;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+            align-self: stretch;
+        }
+
+        .profile-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1d1d1f;
+            letter-spacing: -0.02em;
+        }
+
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            background: #3b82f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .role {
+            color: #1d1d1f;
+            margin-bottom: 1.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background-color: #1d1d1f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2d2d2f;
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #1d1d1f;
+            border: 1.5px solid #d2d2d7;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f5f5f7;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 44px;
+            height: 24px;
+            background-color: #d2d2d7;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 2px;
+            transition: background-color 0.2s;
+        }
+
+        .theme-toggle.active {
+            background-color: #3b82f6;
+        }
+
+        .theme-toggle-handle {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .theme-toggle.active .theme-toggle-handle {
+            transform: translateX(20px);
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 4px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.625rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .view-all {
+            color: #3b82f6;
+            text-decoration: none;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .view-all:hover {
+            color: #2563eb;
+            gap: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.01em;
+        }
+
+        .section-icon {
+            font-size: 1.25rem;
+        }
+
+        .section-content {
+            color: #424245;
+            line-height: 1.75;
+            font-size: 0.9375rem;
+        }
+
+        .section-content p {
+            margin-bottom: 1rem;
+        }
+
+        .section-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2.25rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.625rem;
+            top: 0.375rem;
+            bottom: 0.375rem;
+            width: 2px;
+            background: linear-gradient(180deg, #e8e8ed 0%, #d2d2d7 100%);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.375rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .timeline-item:first-child::before {
+            background-color: #1d1d1f;
+        }
+
+        .timeline-item:not(:first-child)::before {
+            background-color: #ffffff;
+            border: 2px solid #d2d2d7;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.375rem;
+            font-size: 0.9375rem;
+        }
+
+        .timeline-company {
+            color: #6e6e73;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .timeline-year-row {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+        }
+
+        .timeline-year {
+            color: #1d1d1f;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            background-color: #f5f5f7;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            border: 1px solid #e8e8ed;
+        }
+
+        /* Tech Stacks */
+        .tech-categories-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .tech-category {
+            margin-bottom: 0;
+        }
+
+        .tech-category-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+            letter-spacing: 0.01em;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .tech-tag {
+            padding: 0.5rem 1rem;
+            background-color: #f5f5f7;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1d1d1f;
+            border: 1px solid transparent;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .tech-tag:hover {
+            background-color: #e8e8ed;
+            border-color: #d2d2d7;
+        }
+
+        /* Horizontal Bento Cards */
+        .horizontal-bento-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-left .section-header {
+            justify-content: flex-start;
+        }
+
+        .horizontal-bento-cards .card {
+            margin-bottom: 0;
+        }
+
+        /* Certifications */
+        .certification-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid #e8e8ed;
+        }
+
+        .certification-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .certification-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.25rem;
+            font-size: 0.9375rem;
+        }
+
+        .certification-issuer {
+            color: #6e6e73;
+            font-size: 0.875rem;
+        }
+
+        .certification-issuer.small {
+            font-size: 0.8125rem;
+            margin-top: 0.5rem;
+        }
+
+        .courses-section {
+            border-top: 1px solid #e8e8ed;
+            padding-top: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .courses-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 1rem;
+            font-size: 0.9375rem;
+        }
+
+        .courses-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .course-item {
+            color: #424245;
+            font-size: 0.875rem;
+        }
+
+        /* Affiliations */
+        .affiliation-item {
+            margin-bottom: 1rem;
+        }
+
+        .affiliation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .affiliation-content {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .affiliation-text {
+            flex: 1;
+        }
+
+        .affiliation-title {
+            font-weight: 600;
+            color: #1d1d1f;
+            margin-bottom: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .affiliation-description {
+            color: #424245;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+
+        .affiliation-logo-link {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .affiliation-logo-link:hover {
+            opacity: 0.8;
+        }
+
+        .affiliation-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        /* Footer */
+        .footer {
+            width: 100%;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            background-color: #f5f5f7;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer-content p {
+            color: #6e6e73;
+            font-size: 0.875rem;
+            margin: 0;
+        }
+
+        /* Tech Stacks Modal */
+        .tech-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .tech-modal-overlay.active {
+            display: flex;
+        }
+
+        .tech-modal {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .tech-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .tech-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.01em;
+        }
+
+        .tech-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6e6e73;
+            padding: 0.5rem;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .tech-modal-close:hover {
+            color: #1d1d1f;
+        }
+
+        .tech-modal-content {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        /* Certifications Modal */
+        .cert-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .cert-modal-overlay.active {
+            display: flex;
+        }
+
+        .cert-modal {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .cert-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .cert-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.01em;
+        }
+
+        .cert-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6e6e73;
+            padding: 0.5rem;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .cert-modal-close:hover {
+            color: #1d1d1f;
+        }
+
+        .cert-modal-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cert-modal-content .certification-item {
+            padding: 1.25rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-categories-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .tech-modal-content {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-modal-overlay {
+                padding: 1rem;
+            }
+
+            .horizontal-bento-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .header {
+                padding: 1.5rem;
+            }
+
+            .profile-picture {
+                width: 120px;
+                height: 100%;
+            }
+
+            .profile-layout {
+                gap: 1rem;
+            }
+
+            .theme-toggle {
+                top: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .tech-modal {
+                padding: 1.5rem;
+                max-height: 95vh;
+            }
+
+            .tech-modal-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .cert-modal {
+                padding: 1.5rem;
+                max-height: 95vh;
+            }
+
+            .cert-modal-header {
+                margin-bottom: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .affiliation-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .affiliation-logo-link {
+                align-self: flex-start;
+            }
+
+            .affiliation-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .footer {
+                padding: 1.5rem 0;
+                margin-top: 2rem;
+            }
+
+            .footer-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="profile-info">
+                    <div class="profile-layout">
+                        <img src="profile-picture.jpg" alt="Neil Zoleta" class="profile-picture">
+                        <div class="profile-content">
+                            <div class="name-row">
+                                <h1 class="name">Neil Zoleta</h1>
+                                <div class="checkmark">✓</div>
+                            </div>
+                            <div class="location">
+                                <span>Taguig City, Philippines</span>
+                            </div>
+                            <div class="role">Software Engineer</div>
+                            <div class="action-buttons">
+                                <a href="#" class="btn btn-primary">
+                                    <span>Schedule a Call</span>
+                                    <span>→</span>
+                                </a>
+                                <a href="#" class="btn btn-secondary">
+                                    <span>Send Email</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-layout">
+            <!-- Left Column - About -->
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">About</h2>
+                </div>
+                <div class="section-content">
+                    <p>I build intelligent systems that transform how businesses operate. With over four years of experience, I design and deliver scalable solutions that combine automation, development, and AI to solve complex problems. My toolkit spans Automation Anywhere, Power Platform, M365, and modern web technologies—HTML, CSS, and JavaScript—all orchestrated through VS Code and Cursor to create production-ready applications.</p>
+                    <p>I work at the intersection of technology and business, translating operational challenges into elegant technical solutions. My approach goes beyond automation—I architect systems that improve efficiency, eliminate manual work, and enhance data accuracy while maintaining strict compliance and operational standards. Collaboration with cross-functional teams and meticulous documentation are core to how I deliver value.</p>
+                    <p>Today, I'm focused on building the next generation of intelligent products. By integrating AI capabilities into automation and development workflows, I create solutions that are adaptive, predictive, and truly transformative. I'm exploring how AI can enhance not just what we automate, but how we think about automation, analysis, and business operations entirely.</p>
+                </div>
+            </div>
+
+            <!-- Right Column - Experience -->
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Experience</h2>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-title">RPA Developer</div>
+                            <div class="timeline-company">Citi Philippines - CBPS</div>
+                        </div>
+                        <div class="timeline-year-row">
+                            <span class="timeline-year">2025</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-title">Regional Reporting Analyst</div>
+                            <div class="timeline-company">TTEC Pilipinas</div>
+                        </div>
+                        <div class="timeline-year-row">
+                            <span class="timeline-year">2023</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-title">Fraud Analyst</div>
+                            <div class="timeline-company">TP Philippines</div>
+                        </div>
+                        <div class="timeline-year-row">
+                            <span class="timeline-year">2019</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-title">BS Mechatronics Engineering</div>
+                            <div class="timeline-company">Batangas State University</div>
+                            <div class="timeline-company">The National Engineering University</div>
+                        </div>
+                        <div class="timeline-year-row">
+                            <span class="timeline-year">2018</span>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="timeline-title">Hello World! ✨</div>
+                            <div class="timeline-company">Wrote my first line of code in my web development class</div>
+                        </div>
+                        <div class="timeline-year-row">
+                            <span class="timeline-year">2012</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Stacks Section -->
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">Tech Stacks</h2>
+                <a href="#" class="view-all" id="view-all-tech">View all <span>→</span></a>
+            </div>
+            <div class="section-content">
+                <div class="tech-categories-grid">
+                    <div class="tech-category">
+                        <div class="tech-category-title">Front End</div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Next.js</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                    </div>
+
+                    <div class="tech-category">
+                        <div class="tech-category-title">Back End</div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                    </div>
+
+                    <div class="tech-category">
+                        <div class="tech-category-title">DevOps & Cloud</div>
+                        <div class="tech-tags">
+                            <span class="tech-tag">AWS</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horizontal Bento Cards Section -->
+        <div class="horizontal-bento-cards">
+            <!-- Recent Certifications Section -->
+            <div class="card text-left">
+                <div class="section-header">
+                    <h2 class="section-title">Recent Certifications</h2>
+                    <a href="#" class="view-all" id="view-all-certifications">See all <span>→</span></a>
+                </div>
+                <div class="section-content">
+                    <div class="certification-item">
+                        <div class="certification-title">SS&C Blue Prism Robotic Process Automation Professional Certificate</div>
+                        <div class="certification-issuer">SS&C Blue Prism</div>
+                    </div>
+                    <div class="certification-item">
+                        <div class="certification-title">Automation Anywhere Certified Advanced RPA Professional</div>
+                        <div class="certification-issuer">Automation Anywhere</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Outside Coding Section -->
+            <div class="card text-left">
+                <div class="section-header">
+                    <h2 class="section-title">Outside Coding</h2>
+                </div>
+                <div class="section-content">
+                    <p>I catch up with my dev peers from college to brainstorm projects or plan startups, also knowledge sharing. I like to play FPS games or MOBA games sometimes during my free time.</p>
+                </div>
+            </div>
+
+            <!-- Affiliations Section -->
+            <div class="card text-left">
+                <div class="section-header">
+                    <h2 class="section-title">Affiliations</h2>
+                </div>
+                <div class="section-content">
+                    <div class="affiliation-item">
+                        <div class="affiliation-content">
+                            <div class="affiliation-text">
+                                <div class="affiliation-title">MATICStudio.net</div>
+                                <div class="affiliation-description">Founded a startup "MATICStudio.net" with my group of friends to create business solutions for MSMEs, to get their business start with AI.</div>
+                            </div>
+                            <a href="https://maticstudio.net" target="_blank" rel="noopener noreferrer" class="affiliation-logo-link">
+                                <img src="https://media.licdn.com/dms/image/v2/D560BAQGko1MevE8QhA/company-logo_200_200/B56Zht5g4bG4AI-/0/1754190450711/maticstudio_logo?e=1764201600&v=beta&t=7PAnwFAalQF7an8wCZ_9lsnWoL70HLC-YjPUb7mz1EA" alt="MATICStudio.net Logo" class="affiliation-logo">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stacks Modal -->
+    <div class="tech-modal-overlay" id="tech-modal-overlay">
+        <div class="tech-modal">
+            <div class="tech-modal-header">
+                <h2 class="tech-modal-title">Tech Stacks</h2>
+                <button class="tech-modal-close" id="tech-modal-close">×</button>
+            </div>
+            <div class="tech-modal-content">
+                <div class="tech-category">
+                    <div class="tech-category-title">Front End</div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">Vue.js</span>
+                        <span class="tech-tag">Angular</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">Tailwind CSS</span>
+                        <span class="tech-tag">SASS</span>
+                        <span class="tech-tag">Bootstrap</span>
+                        <span class="tech-tag">Material UI</span>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <div class="tech-category-title">Back End</div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Django</span>
+                        <span class="tech-tag">Flask</span>
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Spring Boot</span>
+                        <span class="tech-tag">PHP</span>
+                        <span class="tech-tag">Laravel</span>
+                        <span class="tech-tag">PostgreSQL</span>
+                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">REST API</span>
+                        <span class="tech-tag">GraphQL</span>
+                    </div>
+                </div>
+
+                <div class="tech-category">
+                    <div class="tech-category-title">DevOps & Cloud</div>
+                    <div class="tech-tags">
+                        <span class="tech-tag">AWS</span>
+                        <span class="tech-tag">Azure</span>
+                        <span class="tech-tag">Google Cloud</span>
+                        <span class="tech-tag">Docker</span>
+                        <span class="tech-tag">Kubernetes</span>
+                        <span class="tech-tag">Jenkins</span>
+                        <span class="tech-tag">GitHub Actions</span>
+                        <span class="tech-tag">GitLab CI</span>
+                        <span class="tech-tag">Terraform</span>
+                        <span class="tech-tag">Ansible</span>
+                        <span class="tech-tag">Linux</span>
+                        <span class="tech-tag">Nginx</span>
+                        <span class="tech-tag">Automation Anywhere</span>
+                        <span class="tech-tag">Power Platform</span>
+                        <span class="tech-tag">M365</span>
+                        <span class="tech-tag">CI/CD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certifications Modal -->
+    <div class="cert-modal-overlay" id="cert-modal-overlay">
+        <div class="cert-modal">
+            <div class="cert-modal-header">
+                <h2 class="cert-modal-title">All Certifications</h2>
+                <button class="cert-modal-close" id="cert-modal-close">×</button>
+            </div>
+            <div class="cert-modal-content">
+                <div class="certification-item">
+                    <div class="certification-title">SS&C Blue Prism Robotic Process Automation Professional Certificate</div>
+                    <div class="certification-issuer">SS&C Blue Prism</div>
+                </div>
+                <div class="certification-item">
+                    <div class="certification-title">Automation Anywhere Certified Advanced RPA Professional</div>
+                    <div class="certification-issuer">Automation Anywhere</div>
+                </div>
+                <div class="certification-item">
+                    <div class="certification-title">Microsoft Certified: Power Platform Fundamentals</div>
+                    <div class="certification-issuer">Microsoft</div>
+                </div>
+                <div class="certification-item">
+                    <div class="certification-title">AWS Certified Cloud Practitioner</div>
+                    <div class="certification-issuer">Amazon Web Services</div>
+                </div>
+                <div class="certification-item">
+                    <div class="certification-title">SPARTA Data Engineer Pathway</div>
+                    <div class="certification-issuer">Smarter Philippines through Data Analytics R&D, Training, and Adoption (SPARTA)</div>
+                    <div class="certification-issuer small">Credential issued by Development Academy of the Philippines in partnership with DOST-PCIEERD</div>
+                </div>
+                <div class="certification-item courses-section">
+                    <div class="courses-title">Completed Courses:</div>
+                    <div class="courses-list">
+                        <div class="course-item">• Getting Grounded on Analytics</div>
+                        <div class="course-item">• Essential Excel Skills for Data Preparation and Analysis</div>
+                        <div class="course-item">• Computing in Python</div>
+                        <div class="course-item">• SQL for Business Users</div>
+                        <div class="course-item">• Data Management Fundamentals</div>
+                        <div class="course-item">• Enterprise Data Governance</div>
+                        <div class="course-item">• Dashboards and Drill-Down Analytics</div>
+                        <div class="course-item">• Data Visualization Fundamentals</div>
+                        <div class="course-item">• Data-Driven Research Fundamentals</div>
+                        <div class="course-item">• SQL for Data Engineering</div>
+                        <div class="course-item">• Python for Data Engineering</div>
+                        <div class="course-item">• Advanced Data Engineering</div>
+                        <div class="course-item">• Data Engineer Capstone Course</div>
+                        <div class="course-item">• Data Science and Machine Learning Using Python</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tech Stacks Modal
+        const viewAllTech = document.getElementById('view-all-tech');
+        const techModalOverlay = document.getElementById('tech-modal-overlay');
+        const techModalClose = document.getElementById('tech-modal-close');
+
+        viewAllTech.addEventListener('click', (e) => {
+            e.preventDefault();
+            techModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        techModalClose.addEventListener('click', () => {
+            techModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        techModalOverlay.addEventListener('click', (e) => {
+            if (e.target === techModalOverlay) {
+                techModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Certifications Modal
+        const viewAllCertifications = document.getElementById('view-all-certifications');
+        const certModalOverlay = document.getElementById('cert-modal-overlay');
+        const certModalClose = document.getElementById('cert-modal-close');
+
+        viewAllCertifications.addEventListener('click', (e) => {
+            e.preventDefault();
+            certModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+
+        certModalClose.addEventListener('click', () => {
+            certModalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        certModalOverlay.addEventListener('click', (e) => {
+            if (e.target === certModalOverlay) {
+                certModalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close modals on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (techModalOverlay.classList.contains('active')) {
+                    techModalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                if (certModalOverlay.classList.contains('active')) {
+                    certModalOverlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2025 Neil Zoleta. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
