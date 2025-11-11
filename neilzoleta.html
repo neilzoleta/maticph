@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Neil Zoleta - Software Engineer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -32,6 +34,31 @@
             padding: 1rem 0;
             margin-bottom: 0.75rem;
             position: relative;
+        }
+
+        .pdf-download-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: white;
+            color: #1d1d1f;
+            border: 1px solid #d2d2d7;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .pdf-download-btn:hover {
+            background-color: #f5f5f7;
+            border-color: #a1a1a6;
+        }
+
+        .pdf-download-btn:active {
+            transform: scale(0.98);
         }
 
         .header-content {
@@ -110,6 +137,24 @@
             display: flex;
             gap: 0.75rem;
             flex-wrap: wrap;
+        }
+
+        .contact-info {
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+            color: #1d1d1f;
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-info-label {
+            font-weight: 500;
         }
 
         .btn {
@@ -339,7 +384,7 @@
         .tech-categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .tech-category {
@@ -587,7 +632,7 @@
         .tech-modal-content {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         /* Certifications Modal */
@@ -732,6 +777,13 @@
                 right: 1.5rem;
             }
 
+            .pdf-download-btn {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
             .card {
                 padding: 1.5rem;
             }
@@ -787,6 +839,7 @@
     <div class="container">
         <!-- Header Section -->
         <header class="header">
+            <button class="pdf-download-btn" id="pdf-download-btn">PDF</button>
             <div class="header-content">
                 <div class="profile-info">
                     <div class="profile-layout">
@@ -800,7 +853,7 @@
                                 <span>Taguig City, Philippines</span>
                             </div>
                             <div class="role">Software Engineer</div>
-                            <div class="action-buttons">
+                            <div class="action-buttons" id="action-buttons">
                                 <a href="#" class="btn btn-primary">
                                     <span>Schedule a Call</span>
                                     <span>→</span>
@@ -808,6 +861,16 @@
                                 <a href="#" class="btn btn-secondary">
                                     <span>Send Email</span>
                                 </a>
+                            </div>
+                            <div class="contact-info" id="contact-info">
+                                <div class="contact-info-item">
+                                    <span class="contact-info-label">Phone:</span>
+                                    <span>+63 917 721 3629</span>
+                                </div>
+                                <div class="contact-info-item">
+                                    <span class="contact-info-label">Email:</span>
+                                    <span>nmzoleta.04@gmail.com</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -896,9 +959,8 @@
                     <div class="tech-category">
                         <div class="tech-category-title">Front End</div>
                         <div class="tech-tags">
-                            <span class="tech-tag">React</span>
-                            <span class="tech-tag">Next.js</span>
-                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
                             <span class="tech-tag">JavaScript</span>
                         </div>
                     </div>
@@ -906,20 +968,23 @@
                     <div class="tech-category">
                         <div class="tech-category-title">Back End</div>
                         <div class="tech-tags">
-                            <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">Python</span>
-                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Node.js</span>
                             <span class="tech-tag">MongoDB</span>
                         </div>
                     </div>
 
                     <div class="tech-category">
-                        <div class="tech-category-title">DevOps & Cloud</div>
+                        <div class="tech-category-title">DevOps/Cloud Engineering</div>
                         <div class="tech-tags">
                             <span class="tech-tag">AWS</span>
-                            <span class="tech-tag">Docker</span>
-                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">Render</span>
+                            <span class="tech-tag">SQL</span>
+                            <span class="tech-tag">Data Analytics</span>
                             <span class="tech-tag">GitHub Actions</span>
+                            <span class="tech-tag">Automation Anywhere</span>
+                            <span class="tech-tag">Power Platform</span>
+                            <span class="tech-tag">M365</span>
                         </div>
                     </div>
                 </div>
@@ -935,6 +1000,10 @@
                     <a href="#" class="view-all" id="view-all-certifications">See all <span>→</span></a>
                 </div>
                 <div class="section-content">
+                    <div class="certification-item">
+                        <div class="certification-title">SPARTA Data Engineer Pathway</div>
+                        <div class="certification-issuer">Smarter Philippines through Data Analytics R&D, Training, and Adoption (SPARTA)</div>
+                    </div>
                     <div class="certification-item">
                         <div class="certification-title">SS&C Blue Prism Robotic Process Automation Professional Certificate</div>
                         <div class="certification-issuer">SS&C Blue Prism</div>
@@ -989,62 +1058,38 @@
                 <div class="tech-category">
                     <div class="tech-category-title">Front End</div>
                     <div class="tech-tags">
-                        <span class="tech-tag">React</span>
-                        <span class="tech-tag">Next.js</span>
-                        <span class="tech-tag">Vue.js</span>
-                        <span class="tech-tag">Angular</span>
-                        <span class="tech-tag">TypeScript</span>
-                        <span class="tech-tag">JavaScript</span>
                         <span class="tech-tag">HTML</span>
                         <span class="tech-tag">CSS</span>
-                        <span class="tech-tag">Tailwind CSS</span>
-                        <span class="tech-tag">SASS</span>
-                        <span class="tech-tag">Bootstrap</span>
-                        <span class="tech-tag">Material UI</span>
+                        <span class="tech-tag">JavaScript</span>
                     </div>
                 </div>
 
                 <div class="tech-category">
                     <div class="tech-category-title">Back End</div>
                     <div class="tech-tags">
-                        <span class="tech-tag">Node.js</span>
-                        <span class="tech-tag">Express</span>
                         <span class="tech-tag">Python</span>
-                        <span class="tech-tag">Django</span>
-                        <span class="tech-tag">Flask</span>
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Spring Boot</span>
-                        <span class="tech-tag">PHP</span>
-                        <span class="tech-tag">Laravel</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                        <span class="tech-tag">MySQL</span>
+                        <span class="tech-tag">Node.js</span>
                         <span class="tech-tag">MongoDB</span>
-                        <span class="tech-tag">Redis</span>
-                        <span class="tech-tag">Firebase</span>
                         <span class="tech-tag">REST API</span>
-                        <span class="tech-tag">GraphQL</span>
                     </div>
                 </div>
 
                 <div class="tech-category">
-                    <div class="tech-category-title">DevOps & Cloud</div>
+                    <div class="tech-category-title">DevOps/Cloud Engineering</div>
                     <div class="tech-tags">
                         <span class="tech-tag">AWS</span>
-                        <span class="tech-tag">Azure</span>
-                        <span class="tech-tag">Google Cloud</span>
-                        <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">Kubernetes</span>
-                        <span class="tech-tag">Jenkins</span>
+                        <span class="tech-tag">Render</span>
+                        <span class="tech-tag">SQL</span>
+                        <span class="tech-tag">Excel</span>
+                        <span class="tech-tag">Data Analytics</span>
+                        <span class="tech-tag">Data Visualization</span>
+                        <span class="tech-tag">Data Management</span>
                         <span class="tech-tag">GitHub Actions</span>
-                        <span class="tech-tag">GitLab CI</span>
-                        <span class="tech-tag">Terraform</span>
-                        <span class="tech-tag">Ansible</span>
-                        <span class="tech-tag">Linux</span>
-                        <span class="tech-tag">Nginx</span>
                         <span class="tech-tag">Automation Anywhere</span>
                         <span class="tech-tag">Power Platform</span>
                         <span class="tech-tag">M365</span>
-                        <span class="tech-tag">CI/CD</span>
+                        <span class="tech-tag">VS Code</span>
+                        <span class="tech-tag">Cursor</span>
                     </div>
                 </div>
             </div>
@@ -1161,6 +1206,144 @@
                     certModalOverlay.classList.remove('active');
                     document.body.style.overflow = '';
                 }
+            }
+        });
+
+        // PDF Download Functionality
+        const pdfDownloadBtn = document.getElementById('pdf-download-btn');
+        
+        pdfDownloadBtn.addEventListener('click', async function() {
+            const button = this;
+            const originalText = button.textContent;
+            
+            // Show loading state
+            button.textContent = '...';
+            button.disabled = true;
+            
+            try {
+                // Hide the PDF button and action buttons, show contact info
+                const actionButtons = document.getElementById('action-buttons');
+                const contactInfo = document.getElementById('contact-info');
+                
+                button.style.display = 'none';
+                if (actionButtons) actionButtons.style.display = 'none';
+                if (contactInfo) contactInfo.style.display = 'flex';
+                
+                // Capture the page
+                const canvas = await html2canvas(document.body, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    backgroundColor: '#f5f5f7'
+                });
+                
+                // Restore original state
+                button.style.display = 'block';
+                if (actionButtons) actionButtons.style.display = 'flex';
+                if (contactInfo) contactInfo.style.display = 'none';
+                
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                
+                // Add ATS-friendly searchable text FIRST (before image, so it's searchable)
+                // ATS systems can read text regardless of color, but we make it subtle
+                pdf.setTextColor(245, 245, 247); // Light gray matching background
+                pdf.setFontSize(8); // Small but readable by ATS
+                
+                // Extract and add key information for ATS parsing
+                const name = 'Neil Zoleta';
+                const location = 'Taguig City, Philippines';
+                const role = 'Software Engineer';
+                const phone = '+63 917 721 3629';
+                const email = 'nmzoleta.04@gmail.com';
+                const website = 'maticstudio.net/neilzoleta';
+                
+                // Add all ATS-parseable content at the top (will be covered by image but searchable)
+                let yPos = 5;
+                pdf.text(name, 5, yPos);
+                yPos += 4;
+                pdf.text(location, 5, yPos);
+                yPos += 4;
+                pdf.text(role, 5, yPos);
+                yPos += 4;
+                pdf.text(`Phone: ${phone}`, 5, yPos);
+                yPos += 4;
+                pdf.text(`Email: ${email}`, 5, yPos);
+                yPos += 4;
+                pdf.text(`Website: ${website}`, 5, yPos);
+                yPos += 4;
+                
+                // Add skills/tech stacks for ATS
+                const skills = 'HTML, CSS, JavaScript, Python, Node.js, MongoDB, AWS, Render, SQL, Data Analytics, GitHub Actions, Automation Anywhere, Power Platform, M365';
+                pdf.text('Skills: ' + skills, 5, yPos);
+                yPos += 4;
+                
+                // Add experience summary
+                pdf.text('Experience: RPA Developer at Citi Philippines - CBPS (2025), Regional Reporting Analyst at TTEC Pilipinas (2023), Fraud Analyst at TP Philippines (2019)', 5, yPos);
+                yPos += 4;
+                
+                // Add certifications
+                pdf.text('Certifications: SPARTA Data Engineer Pathway, SS&C Blue Prism RPA Professional Certificate, Automation Anywhere Certified Advanced RPA Professional, Microsoft Certified Power Platform Fundamentals, AWS Certified Cloud Practitioner', 5, yPos);
+                
+                // Now add the image on top (text remains searchable underneath)
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                
+                // Add clickable links - all buttons/links route to maticstudio.net/neilzoleta
+                const linkUrl = 'https://maticstudio.net/neilzoleta';
+                
+                // Make the entire header/profile section clickable (covers profile picture, name, contact info)
+                pdf.link(10, 10, 190, 60, { url: linkUrl });
+                
+                // Make contact info area clickable (where buttons/contact info are displayed)
+                const contactAreaY = 45; // Y position in mm
+                const contactAreaX = 100; // X position in mm  
+                const contactAreaWidth = 100; // Width in mm
+                const contactAreaHeight = 15; // Height in mm
+                pdf.link(contactAreaX, contactAreaY, contactAreaWidth, contactAreaHeight, { url: linkUrl });
+                
+                heightLeft -= pageHeight;
+                
+                // Add additional pages if needed
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    
+                    // Make the entire page clickable on additional pages
+                    pdf.link(10, 10, 190, 277, { url: linkUrl });
+                    
+                    heightLeft -= pageHeight;
+                }
+                
+                // Save the PDF
+                pdf.save('Neil-Zoleta-Profile.pdf');
+                
+                // Reset button
+                button.textContent = originalText;
+                button.disabled = false;
+            } catch (error) {
+                console.error('Error generating PDF:', error);
+                
+                // Restore original state on error
+                const actionButtons = document.getElementById('action-buttons');
+                const contactInfo = document.getElementById('contact-info');
+                button.style.display = 'block';
+                if (actionButtons) actionButtons.style.display = 'flex';
+                if (contactInfo) contactInfo.style.display = 'none';
+                
+                button.textContent = 'Error';
+                button.disabled = false;
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                }, 2000);
             }
         });
     </script>
