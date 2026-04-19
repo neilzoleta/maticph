@@ -3,3392 +3,704 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MATIC Studio designs and builds process automation and AI solutions for Filipino businesses — practical, clear, and built to last." />
   <title>MATIC Studio — Business Process Automation</title>
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/jpeg" href="assets/MATICSTUDIO.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     :root {
-      --bg: #000;
-      --text: #fff;
-      --gray: #aaa;
-      --accent: #e5e5e5;
-      --hover: #ccc;
-      --glow: #00ffff;
-      --shadow: rgba(0, 255, 255, 0.3);
+      --ink:        #0f0f0f;
+      --ink-mid:    #3a3a3a;
+      --ink-muted:  #888;
+      --rule:       #e0ddd6;
+      --bg:         #faf9f7;
+      --surface:    #fff;
+      --accent:     #1a1a2e;
+      --accent-alt: #c8a96e;
+      --font-head:  'Instrument Serif', Georgia, serif;
+      --font-body:  'DM Sans', system-ui, sans-serif;
+      --max:        1160px;
+      --pad:        clamp(1.25rem, 5vw, 3rem);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 16px;
       line-height: 1.7;
-      letter-spacing: 0.02em;
-      min-height: 100vh;
-      padding-bottom: 100px;
-      font-size: 18px;
-      cursor: none;
-      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Custom Cursor */
-    .cursor {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--glow);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: all 0.1s ease;
-      mix-blend-mode: difference;
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,249,247,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
     }
-
-    .cursor-dot {
-      width: 4px;
-      height: 4px;
-      background: var(--glow);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: all 0.15s ease;
-    }
-
-    .cursor.hover {
-      transform: scale(1.5);
-      background: rgba(0, 255, 255, 0.1);
-      border-color: var(--glow);
-    }
-
-    /* Floating Particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: var(--glow);
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 6s infinite linear;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    section {
-      padding: 100px 40px;
-      max-width: 1080px;
+    .site-header-inner {
+      max-width: var(--max);
       margin: 0 auto;
-    }
-
-    /* Header Styles */
-    header {
-      position: fixed;
-      top: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 699px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 28px;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      padding: 9px 14px;
+      padding: 0 var(--pad);
+      height: 64px;
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      margin: 0 20px;
-      box-sizing: border-box;
     }
-
-    nav {
-      display: flex;
-      gap: 40px;
-      justify-content: flex-start;
-      align-items: center;
-      flex: 1 1 auto;
-      margin-right: auto;
-    }
-
-    nav a {
-      color: var(--text);
+    .site-logo { height: 34px; width: auto; display: block; color: var(--ink); }
+    .site-nav { display: flex; align-items: center; gap: 2rem; }
+    .site-nav a {
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--ink-mid);
       text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .site-nav a:hover { color: var(--ink); }
+    .site-nav .nav-cta {
+      padding: 0.45rem 1.1rem;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      color: var(--ink);
       font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-      padding: 0 6px;
+      transition: background 0.2s, color 0.2s;
     }
+    .site-nav .nav-cta:hover { background: var(--ink); color: #fff; }
 
-    nav a:hover {
-      color: var(--hover);
-    }
-
-    .linkedin-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background-color: transparent;
-      border: 1px solid white;
-      padding: 6px 14px;
-      border-radius: 50px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-      line-height: 1;
-      transition: background-color 0.3s;
-    }
-
-    .linkedin-button:hover {
-      background-color: white;
-      color: black;
-    }
-
-    .linkedin-button svg {
-      fill: currentColor;
-      transition: fill 0.3s;
-    }
-
-    .linkedin-button:hover svg {
-      fill: black;
-    }
-
-    /* Mobile Navigation */
-    .hamburger {
+    .mobile-menu-btn {
       display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: white;
-      cursor: pointer;
-      z-index: 1001;
-      margin-left: auto;
+      background: none; border: none; cursor: pointer;
+      color: var(--ink); padding: 4px;
     }
-
     .mobile-nav {
       display: none;
+      position: fixed; top: 64px; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
       flex-direction: column;
-      background-color: rgba(0, 0, 0, 0.9);
-      position: absolute;
-      top: 60px;
-      right: 24px;
-      left: 24px;
-      text-align: center;
-      padding: 30px 0;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      z-index: 1001;
+      padding: 2rem var(--pad);
+      gap: 0;
+      z-index: 99;
     }
-
+    .mobile-nav.is-open { display: flex; }
     .mobile-nav a {
-      margin: 10px 0;
-      font-size: 1rem;
-      color: var(--text);
+      font-size: 1.5rem;
+      font-family: var(--font-head);
+      color: var(--ink);
       text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--rule);
+      transition: color 0.2s;
     }
+    .mobile-nav a:hover { color: var(--ink-muted); }
 
-    .mobile-nav a:hover {
-      color: var(--hover);
-    }
-
-    /* Hero Section */
-    .hero {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: black;
-      text-align: center;
-      padding: 0 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* 3D Background Elements */
-    .hero-3d-background {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* Floating Shapes */
-    .floating-shapes {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .shape {
-      position: absolute;
-      border: 2px solid var(--glow);
-      opacity: 0.3;
-      animation: float-shape 12s infinite ease-in-out;
-    }
-
-    .shape-cube {
-      width: 30px;
-      height: 30px;
-      top: 15%;
-      left: 10%;
-      transform: rotate(45deg);
-      animation-delay: 0s;
-    }
-
-    .shape-sphere {
-      width: 25px;
-      height: 25px;
-      border-radius: 50%;
-      top: 25%;
-      right: 15%;
-      animation-delay: 2s;
-    }
-
-    .shape-cylinder {
-      width: 20px;
-      height: 35px;
-      border-radius: 10px;
-      bottom: 30%;
-      left: 20%;
-      animation-delay: 4s;
-    }
-
-    .shape-pyramid {
-      width: 0;
-      height: 0;
-      border-left: 15px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 25px solid var(--glow);
-      border-top: none;
-      top: 20%;
-      right: 25%;
-      animation-delay: 6s;
-    }
-
-    .shape-torus {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      border: 3px solid var(--glow);
-      background: transparent;
-      top: 60%;
-      left: 70%;
-      animation-delay: 8s;
-    }
-
-    .shape-octahedron {
-      width: 25px;
-      height: 25px;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      border: 2px solid var(--glow);
-      bottom: 20%;
-      right: 10%;
-      animation-delay: 10s;
-    }
-
-    .shape-dodecahedron {
-      width: 28px;
-      height: 28px;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      border: 2px solid var(--glow);
-      top: 70%;
-      left: 15%;
-      animation-delay: 12s;
-    }
-
-    .shape-icosahedron {
-      width: 22px;
-      height: 22px;
-      clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
-      border: 2px solid var(--glow);
-      bottom: 15%;
-      left: 60%;
-      animation-delay: 14s;
-    }
-
-    @keyframes float-shape {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.3;
-      }
-      25% {
-        transform: translateY(-20px) rotate(90deg);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-10px) rotate(180deg);
-        opacity: 0.4;
-      }
-      75% {
-        transform: translateY(-30px) rotate(270deg);
-        opacity: 0.7;
-      }
-    }
-
-    /* Rising Animation for Shapes */
-    @keyframes rise-shape {
-      0% {
-        transform: translateY(100px) scale(0.8);
-        opacity: 0;
-      }
-      20% {
-        opacity: 0.6;
-      }
-      80% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-100px) scale(1.2);
-        opacity: 0;
-      }
-    }
-
-    /* Apply rising animation to shapes */
-    .shape-cube, .shape-sphere, .shape-cylinder, .shape-pyramid,
-    .shape-torus, .shape-octahedron, .shape-dodecahedron, .shape-icosahedron {
-      animation: float-shape 12s infinite ease-in-out, rise-shape 15s infinite ease-in-out;
-    }
-
-    .shape-cube { animation-delay: 0s, 0s; }
-    .shape-sphere { animation-delay: 2s, 3s; }
-    .shape-cylinder { animation-delay: 4s, 6s; }
-    .shape-pyramid { animation-delay: 6s, 9s; }
-    .shape-torus { animation-delay: 8s, 12s; }
-    .shape-octahedron { animation-delay: 10s, 15s; }
-    .shape-dodecahedron { animation-delay: 12s, 18s; }
-    .shape-icosahedron { animation-delay: 14s, 21s; }
-
-    /* Grid System */
-    .grid-system {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      opacity: 0.1;
-    }
-
-    .grid-line {
-      position: absolute;
-      background: linear-gradient(90deg, transparent, var(--glow), transparent);
-      height: 1px;
-      width: 100%;
-      animation: grid-pulse 4s infinite ease-in-out;
-    }
-
-    .grid-line-1 { top: 20%; animation-delay: 0s; }
-    .grid-line-2 { top: 40%; animation-delay: 0.8s; }
-    .grid-line-3 { top: 60%; animation-delay: 1.6s; }
-    .grid-line-4 { top: 80%; animation-delay: 2.4s; }
-    .grid-line-5 { top: 30%; animation-delay: 3.2s; }
-    .grid-line-6 { top: 70%; animation-delay: 4s; }
-
-    @keyframes grid-pulse {
-      0%, 100% { opacity: 0.1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* Tech Elements */
-    .tech-elements {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .tech-element {
-      position: absolute;
-      opacity: 0.6;
-      animation: tech-float 8s infinite ease-in-out;
-      filter: drop-shadow(0 0 8px var(--glow));
-    }
-
-    .tech-element svg {
-      width: 24px;
-      height: 24px;
-      color: var(--glow);
-      transition: all 0.3s ease;
-    }
-
-    .tech-element:hover svg {
-      color: #ffffff;
-      filter: drop-shadow(0 0 12px var(--glow)) brightness(1.3);
-      transform: scale(1.3);
-    }
-
-    .tech-code { top: 12%; left: 8%; animation-delay: 0s; }
-    .tech-automation { top: 18%; right: 12%; animation-delay: 1.5s; }
-    .tech-data { top: 65%; left: 5%; animation-delay: 3s; }
-    .tech-ai { top: 75%; right: 8%; animation-delay: 4.5s; }
-    .tech-cloud { bottom: 25%; left: 18%; animation-delay: 6s; }
-    .tech-connect { bottom: 12%; right: 22%; animation-delay: 7.5s; }
-
-    @keyframes tech-float {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-25px) scale(1.1);
-        opacity: 1;
-      }
-    }
-
-    /* Rising Animation for Tech Elements */
-    @keyframes rise-tech {
-      0% {
-        transform: translateY(80px) scale(0.7);
-        opacity: 0;
-      }
-      30% {
-        opacity: 0.8;
-      }
-      70% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(-80px) scale(1.3);
-        opacity: 0;
-      }
-    }
-
-    /* Apply rising animation to tech elements */
-    .tech-element {
-      animation: tech-float 8s infinite ease-in-out, rise-tech 12s infinite ease-in-out;
-    }
-
-    .tech-code { animation-delay: 0s, 0s; }
-    .tech-automation { animation-delay: 1.5s, 2s; }
-    .tech-data { animation-delay: 3s, 4s; }
-    .tech-ai { animation-delay: 4.5s, 6s; }
-    .tech-cloud { animation-delay: 6s, 8s; }
-    .tech-connect { animation-delay: 7.5s, 10s; }
-
-    /* Energy Particles */
-    .energy-particles {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--glow);
-      border-radius: 50%;
-      animation: particle-energy 6s infinite linear;
-      filter: blur(1px);
-    }
-
-    .particle-1 { top: 10%; left: 15%; animation-delay: 0s; }
-    .particle-2 { top: 30%; right: 20%; animation-delay: 1s; }
-    .particle-3 { top: 50%; left: 25%; animation-delay: 2s; }
-    .particle-4 { top: 70%; right: 15%; animation-delay: 3s; }
-    .particle-5 { bottom: 20%; left: 30%; animation-delay: 4s; }
-    .particle-6 { bottom: 40%; right: 25%; animation-delay: 5s; }
-    .particle-7 { top: 85%; left: 40%; animation-delay: 6s; }
-    .particle-8 { top: 45%; right: 35%; animation-delay: 7s; }
-
-    @keyframes particle-energy {
-      0% {
-        transform: translateY(0px) scale(1);
-        opacity: 0;
-      }
-      25% {
-        opacity: 1;
-      }
-      75% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100px) scale(0);
-        opacity: 0;
-      }
-    }
-
-    /* Rising Animation for Particles */
-    @keyframes rise-particle {
-      0% {
-        transform: translateY(120px) scale(0.5);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-120px) scale(1.5);
-        opacity: 0;
-      }
-    }
-
-    /* Apply rising animation to particles */
-    .particle {
-      animation: particle-energy 6s infinite linear, rise-particle 8s infinite ease-in-out;
-    }
-
-    /* Light Rays */
-    .light-rays {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-
-    .ray {
-      position: absolute;
-      background: linear-gradient(180deg, transparent, var(--glow), transparent);
-      width: 2px;
-      height: 200px;
-      opacity: 0.3;
-      animation: ray-sweep 10s infinite ease-in-out;
-    }
-
-    .ray-1 { left: 15%; animation-delay: 0s; }
-    .ray-2 { left: 35%; animation-delay: 2s; }
-    .ray-3 { left: 55%; animation-delay: 4s; }
-    .ray-4 { left: 75%; animation-delay: 6s; }
-    .ray-5 { left: 95%; animation-delay: 8s; }
-
-    @keyframes ray-sweep {
-      0%, 100% {
-        transform: translateY(-100px) rotate(0deg);
-        opacity: 0.3;
-      }
-      50% {
-        transform: translateY(100px) rotate(5deg);
-        opacity: 0.6;
-      }
-    }
-
-    /* Hero Content */
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-
-    .hero-title {
-      font-size: 3.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .changing-word {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      color: var(--glow);
-      transition: opacity 0.5s ease;
-      display: inline-block;
-    }
-
-    /* Enhanced FIDS-style Animation */
-    .fids-container {
-      display: inline-block;
-      height: 4.5rem;
-      overflow: hidden;
-      position: relative;
-      background: transparent;
-      border: none;
-      padding: 0 10px;
-      box-shadow: none;
-    }
-
-    .fids-scroll {
-      animation: fidsScroll 8s ease-in-out infinite;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .fids-item {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
-      color: var(--glow);
-      height: 4.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-      font-size: 3.5rem;
-      text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
-      transition: all 0.3s ease;
-      opacity: 0.8;
-    }
-
-    .fids-item:nth-child(3) {
-      font-size: 3rem;
-    }
-
-    .fids-item.active {
-      opacity: 1;
-      text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.8);
-      transform: scale(1.02);
-    }
-
-    /* Style for the "that actually works" text */
-    .hero-title span {
-      color: #fff;
-      font-size: 3.5rem;
-      font-weight: 400;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-      z-index: 10;
-    }
-
-    /* Enhanced typography for better readability */
-    .fids-item {
-      letter-spacing: 0.02em;
-      font-feature-settings: "liga" 1, "kern" 1;
-    }
-
-    /* Smooth scrolling animation with proper timing */
-    @keyframes fidsScroll {
-      0%, 28% {
-        transform: translateY(0);
-      }
-      30%, 58% {
-        transform: translateY(-4.5rem);
-      }
-      60%, 88% {
-        transform: translateY(-9rem);
-      }
-      90%, 100% {
-        transform: translateY(-13.5rem);
-      }
-    }
-
-    /* Enhanced glow effect for active item */
-    .fids-item.active {
-      text-shadow: 0 0 30px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.8);
-      transform: scale(1.02);
-    }
-
-    /* FIDS container glow pulse */
-    .fids-container {
-      /* Removed glow animation for subtlety */
-    }
-
-    @keyframes fidsGlow {
-      0%, 100% {
-        box-shadow: none;
-      }
-      50% {
-        box-shadow: none;
-      }
-    }
-
-    /* Special styling for multi-word items like "AI Enablement" */
-    .fids-item:nth-child(3) {
-      font-size: 3rem; /* Slightly smaller to accommodate longer text */
-      letter-spacing: 0.01em;
-    }
-
-    /* Smooth transition for container width adjustments */
-    .fids-container {
-      transition: all 0.3s ease;
-    }
-
-    /* Enhanced hover effects */
-    .fids-container:hover {
-      background: rgba(0, 255, 255, 0.08);
-      border-color: rgba(0, 255, 255, 0.4);
-      transform: scale(1.02);
-    }
-
-    .fids-container:hover .fids-item {
-      text-shadow: 0 0 25px rgba(0, 255, 255, 1), 0 0 35px rgba(0, 255, 255, 0.9);
-    }
-
-    /* Loading animation for FIDS */
-    .fids-container::after {
-      display: none;
-    }
-
-    .hero-description {
-      font-size: 1.35rem;
-      color: #aaa;
-      max-width: 600px;
-      margin-bottom: 30px;
-      line-height: 1.6;
-    }
-
-    @keyframes title-glow {
-      0%, 100% {
-        text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
-      }
-      50% {
-        text-shadow: 0 0 30px rgba(0, 255, 255, 0.8);
-      }
-    }
-
-    /* Enhanced 3D CTA */
-    .hero-cta {
-      margin-top: 20px;
-    }
-
-    .cta-button-3d {
-      display: inline-flex;
-      align-items: center;
-      gap: 15px;
-      padding: 18px 35px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50px;
-      color: white;
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-    }
-
-    .cta-button-3d:hover {
-      transform: translateY(-3px) scale(1.05);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: var(--glow);
-      box-shadow: 0 15px 40px rgba(0, 255, 255, 0.3);
-    }
-
-    .cta-arrow {
-      font-size: 1.2rem;
-      transition: transform 0.3s ease;
-    }
-
-    .cta-button-3d:hover .cta-arrow {
-      transform: translateX(5px);
-    }
-
-    .cta-glow {
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .cta-button-3d:hover .cta-glow {
-      left: 100%;
-    }
-
-    /* Scroll Indicator */
-    .scroll-indicator {
-      position: absolute;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-    }
-
-    .scroll-line {
-      width: 2px;
-      height: 60px;
-      background: linear-gradient(180deg, var(--glow), transparent);
-      margin: 0 auto;
-      animation: scroll-pulse 2s infinite ease-in-out;
-    }
-
-    .scroll-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--glow);
-      border-radius: 50%;
-      margin: 10px auto 0;
-      animation: scroll-bounce 2s infinite ease-in-out;
-    }
-
-    @keyframes scroll-pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes scroll-bounce {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(10px); }
-    }
-
-    /* Enhanced Logo Rings */
-    .logo-rings {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-
-    .ring {
-      position: absolute;
-      border: 1px solid var(--glow);
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: ring-expand 4s infinite ease-in-out;
-    }
-
-    .ring-1 {
-      width: 80px;
-      height: 80px;
-      animation-delay: 0s;
-    }
-
-    .ring-2 {
-      width: 100px;
-      height: 100px;
-      animation-delay: 1s;
-    }
-
-    .ring-3 {
-      width: 120px;
-      height: 120px;
-      animation-delay: 2s;
-    }
-
-    @keyframes ring-expand {
-      0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.3;
-      }
-      50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.6;
-      }
-    }
-
-    /* 3D Logo Container */
-    .logo-container {
-      position: relative;
-      margin-bottom: 40px;
-      width: 200px;
-      height: 200px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .logo-3d-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Floating Geometry Elements */
-    .floating-geometry {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .geo-cube, .geo-sphere, .geo-cylinder, .geo-pyramid, .geo-ring, .geo-hexagon {
-      position: absolute;
-      opacity: 0.3;
-      border: 2px solid var(--glow);
-      animation: float-rotate 8s infinite linear;
-    }
-
-    .geo-cube {
-      width: 20px;
-      height: 20px;
-      top: 20%;
-      left: 15%;
-      transform: rotate(45deg);
-      animation-delay: 0s;
-    }
-
-    .geo-sphere {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      top: 70%;
-      right: 20%;
-      animation-delay: 1s;
-    }
-
-    .geo-cylinder {
-      width: 12px;
-      height: 24px;
-      border-radius: 6px;
-      bottom: 25%;
-      left: 25%;
-      animation-delay: 2s;
-    }
-
-    .geo-pyramid {
-      width: 0;
-      height: 0;
-      border-left: 10px solid transparent;
-      border-right: 10px solid transparent;
-      border-bottom: 18px solid var(--glow);
-      border-top: none;
-      top: 15%;
-      right: 30%;
-      animation-delay: 3s;
-    }
-
-    .geo-ring {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: 2px solid var(--glow);
-      background: transparent;
-      top: 60%;
-      left: 70%;
-      animation-delay: 4s;
-    }
-
-    .geo-hexagon {
-      width: 18px;
-      height: 18px;
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-      border: 2px solid var(--glow);
-      bottom: 15%;
-      right: 15%;
-      animation-delay: 5s;
-    }
-
-    @keyframes float-rotate {
-      0% {
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.3;
-      }
-      25% {
-        transform: translateY(-10px) rotate(90deg);
-        opacity: 0.6;
-      }
-      50% {
-        transform: translateY(-5px) rotate(180deg);
-        opacity: 0.4;
-      }
-      75% {
-        transform: translateY(-15px) rotate(270deg);
-        opacity: 0.7;
-      }
-      100% {
-        transform: translateY(0px) rotate(360deg);
-        opacity: 0.3;
-      }
-    }
-
-    /* Tech Symbols */
-    .tech-symbols {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    }
-
-    .symbol {
-      position: absolute;
-      font-size: 16px;
-      opacity: 0.7;
-      animation: symbol-float 6s infinite ease-in-out;
-      filter: drop-shadow(0 0 8px var(--glow));
-    }
-
-    .symbol svg {
-      width: 16px;
-      height: 16px;
-      color: var(--glow);
-      filter: drop-shadow(0 0 4px var(--glow));
-      transition: all 0.3s ease;
-    }
-
-    .symbol:hover svg {
-      color: #ffffff;
-      filter: drop-shadow(0 0 8px var(--glow)) brightness(1.2);
-      transform: scale(1.2);
-    }
-
-    .symbol-code {
-      top: 10%;
-      left: 10%;
-      animation-delay: 0s;
-    }
-
-    .symbol-automation {
-      top: 20%;
-      right: 15%;
-      animation-delay: 1s;
-    }
-
-    .symbol-data {
-      top: 60%;
-      left: 5%;
-      animation-delay: 2s;
-    }
-
-    .symbol-ai {
-      top: 70%;
-      right: 10%;
-      animation-delay: 3s;
-    }
-
-    .symbol-cloud {
-      bottom: 20%;
-      left: 20%;
-      animation-delay: 4s;
-    }
-
-    .symbol-connect {
-      bottom: 10%;
-      right: 25%;
-      animation-delay: 5s;
-    }
-
-    @keyframes symbol-float {
-      0%, 100% {
-        transform: translateY(0px) scale(1);
-        opacity: 0.7;
-      }
-      50% {
-        transform: translateY(-15px) scale(1.1);
-        opacity: 1;
-      }
-    }
-
-    /* Main Logo with Glow */
-    .logo-glow-container {
-      position: relative;
-      z-index: 10;
-    }
-
-    .main-logo {
-      height: 60px;
-      filter: brightness(0) invert(1);
-      transition: all 0.3s ease;
-      animation: logo-pulse 3s infinite ease-in-out, logo-rise 4s infinite ease-in-out;
-    }
-
-    .logo-glow {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80px;
-      height: 80px;
-      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
-      opacity: 0.3;
-      border-radius: 50%;
-      animation: glow-pulse 2s infinite ease-in-out;
-      z-index: -1;
-    }
-
-    .logo-particles {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 100px;
-      height: 100px;
-      pointer-events: none;
-    }
-
-    .logo-particles::before,
-    .logo-particles::after {
-      content: '';
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--glow);
-      border-radius: 50%;
-      animation: particle-orbit 4s infinite linear;
-    }
-
-    .logo-particles::before {
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      animation-delay: 0s;
-    }
-
-    .logo-particles::after {
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      animation-delay: 2s;
-    }
-
-    @keyframes logo-pulse {
-      0%, 100% {
-        transform: scale(1);
-        filter: brightness(0) invert(1);
-      }
-      50% {
-        transform: scale(1.05);
-        filter: brightness(0) invert(1) drop-shadow(0 0 10px var(--glow));
-      }
-    }
-
-    @keyframes glow-pulse {
-      0%, 100% {
-        opacity: 0.3;
-        transform: translate(-50%, -50%) scale(1);
-      }
-      50% {
-        opacity: 0.6;
-        transform: translate(-50%, -50%) scale(1.2);
-      }
-    }
-
-    @keyframes particle-orbit {
-      0% {
-        transform: translateX(-50%) rotate(0deg) translateY(-40px) rotate(0deg);
-        opacity: 0;
-      }
-      25% {
-        opacity: 1;
-      }
-      75% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateX(-50%) rotate(360deg) translateY(-40px) rotate(-360deg);
-        opacity: 0;
-      }
-    }
-
-    /* Rising Animation for Logo */
-    @keyframes logo-rise {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-    }
-
-    /* Hover Effects */
-    .logo-container:hover .main-logo {
-      transform: scale(1.1);
-      filter: brightness(0) invert(1) drop-shadow(0 0 20px var(--glow));
-    }
-
-    .logo-container:hover .logo-glow {
-      opacity: 0.8;
-      transform: translate(-50%, -50%) scale(1.5);
-    }
-
-    .logo-container:hover .symbol {
-      animation-duration: 2s;
-    }
-
-    .logo-container:hover .geo-cube,
-    .logo-container:hover .geo-sphere,
-    .logo-container:hover .geo-cylinder,
-    .logo-container:hover .geo-pyramid,
-    .logo-container:hover .geo-ring,
-    .logo-container:hover .geo-hexagon {
-      animation-duration: 4s;
-      opacity: 0.8;
-    }
-
-    .cta-button {
-      padding: 14px 28px;
-      border-radius: 50px;
-      font-weight: 500;
-      background-color: white;
-      color: black;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-    }
-
-    .cta-button:hover {
-      background-color: #e5e5e5;
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
-    }
-
-    .cta-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
-      transition: left 0.5s;
-    }
-
-    .cta-button:hover::before {
-      left: 100%;
-    }
-
-    /* Arrow Indicator */
-    .arrow-indicator {
-      position: absolute;
-      right: -40px;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0;
-      transition: all 0.3s ease;
-      pointer-events: none;
-    }
-
-    .cta-button:hover .arrow-indicator {
-      opacity: 1;
-      right: -50px;
-    }
-
-    .arrow-indicator::before {
-      content: '→';
-      font-size: 20px;
-      color: var(--glow);
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    /* Team Section */
-    #team {
-      padding: 80px 20px;
-      background-color: var(--bg);
-    }
-
-    #team h2 {
-      text-align: center;
-      font-size: 2.8em;
-      margin-bottom: 40px;
-      color: var(--accent);
-    }
-
-    .team-wrapper {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-
-    .team-card {
-      background: #111;
-      border-radius: 20px;
-      overflow: hidden;
-      width: 280px;
-      text-align: center;
-      box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
-      transition: all 0.3s ease;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-    }
-
-    .team-card:hover {
-      transform: translateY(-10px) rotateY(5deg) scale(1.05);
-      box-shadow: 0 20px 40px rgba(0, 255, 255, 0.3);
-    }
-
-    .team-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .team-card:hover::before {
-      opacity: 1;
-    }
-
-    .team-img {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1/1;
-      object-fit: cover;
-      display: block;
-      transition: all 0.3s ease;
-      border-radius: 20px 20px 0 0;
-    }
-
-    .team-card:hover .team-img {
-      filter: brightness(1.1) contrast(1.1);
-      transform: scale(1.02);
-    }
-
-    .team-role {
-      background: #000;
-      color: #fff;
-      font-weight: 600;
-      padding: 15px 0;
-      font-size: 1.1em;
-      border-top: 1px solid #333;
-    }
-
-    /* Blog Section */
-    .blog-wrapper {
-      display: flex;
-      flex-direction: row;
-      gap: 30px;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 20px 0 30px 0;
-      justify-content: flex-start;
-      scrollbar-width: thin;
-      scrollbar-color: rgba(0, 255, 255, 0.3) transparent;
-      position: relative;
-      max-width: 100%;
-    }
-
-    .blog-wrapper::-webkit-scrollbar {
-      height: 6px;
-    }
-
-    .blog-wrapper::-webkit-scrollbar-track {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-    }
-
-    .blog-wrapper::-webkit-scrollbar-thumb {
-      background: rgba(0, 255, 255, 0.5);
-      border-radius: 3px;
-    }
-
-    .blog-wrapper::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 255, 255, 0.7);
-    }
-
-    .carousel-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin: 40px 0;
-    }
-
-    .carousel-btn {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-      backdrop-filter: blur(10px);
-    }
-
-    .carousel-btn:hover {
-      background: rgba(0, 255, 255, 0.2);
-      border-color: var(--glow);
-      transform: scale(1.1);
-      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
-    }
-
-    .carousel-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .carousel-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .blog-card {
-      position: relative;
-      width: 300px;
-      height: 200px;
-      border-radius: 16px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
-      transition: all 0.3s ease;
-      flex-shrink: 0;
-      scroll-snap-align: start;
-      transform-style: preserve-3d;
-    }
-
-    .blog-card:hover {
-      transform: scale(1.02) rotateX(2deg);
-      box-shadow: 0 15px 35px rgba(0, 255, 255, 0.2);
-    }
-
-    .blog-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .blog-card:hover::after {
-      opacity: 1;
-    }
-
-    .blog-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: all 0.3s ease;
-      filter: brightness(1);
-    }
-
-    .blog-card:hover .blog-image {
-      filter: brightness(0.05);
-    }
-
-    .blog-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      color: white;
-      opacity: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.3s ease;
-    }
-
-    .blog-card:hover .blog-overlay {
-      opacity: 1;
-    }
-
-    .blog-title {
-      font-size: 1.1em;
-      font-weight: 500;
-      text-align: center;
-      padding: 20px;
-    }
-
-    .view-all-button {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: transparent;
-      border: 1px solid var(--accent);
-      color: var(--accent);
-      text-decoration: none;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      position: relative;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-
-    .view-all-button:hover {
-      background-color: var(--accent);
-      color: var(--bg);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(229, 229, 229, 0.3);
-    }
-
-    .view-all-button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    .view-all-button:hover::before {
-      left: 100%;
-    }
-
-
-
-    /* Calendly CTA - Custom Floating Button */
-    .calendly-cta {
-      position: fixed;
-      right: 30px;
-      bottom: 30px;
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      text-decoration: none;
-      z-index: 1000;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      transform-style: preserve-3d;
-      perspective: 1000px;
-      cursor: pointer;
-    }
-
-    .calendly-cta:hover {
-      transform: scale(1.05);
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .calendly-cta-content {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .calendly-cta-text {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: white;
-      animation: rotateText 8s linear infinite;
-    }
-
-    .calendly-cta-text span {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      transform-origin: 0 42px;
-    }
-
-    @keyframes rotateText {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(-360deg); }
-    }
-
-    .calendly-cta-icon {
-      width: 24px;
-      height: 24px;
-      color: white;
-      animation: ring 2s ease-in-out infinite;
-      z-index: 2;
-    }
-
-    @keyframes ring {
-      0%, 100% { transform: rotate(0deg); }
-      10%, 30% { transform: rotate(-10deg); }
-      20%, 40% { transform: rotate(10deg); }
-      50% { transform: rotate(0deg); }
-    }
-
-    /* Calendly Popup Styling */
-    .calendly-popup-content {
-      position: fixed !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      z-index: 10000 !important;
-      width: 95vw !important;
-      height: 95vh !important;
-      max-width: 1200px !important;
-      max-height: 800px !important;
-      border-radius: 12px !important;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
-    }
-
-    .calendly-popup-content iframe {
-      width: 100% !important;
-      height: 100% !important;
-      border-radius: 12px !important;
-    }
-
-    .calendly-popup-overlay {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      background: rgba(0, 0, 0, 0.7) !important;
-      z-index: 9999 !important;
-      backdrop-filter: blur(5px) !important;
-    }
-
-    /* Hide Calendly branding */
-    .calendly-popup-content iframe {
-      width: 100% !important;
-      height: 100% !important;
-      border-radius: 12px !important;
-    }
-
-    /* Hide "Powered by Calendly" text */
-    .calendly-popup-content iframe[src*="calendly.com"] {
-      filter: brightness(1) !important;
-    }
-
-    /* Additional selectors to hide Calendly branding */
-    [data-calendly-branding],
-    .calendly-branding,
-    .calendly-powered-by,
-    iframe[src*="calendly.com"] [data-calendly-branding],
-    iframe[src*="calendly.com"] .calendly-branding,
-    iframe[src*="calendly.com"] .calendly-powered-by {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-    }
-
-    /* More aggressive branding removal */
-    .calendly-popup-content iframe {
-      width: 100% !important;
-      height: 100% !important;
-      border-radius: 12px !important;
-    }
-
-    /* Try to hide branding with CSS injection */
-    .calendly-popup-content::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
-      pointer-events: none;
-      z-index: 10002;
-    }
-
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 40px 20px;
-      font-size: 14px;
-      color: #aaa;
-      border-top: 1px solid #333;
-      margin-top: 80px;
-    }
-
-    .contact-email {
-      margin-top: 15px;
-    }
-
-    .contact-email a {
-      color: #fff;
-      text-decoration: underline;
-      transition: color 0.3s ease;
-    }
-
-    .contact-email a:hover {
-      color: var(--hover);
-    }
-
-    /* Responsive Design */
     @media (max-width: 768px) {
-      body {
-        cursor: auto;
-      }
-      
-      .cursor, .cursor-dot {
-        display: none;
-      }
-
-      header {
-        display: none !important;
-        visibility: hidden;
-        height: 0;
-        overflow: hidden;
-      }
-
-      .hamburger {
-        display: block;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .hero p {
-        font-size: 1.1rem;
-      }
-
-      /* 3D Hero Mobile Responsive */
-      .hero-title {
-        font-size: 2.5rem;
-        text-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-      }
-
-      .hero-description {
-        font-size: 1.1rem;
-        max-width: 90%;
-      }
-
-      /* Reduce 3D elements on mobile */
-      .shape {
-        border-width: 1px;
-      }
-
-      .shape-cube, .shape-sphere, .shape-cylinder, .shape-pyramid,
-      .shape-torus, .shape-octahedron, .shape-dodecahedron, .shape-icosahedron {
-        transform: scale(0.7);
-      }
-
-      .tech-element svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .particle {
-        width: 3px;
-        height: 3px;
-      }
-
-      .ray {
-        width: 1px;
-        height: 150px;
-      }
-
-      .cta-button-3d {
-        padding: 15px 25px;
-        font-size: 1rem;
-        gap: 10px;
-      }
-
-      /* Mobile FIDS animation adjustments */
-      .fids-container {
-        height: 3.5rem;
-        padding: 0 8px;
-      }
-
-      .fids-item {
-        height: 3.5rem;
-        font-size: 2.5rem;
-      }
-
-      .fids-item:nth-child(3) {
-        font-size: 2.2rem;
-      }
-
-      @keyframes fidsScroll {
-        0%, 28% {
-          transform: translateY(0);
-        }
-        30%, 58% {
-          transform: translateY(-3.5rem);
-        }
-        60%, 88% {
-          transform: translateY(-7rem);
-        }
-        90%, 100% {
-          transform: translateY(-10.5rem);
-        }
-      }
-
-      .fids-scroll {
-        animation: fidsScroll 8s ease-in-out infinite;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .scroll-line {
-        height: 40px;
-      }
-
-      .ring-1 { width: 60px; height: 60px; }
-      .ring-2 { width: 75px; height: 75px; }
-      .ring-3 { width: 90px; height: 90px; }
-
-      /* 3D Logo Mobile Responsive */
-      .logo-container {
-        width: 150px;
-        height: 150px;
-        margin-bottom: 30px;
-      }
-
-      .main-logo {
-        height: 45px;
-      }
-
-      .logo-glow {
-        width: 60px;
-        height: 60px;
-      }
-
-      .geo-cube, .geo-sphere, .geo-cylinder, .geo-pyramid, .geo-ring, .geo-hexagon {
-        border-width: 1px;
-      }
-
-      .geo-cube {
-        width: 15px;
-        height: 15px;
-      }
-
-      .geo-sphere {
-        width: 12px;
-        height: 12px;
-      }
-
-      .geo-cylinder {
-        width: 8px;
-        height: 16px;
-      }
-
-      .geo-pyramid {
-        border-left-width: 7px;
-        border-right-width: 7px;
-        border-bottom-width: 12px;
-      }
-
-      .geo-ring {
-        width: 18px;
-        height: 18px;
-      }
-
-      .geo-hexagon {
-        width: 14px;
-        height: 14px;
-      }
-
-      .symbol {
-        font-size: 12px;
-      }
-
-      .logo-particles {
-        width: 80px;
-        height: 80px;
-      }
-
-      .team-wrapper {
-        gap: 20px;
-      }
-
-      .team-card {
-        width: 250px;
-      }
-
-      .blog-wrapper {
-        gap: 20px;
-        padding: 0 20px;
-      }
-
-      .blog-card {
-        width: 280px;
-      }
-
-      .carousel-container {
-        gap: 15px;
-        margin: 30px 0;
-      }
-
-      .carousel-btn {
-        width: 40px;
-        height: 40px;
-      }
-
-      .carousel-btn svg {
-        width: 16px;
-        height: 16px;
-      }
-
-      .calendly-cta {
-        right: 25px;
-        bottom: 25px;
-        width: 80px;
-        height: 80px;
-      }
-      
-      .calendly-cta-text {
-        font-size: 7px;
-      }
-      
-      .calendly-cta-text span {
-        transform-origin: 0 37px;
-      }
-      
-      .calendly-cta-icon {
-        width: 38px;
-        height: 38px;
-      }
-
+      .site-nav { display: none; }
+      .mobile-menu-btn { display: flex; }
     }
 
-    /* Custom Scheduler Modal Styling */
-    .scheduler-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      z-index: 10000;
+    /* ── HERO ── */
+    .hero {
+      min-height: 100svh;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--pad) 5rem;
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-top: 64px;
     }
-
-    .scheduler-modal.active {
-      opacity: 1;
-      visibility: visible;
+    .hero-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
     }
-
-    .scheduler-content {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      padding: 40px;
-      max-width: 800px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(0, 255, 255, 0.2);
+    .hero-display {
+      font-family: var(--font-head);
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 400;
+      line-height: 1.02;
+      color: var(--ink);
+      max-width: 900px;
+      margin-bottom: 2rem;
     }
-
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 0, 0, 0.9);
-      color: white;
-      border: 2px solid white;
-      border-radius: 50%;
+    .hero-display em {
+      font-style: italic;
+      color: var(--ink-muted);
+    }
+    .hero-rule {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
+      align-items: flex-end;
+      gap: 3rem;
+      border-top: 1px solid var(--rule);
+      padding-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .hero-tagline {
+      font-size: 0.9375rem;
+      color: var(--ink-mid);
+      max-width: 380px;
+      line-height: 1.65;
+      flex: 1;
+    }
+    .hero-cta-group { display: flex; gap: 1rem; align-items: center; flex-shrink: 0; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center;
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.5rem;
+      border-radius: 2px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
       cursor: pointer;
-      transition: all 0.3s ease;
+      border: 1px solid transparent;
     }
-
-    .close-btn:hover {
-      background: rgba(255, 0, 0, 1);
-      transform: scale(1.1);
+    .btn-primary {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
     }
-
-    .scheduler-header {
-      text-align: center;
-      margin-bottom: 30px;
+    .btn-primary:hover { background: #333; border-color: #333; }
+    .btn-secondary {
+      background: transparent;
+      color: var(--ink);
+      border-color: var(--ink);
     }
-
-    .scheduler-header h2 {
-      font-size: 2em;
-      margin-bottom: 10px;
-      color: var(--accent);
+    .btn-secondary:hover { background: var(--ink); color: #fff; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-mid);
+      border-color: var(--rule);
     }
+    .btn-ghost:hover { border-color: var(--ink-mid); color: var(--ink); }
 
-    .scheduler-header p {
-      color: var(--gray);
-      font-size: 1.1em;
+    /* ── SECTIONS ── */
+    .section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: clamp(4rem, 8vw, 7rem) var(--pad);
+      border-top: 1px solid var(--rule);
     }
-
-    .scheduler-steps {
+    .section-meta {
       display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-      gap: 20px;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-index {
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      min-width: 2.5rem;
+    }
+    .section-eyebrow {
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .section-h2 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+    .section-body {
+      font-size: 1rem;
+      color: var(--ink-mid);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 2rem;
     }
 
-    .step {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--gray);
-      font-size: 14px;
-    }
-
-    .step.active {
-      color: var(--glow);
-    }
-
-    .step.completed {
-      color: #00ff88;
-    }
-
-    .step-number {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: bold;
-      background: var(--gray);
-      color: var(--bg);
-    }
-
-    .step.active .step-number {
-      background: var(--glow);
-    }
-
-    .step.completed .step-number {
-      background: #00ff88;
-    }
-
-    .calendar-container {
+    /* ── ABOUT ── */
+    .about-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 30px;
-      margin-bottom: 30px;
+      gap: 4rem;
+      align-items: end;
     }
-
-    .calendar-section {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .calendar-header {
+    .about-right {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .about-stat {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.25rem;
+    }
+    .about-stat-num {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.25rem;
+    }
+    .about-stat-label {
+      font-size: 0.8125rem;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    @media (max-width: 640px) {
+      .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
     }
 
-    .calendar-nav {
-      display: flex;
-      gap: 10px;
-    }
-
-    .calendar-nav button {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text);
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .calendar-nav button:hover {
-      background: rgba(0, 255, 255, 0.2);
-      border-color: var(--glow);
-    }
-
-    .calendar-grid {
+    /* ── TEAM ── */
+    .team-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 2px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--rule);
+      border: 1.5px solid var(--rule);
+      margin-top: 2.5rem;
     }
-
-    .calendar-day-header {
-      text-align: center;
-      padding: 10px 5px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--gray);
-    }
-
-    .calendar-day {
-      aspect-ratio: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border-radius: 6px;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-
-    .calendar-day:hover {
-      background: rgba(0, 255, 255, 0.2);
-    }
-
-    .calendar-day.available {
-      background: rgba(0, 255, 136, 0.1);
-      border: 1px solid rgba(0, 255, 136, 0.3);
-    }
-
-    .calendar-day.selected {
-      background: var(--glow);
-      color: var(--bg);
-      border-color: var(--glow);
-    }
-
-    .calendar-day.disabled {
-      color: var(--gray);
-      cursor: not-allowed;
-      opacity: 0.3;
-    }
-
-    .time-slots {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .time-slot {
-      padding: 12px 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 14px;
-    }
-
-    .time-slot:hover {
-      background: rgba(0, 255, 255, 0.2);
-      border-color: var(--glow);
-    }
-
-    .time-slot.selected {
-      background: var(--glow);
-      color: var(--bg);
-      border-color: var(--glow);
-    }
-
-    .time-slot.disabled {
-      color: var(--gray);
-      cursor: not-allowed;
-      opacity: 0.3;
-    }
-
-    .form-section {
-      display: none;
-    }
-
-    .form-section.active {
-      display: block;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: var(--accent);
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 16px;
-      transition: all 0.3s ease;
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--glow);
-      box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .navigation-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 30px;
-    }
-
-    .nav-btn {
-      padding: 12px 24px;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--text);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-weight: 600;
-    }
-
-    .nav-btn:hover {
-      background: rgba(0, 255, 255, 0.2);
-      border-color: var(--glow);
-    }
-
-    .nav-btn.primary {
-      background: linear-gradient(135deg, var(--glow), #0080ff);
-      color: var(--bg);
-      border: none;
-    }
-
-    .nav-btn.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(0, 255, 255, 0.3);
-    }
-
-    .nav-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .success-message {
-      text-align: center;
-      color: #00ff88;
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(0, 255, 136, 0.1);
-      border-radius: 8px;
-      display: none;
-    }
-
-    .error-message {
-      text-align: center;
-      color: #ff4444;
-      margin-top: 20px;
-      padding: 15px;
-      background: rgba(255, 68, 68, 0.1);
-      border-radius: 8px;
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .scheduler-content {
-        padding: 30px 20px;
-        margin: 20px;
-      }
-      
-      .calendar-container {
-        grid-template-columns: 1fr;
-        gap: 20px;
-      }
-      
-      .time-slots {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .scheduler-steps {
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-
-    /* Mobile styling for "that actually works" text */
-    .hero-title span {
-      font-size: 2.5rem !important;
-    }
-
-    /* Pencil Underline Effect for "works" */
-    .works-encircled {
+    .team-card {
+      background: var(--surface);
+      overflow: hidden;
       position: relative;
-      display: inline-block;
-      margin: 0 5px;
+    }
+    .team-card a { text-decoration: none; display: block; }
+    .team-thumb-wrap {
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: #e8e5de;
+      position: relative;
+    }
+    .team-thumb-wrap video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+      transition: opacity 0.3s, transform 0.5s;
+    }
+    .team-card:hover .team-thumb-wrap video {
+      opacity: 1;
+      transform: scale(1.03);
+    }
+    .team-info {
+      padding: 1.25rem 1.5rem;
+      border-top: 1px solid var(--rule);
+    }
+    .team-name {
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .team-role {
+      font-size: 0.8125rem;
+      color: var(--ink-muted);
+    }
+    @media (max-width: 640px) {
+      .team-grid { grid-template-columns: 1fr; }
     }
 
-    .pencil-underline {
-      position: absolute;
-      bottom: -2px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 30px;
-      z-index: 10;
-      animation: pencil-draw-once 2s ease-in-out forwards;
-      pointer-events: none;
+    /* ── INDUSTRIES ── */
+    .industries-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      margin-top: 2.5rem;
+      border: 1px solid var(--rule);
+    }
+    .industry-item {
+      flex: 1 1 calc(33.33% - 1px);
+      padding: 1.5rem 2rem;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.9375rem;
+      color: var(--ink-mid);
+      font-weight: 400;
+      transition: background 0.2s, color 0.2s;
+    }
+    .industry-item:hover { background: var(--ink); color: #fff; }
+    .industry-item .ind-num {
+      display: block;
+      font-size: 0.6875rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+      transition: color 0.2s;
+    }
+    .industry-item:hover .ind-num { color: rgba(255,255,255,0.5); }
+    @media (max-width: 640px) {
+      .industry-item { flex: 1 1 50%; }
     }
 
-    .pencil-underline path {
-      stroke-dasharray: 100;
-      stroke-dashoffset: 100;
-      animation: draw-line-once 1.5s ease-in-out forwards;
+    /* ── BLOG CARDS ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin-top: 2.5rem;
     }
-
-    @keyframes pencil-draw-once {
-      0% {
-        transform: translateX(-50%) scale(0.8);
-        opacity: 0;
-      }
-      100% {
-        transform: translateX(-50%) scale(1);
-        opacity: 0.9;
-      }
+    .card {
+      background: var(--surface);
+      text-decoration: none;
+      display: block;
+      overflow: hidden;
+      transition: background 0.2s;
     }
-
-    @keyframes draw-line-once {
-      0% {
-        stroke-dashoffset: 100;
-      }
-      100% {
-        stroke-dashoffset: 0;
-      }
+    .card:hover { background: #f5f3ef; }
+    .card-image-wrap {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: #e8e5de;
     }
-
-    /* Mobile responsive for pencil underline */
+    .card-image {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s;
+      filter: grayscale(20%);
+    }
+    .card:hover .card-image { transform: scale(1.04); }
+    .card-body { padding: 1.25rem 1.5rem; border-top: 1px solid var(--rule); }
+    .card-meta {
+      font-size: 0.6875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.5rem;
+    }
+    .card-title {
+      font-family: var(--font-head);
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.3;
+    }
     @media (max-width: 768px) {
-      .pencil-underline {
-        width: 120px;
-        height: 25px;
-        bottom: -1px;
-      }
+      .card-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── CLOSING CTA ── */
+    .section--closing {
+      border-top: 1px solid var(--rule);
+      text-align: left;
+    }
+    .closing-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+    .closing-btns { display: flex; gap: 1rem; flex-shrink: 0; align-items: center; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem var(--pad);
+      max-width: var(--max);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy {
+      font-size: 0.8125rem;
+      color: var(--ink-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    .footer-links a {
+      font-size: 0.8125rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+
+    /* ── PAGE FADE IN ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero-display  { animation: fadeUp 0.7s ease both; animation-delay: 0.25s; }
+    .hero-rule     { animation: fadeUp 0.6s ease both; animation-delay: 0.45s; }
   </style>
 </head>
 <body>
 
-  <!-- Custom Cursor -->
-  <div class="cursor"></div>
-  <div class="cursor-dot"></div>
-
-  <!-- Floating Particles -->
-  <div class="particles" id="particles"></div>
-
-  <header>
-    <nav>
-      <a href="#aboutmatic">Who We Are</a>
-      <a href="#team">Team</a>
-      <a href="#solutions">Solutions</a>
-      <a href="#contact">Contact Us</a>
-    </nav>
-    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button" style="margin-left: 20px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-      </svg>
-      <span style="position: relative; top: 1px;">/MATICStudio</span>
-    </a>
-    <button class="hamburger" onclick="toggleMenu()">
-      ☰
-    </button>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="#aboutmatic">Who We Are</a>
-      <a href="#team">Team</a>
-      <a href="#solutions">Solutions</a>
-      <a href="#contact">Contact Us</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" aria-label="MATIC Studio home"><svg class="site-logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 300 75" preserveAspectRatio="xMidYMid meet"><defs><g/><clipPath id="6e4e826425"><path d="M 270.726562 19.085938 L 295.171875 19.085938 L 295.171875 43.53125 L 270.726562 43.53125 Z M 270.726562 19.085938 " clip-rule="nonzero"/></clipPath><clipPath id="16129c8d25"><path d="M 282.949219 19.085938 C 276.199219 19.085938 270.726562 24.558594 270.726562 31.308594 C 270.726562 38.058594 276.199219 43.53125 282.949219 43.53125 C 289.699219 43.53125 295.171875 38.058594 295.171875 31.308594 C 295.171875 24.558594 289.699219 19.085938 282.949219 19.085938 Z M 282.949219 19.085938 " clip-rule="nonzero"/></clipPath><clipPath id="bffa6dc809"><path d="M 0.726562 0.0859375 L 25.171875 0.0859375 L 25.171875 24.53125 L 0.726562 24.53125 Z M 0.726562 0.0859375 " clip-rule="nonzero"/></clipPath><clipPath id="7704a9c7a9"><path d="M 12.949219 0.0859375 C 6.199219 0.0859375 0.726562 5.558594 0.726562 12.308594 C 0.726562 19.058594 6.199219 24.53125 12.949219 24.53125 C 19.699219 24.53125 25.171875 19.058594 25.171875 12.308594 C 25.171875 5.558594 19.699219 0.0859375 12.949219 0.0859375 Z M 12.949219 0.0859375 " clip-rule="nonzero"/></clipPath><clipPath id="809cd924dd"><rect x="0" width="26" y="0" height="25"/></clipPath><clipPath id="9d40146abb"><path d="M 0 0.679688 L 299.761719 0.679688 L 299.761719 59.480469 L 0 59.480469 Z M 0 0.679688 " clip-rule="nonzero"/></clipPath><clipPath id="e16e9a7b1a"><rect x="0" width="300" y="0" height="60"/></clipPath><clipPath id="28b4778dc4"><rect x="0" width="300" y="0" height="60"/></clipPath></defs><g transform="matrix(1, 0, 0, 1, 0, 7)"><g clip-path="url(#28b4778dc4)"><g clip-path="url(#6e4e826425)"><g clip-path="url(#16129c8d25)"><g transform="matrix(1, 0, 0, 1, 270, 19)"><g clip-path="url(#809cd924dd)"><g clip-path="url(#bffa6dc809)"><g clip-path="url(#7704a9c7a9)"><path fill="currentColor" d="M 0.726562 0.0859375 L 25.171875 0.0859375 L 25.171875 24.53125 L 0.726562 24.53125 Z M 0.726562 0.0859375 "  fill-rule="nonzero"/></g></g></g></g></g></g><g fill="#ffffff" ><g transform="translate(274.516223, 34.903276)"><g><path d="M 0.796875 0 L 0.796875 -5.546875 L 2.140625 -5.546875 L 2.140625 -4.734375 L 2.25 -4.71875 C 2.59375 -5.34375 3.148438 -5.65625 3.921875 -5.65625 C 4.566406 -5.65625 5.039062 -5.476562 5.34375 -5.125 C 5.644531 -4.78125 5.796875 -4.273438 5.796875 -3.609375 L 5.796875 0 L 4.390625 0 L 4.390625 -3.4375 C 4.390625 -3.8125 4.316406 -4.078125 4.171875 -4.234375 C 4.023438 -4.398438 3.789062 -4.484375 3.46875 -4.484375 C 3.0625 -4.484375 2.75 -4.351562 2.53125 -4.09375 C 2.3125 -3.832031 2.203125 -3.425781 2.203125 -2.875 L 2.203125 0 Z M 0.796875 0 "/></g></g></g><g fill="#ffffff" ><g transform="translate(281.019711, 34.903276)"><g><path d="M 5.484375 -2.46875 L 1.921875 -2.46875 C 1.960938 -1.976562 2.097656 -1.625 2.328125 -1.40625 C 2.566406 -1.1875 2.890625 -1.078125 3.296875 -1.078125 C 3.609375 -1.078125 3.863281 -1.132812 4.0625 -1.25 C 4.257812 -1.375 4.421875 -1.554688 4.546875 -1.796875 L 4.65625 -1.796875 L 5.578125 -1.203125 C 5.398438 -0.816406 5.125 -0.5 4.75 -0.25 C 4.382812 -0.0078125 3.898438 0.109375 3.296875 0.109375 C 2.722656 0.109375 2.222656 0 1.796875 -0.21875 C 1.378906 -0.4375 1.054688 -0.757812 0.828125 -1.1875 C 0.609375 -1.625 0.5 -2.15625 0.5 -2.78125 C 0.5 -3.40625 0.617188 -3.929688 0.859375 -4.359375 C 1.097656 -4.796875 1.421875 -5.117188 1.828125 -5.328125 C 2.234375 -5.546875 2.6875 -5.65625 3.1875 -5.65625 C 3.976562 -5.65625 4.582031 -5.445312 5 -5.03125 C 5.414062 -4.613281 5.625 -4.003906 5.625 -3.203125 C 5.625 -2.910156 5.613281 -2.679688 5.59375 -2.515625 Z M 4.296875 -3.359375 C 4.273438 -3.785156 4.171875 -4.09375 3.984375 -4.28125 C 3.804688 -4.476562 3.539062 -4.578125 3.1875 -4.578125 C 2.488281 -4.578125 2.078125 -4.171875 1.953125 -3.359375 Z M 4.296875 -3.359375 "/></g></g></g><g fill="#ffffff" ><g transform="translate(287.055072, 34.903276)"><g><path d="M 3.828125 -1.328125 L 4.1875 -0.296875 C 4.039062 -0.171875 3.851562 -0.0703125 3.625 0 C 3.394531 0.0703125 3.132812 0.109375 2.84375 0.109375 C 2.25 0.109375 1.796875 -0.0507812 1.484375 -0.375 C 1.171875 -0.707031 1.015625 -1.1875 1.015625 -1.8125 L 1.015625 -4.453125 L 0.171875 -4.453125 L 0.171875 -5.5625 L 1.015625 -5.5625 L 1.015625 -6.640625 L 2.40625 -6.875 L 2.40625 -5.5625 L 3.984375 -5.5625 L 3.984375 -4.453125 L 2.40625 -4.453125 L 2.40625 -1.90625 C 2.40625 -1.632812 2.460938 -1.4375 2.578125 -1.3125 C 2.691406 -1.1875 2.859375 -1.125 3.078125 -1.125 C 3.328125 -1.125 3.539062 -1.191406 3.71875 -1.328125 Z M 3.828125 -1.328125 "/></g></g></g><g clip-path="url(#9d40146abb)"><g transform="matrix(1, 0, 0, 1, 0, -0.000000000000001776)"><g clip-path="url(#e16e9a7b1a)"><g fill="currentColor" ><g transform="translate(0.513448, 46.529398)"><g><path d="M 9.5 0 L 3.96875 0 L 3.96875 -30.515625 L 11.859375 -30.515625 L 19.578125 -8.078125 L 20.015625 -8.078125 L 27.703125 -30.515625 L 35.40625 -30.515625 L 35.40625 0 L 29.6875 0 L 29.6875 -20.171875 L 29.15625 -20.25 L 22.109375 0 L 17.078125 0 L 10.015625 -20.25 L 9.5 -20.171875 Z M 9.5 0 "/></g></g></g><g fill="currentColor" ><g transform="translate(39.894354, 46.529398)"><g><path d="M 29.28125 0 L 22.9375 0 L 20.640625 -7.03125 L 8.953125 -7.03125 L 6.65625 0 L 0.453125 0 L 11 -30.515625 L 18.75 -30.515625 Z M 14.5 -24.15625 L 10.578125 -12.109375 L 18.96875 -12.109375 L 15.03125 -24.15625 Z M 14.5 -24.15625 "/></g></g></g><g fill="currentColor" ><g transform="translate(66.920371, 46.529398)"><g><path d="M 24.46875 -30.515625 L 24.46875 -25.453125 L 15.65625 -25.453125 L 15.65625 0 L 9.640625 0 L 9.640625 -25.453125 L 0.828125 -25.453125 L 0.828125 -30.515625 Z M 24.46875 -30.515625 "/></g></g></g><g fill="currentColor" ><g transform="translate(92.214303, 46.529398)"><g><path d="M 10 0 L 3.96875 0 L 3.96875 -30.515625 L 10 -30.515625 Z M 10 0 "/></g></g></g><g fill="currentColor" ><g transform="translate(106.196923, 46.529398)"><g><path d="M 16.671875 0.4375 C 13.867188 0.4375 11.394531 -0.144531 9.25 -1.3125 C 7.101562 -2.476562 5.425781 -4.234375 4.21875 -6.578125 C 3.007812 -8.929688 2.40625 -11.828125 2.40625 -15.265625 C 2.40625 -18.703125 3.007812 -21.59375 4.21875 -23.9375 C 5.425781 -26.28125 7.101562 -28.035156 9.25 -29.203125 C 11.394531 -30.367188 13.867188 -30.953125 16.671875 -30.953125 C 19.609375 -30.953125 22.101562 -30.378906 24.15625 -29.234375 C 26.207031 -28.085938 27.675781 -26.335938 28.5625 -23.984375 L 24.15625 -21.296875 L 23.625 -21.3125 C 22.96875 -22.894531 22.078125 -24.03125 20.953125 -24.71875 C 19.835938 -25.414062 18.410156 -25.765625 16.671875 -25.765625 C 14.140625 -25.765625 12.164062 -24.925781 10.75 -23.25 C 9.332031 -21.570312 8.625 -18.910156 8.625 -15.265625 C 8.625 -11.628906 9.332031 -8.972656 10.75 -7.296875 C 12.164062 -5.617188 14.140625 -4.78125 16.671875 -4.78125 C 20.640625 -4.78125 23.070312 -6.707031 23.96875 -10.5625 L 24.484375 -10.5625 L 28.9375 -8.25 C 28.09375 -5.351562 26.660156 -3.179688 24.640625 -1.734375 C 22.628906 -0.285156 19.972656 0.4375 16.671875 0.4375 Z M 16.671875 0.4375 "/></g></g></g><g fill="currentColor" ><g transform="translate(136.123902, 46.529398)"><g><path d="M 13.53125 0.4375 C 11.414062 0.4375 9.53125 0.175781 7.875 -0.34375 C 6.226562 -0.863281 4.851562 -1.546875 3.75 -2.390625 C 2.65625 -3.242188 1.816406 -4.179688 1.234375 -5.203125 L 4.546875 -9.25 L 5.078125 -9.25 C 5.992188 -7.882812 7.15625 -6.796875 8.5625 -5.984375 C 9.976562 -5.179688 11.632812 -4.78125 13.53125 -4.78125 C 15.144531 -4.78125 16.359375 -5.117188 17.171875 -5.796875 C 17.992188 -6.484375 18.40625 -7.425781 18.40625 -8.625 C 18.40625 -9.34375 18.273438 -9.945312 18.015625 -10.4375 C 17.753906 -10.925781 17.316406 -11.34375 16.703125 -11.6875 C 16.085938 -12.039062 15.257812 -12.34375 14.21875 -12.59375 L 10.296875 -13.484375 C 7.546875 -14.109375 5.5 -15.144531 4.15625 -16.59375 C 2.820312 -18.050781 2.15625 -19.941406 2.15625 -22.265625 C 2.15625 -23.992188 2.582031 -25.507812 3.4375 -26.8125 C 4.300781 -28.125 5.554688 -29.140625 7.203125 -29.859375 C 8.859375 -30.585938 10.832031 -30.953125 13.125 -30.953125 C 15.476562 -30.953125 17.492188 -30.640625 19.171875 -30.015625 C 20.847656 -29.398438 22.265625 -28.453125 23.421875 -27.171875 L 20.4375 -23.09375 L 19.90625 -23.09375 C 19.050781 -23.988281 18.066406 -24.660156 16.953125 -25.109375 C 15.835938 -25.566406 14.5625 -25.796875 13.125 -25.796875 C 11.46875 -25.796875 10.207031 -25.503906 9.34375 -24.921875 C 8.488281 -24.335938 8.0625 -23.53125 8.0625 -22.5 C 8.0625 -21.539062 8.363281 -20.773438 8.96875 -20.203125 C 9.570312 -19.628906 10.617188 -19.1875 12.109375 -18.875 L 16.109375 -18.03125 C 19.078125 -17.40625 21.226562 -16.34375 22.5625 -14.84375 C 23.894531 -13.351562 24.5625 -11.40625 24.5625 -9 C 24.5625 -7.09375 24.148438 -5.429688 23.328125 -4.015625 C 22.515625 -2.609375 21.28125 -1.515625 19.625 -0.734375 C 17.96875 0.046875 15.9375 0.4375 13.53125 0.4375 Z M 13.53125 0.4375 "/></g></g></g><g fill="currentColor" ><g transform="translate(161.981295, 46.529398)"><g><path d="M 24.46875 -30.515625 L 24.46875 -25.453125 L 15.65625 -25.453125 L 15.65625 0 L 9.640625 0 L 9.640625 -25.453125 L 0.828125 -25.453125 L 0.828125 -30.515625 Z M 24.46875 -30.515625 "/></g></g></g><g fill="currentColor" ><g transform="translate(187.275228, 46.529398)"><g><path d="M 16.171875 0.4375 C 11.972656 0.4375 8.859375 -0.554688 6.828125 -2.546875 C 4.796875 -4.546875 3.78125 -7.507812 3.78125 -11.4375 L 3.78125 -30.515625 L 9.6875 -30.515625 L 9.6875 -11.484375 C 9.6875 -9.253906 10.222656 -7.582031 11.296875 -6.46875 C 12.367188 -5.351562 13.992188 -4.796875 16.171875 -4.796875 C 20.503906 -4.796875 22.671875 -7.023438 22.671875 -11.484375 L 22.671875 -30.515625 L 28.578125 -30.515625 L 28.578125 -11.4375 C 28.578125 -7.507812 27.5625 -4.546875 25.53125 -2.546875 C 23.5 -0.554688 20.378906 0.4375 16.171875 0.4375 Z M 16.171875 0.4375 "/></g></g></g><g fill="currentColor" ><g transform="translate(219.623091, 46.529398)"><g><path d="M 14.953125 -30.515625 C 19.898438 -30.515625 23.675781 -29.234375 26.28125 -26.671875 C 28.894531 -24.117188 30.203125 -20.316406 30.203125 -15.265625 C 30.203125 -10.222656 28.894531 -6.414062 26.28125 -3.84375 C 23.675781 -1.28125 19.898438 0 14.953125 0 L 3.96875 0 L 3.96875 -30.515625 Z M 14.59375 -5.078125 C 17.738281 -5.078125 20.085938 -5.878906 21.640625 -7.484375 C 23.203125 -9.085938 23.984375 -11.679688 23.984375 -15.265625 C 23.984375 -18.835938 23.203125 -21.425781 21.640625 -23.03125 C 20.085938 -24.644531 17.738281 -25.453125 14.59375 -25.453125 L 10 -25.453125 L 10 -5.078125 Z M 14.59375 -5.078125 "/></g></g></g><g fill="currentColor" ><g transform="translate(252.242253, 46.529398)"><g><path d="M 10 0 L 3.96875 0 L 3.96875 -30.515625 L 10 -30.515625 Z M 10 0 "/></g></g></g><g fill="currentColor" ><g transform="translate(266.224861, 46.529398)"><g><path d="M 16.640625 0.4375 C 13.835938 0.4375 11.367188 -0.128906 9.234375 -1.265625 C 7.097656 -2.410156 5.425781 -4.15625 4.21875 -6.5 C 3.007812 -8.84375 2.40625 -11.765625 2.40625 -15.265625 C 2.40625 -18.753906 3.007812 -21.671875 4.21875 -24.015625 C 5.425781 -26.359375 7.097656 -28.097656 9.234375 -29.234375 C 11.367188 -30.378906 13.835938 -30.953125 16.640625 -30.953125 C 19.429688 -30.953125 21.890625 -30.382812 24.015625 -29.25 C 26.148438 -28.113281 27.816406 -26.367188 29.015625 -24.015625 C 30.222656 -21.671875 30.828125 -18.753906 30.828125 -15.265625 C 30.828125 -11.765625 30.222656 -8.835938 29.015625 -6.484375 C 27.816406 -4.140625 26.148438 -2.398438 24.015625 -1.265625 C 21.890625 -0.128906 19.429688 0.4375 16.640625 0.4375 Z M 16.640625 -4.796875 C 19.222656 -4.796875 21.195312 -5.628906 22.5625 -7.296875 C 23.925781 -8.960938 24.609375 -11.617188 24.609375 -15.265625 C 24.609375 -18.910156 23.925781 -21.566406 22.5625 -23.234375 C 21.195312 -24.898438 19.222656 -25.734375 16.640625 -25.734375 C 14.035156 -25.734375 12.046875 -24.898438 10.671875 -23.234375 C 9.304688 -21.566406 8.625 -18.910156 8.625 -15.265625 C 8.625 -11.617188 9.304688 -8.960938 10.671875 -7.296875 C 12.046875 -5.628906 14.035156 -4.796875 16.640625 -4.796875 Z M 16.640625 -4.796875 "/></g></g></g></g></g></g></g></g></svg></a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#aboutmatic">Who We Are</a>
+        <a href="#team">Team</a>
+        <a href="#solutions">Solutions</a>
+        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="form.html" class="nav-cta">Start a project</a>
+      </nav>
+      <button type="button" class="mobile-menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
+    <nav class="mobile-nav" id="mobileNav" aria-hidden="true" aria-label="Mobile navigation">
+      <a href="#aboutmatic">Who We Are</a>
+      <a href="#team">Team</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#contact">Contact</a>
+      <a href="https://www.linkedin.com/company/maticstudio" target="_blank" rel="noopener">LinkedIn</a>
+    </nav>
   </header>
 
-  <section class="hero">
-    <!-- 3D Background Elements -->
-    <div class="hero-3d-background">
-      <div class="floating-shapes">
-        <div class="shape shape-cube"></div>
-        <div class="shape shape-sphere"></div>
-        <div class="shape shape-cylinder"></div>
-        <div class="shape shape-pyramid"></div>
-        <div class="shape shape-torus"></div>
-        <div class="shape shape-octahedron"></div>
-        <div class="shape shape-dodecahedron"></div>
-        <div class="shape shape-icosahedron"></div>
-      </div>
-      
-      <!-- 3D Grid System -->
-      <div class="grid-system">
-        <div class="grid-line grid-line-1"></div>
-        <div class="grid-line grid-line-2"></div>
-        <div class="grid-line grid-line-3"></div>
-        <div class="grid-line grid-line-4"></div>
-        <div class="grid-line grid-line-5"></div>
-        <div class="grid-line grid-line-6"></div>
-      </div>
-      
-      <!-- Floating Tech Elements -->
-      <div class="tech-elements">
-        <div class="tech-element tech-code">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
-          </svg>
-        </div>
-        <div class="tech-element tech-automation">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
-        </div>
-        <div class="tech-element tech-data">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
-          </svg>
-        </div>
-        <div class="tech-element tech-ai">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-          </svg>
-        </div>
-        <div class="tech-element tech-cloud">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
-          </svg>
-        </div>
-        <div class="tech-element tech-connect">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-          </svg>
-        </div>
-      </div>
-      
-      <!-- Energy Particles -->
-      <div class="energy-particles">
-        <div class="particle particle-1"></div>
-        <div class="particle particle-2"></div>
-        <div class="particle particle-3"></div>
-        <div class="particle particle-4"></div>
-        <div class="particle particle-5"></div>
-        <div class="particle particle-6"></div>
-        <div class="particle particle-7"></div>
-        <div class="particle particle-8"></div>
-      </div>
-      
-      <!-- Light Rays -->
-      <div class="light-rays">
-        <div class="ray ray-1"></div>
-        <div class="ray ray-2"></div>
-        <div class="ray ray-3"></div>
-        <div class="ray ray-4"></div>
-        <div class="ray ray-5"></div>
-      </div>
-    </div>
-    
-    <!-- Main Content with 3D Effects -->
-    <div class="hero-content">
-      <div class="logo-container">
-        <div class="logo-3d-wrapper">
-          <!-- Enhanced Logo with 3D Effects -->
-          <div class="logo-glow-container">
-            <img src="assets/logo.png" alt="MATIC Studio Logo" class="main-logo" />
-            <div class="logo-glow"></div>
-            <div class="logo-particles"></div>
-            <div class="logo-rings">
-              <div class="ring ring-1"></div>
-              <div class="ring ring-2"></div>
-              <div class="ring ring-3"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <h1 class="hero-title">
-        <div class="fids-container">
-          <div class="fids-scroll" id="fidsScroll">
-            <div class="fids-item">Automation</div>
-            <div class="fids-item">Innovation</div>
-            <div class="fids-item">AI Solutions</div>
-            <div class="fids-item">Automation</div>
-          </div>
-        </div>
-        <span style="font-family: 'Inter', sans-serif; font-weight: 400; color: #fff; font-size: 3.5rem; text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); z-index: 10; display: inline-flex; align-items: center; position: relative;">
-          that actually 
-          <span class="works-encircled">
-            works
-            <svg class="pencil-underline" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
-              <path d="M5,20 Q15,18 25,20 Q35,22 45,20 Q55,18 65,20 Q75,22 85,20 Q95,18 105,20 Q115,22 125,20" 
-                    stroke="#00ffff" 
-                    stroke-width="6" 
-                    fill="none" 
-                    stroke-linecap="round"
-                    stroke-dasharray="4,5"
-                    opacity="0.9"/>
-            </svg>
-          </span>
-          .
-        </span>
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" aria-label="Introduction">
+      <p class="hero-eyebrow">Business process automation &nbsp;·&nbsp; Metro Manila</p>
+      <h1 class="hero-display">
+        Automation that<br><em>actually</em> works.
       </h1>
-      <p class="hero-description">
-        
-      </p>
-      
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator">
-        <div class="scroll-line"></div>
-        <div class="scroll-dot"></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="aboutmatic" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
-      <h2>Who We Are</h2>
-      <p style="max-width: 700px; margin: 30px auto; font-size: 1.1em; color: var(--gray); line-height: 1.8;">
-        We're a group of engineers and IT professionals based in Metro Manila, driven by a shared goal: to make automation accessible, practical, and impactful for Filipino businesses. MATIC Studio combines deep tech experience with real-world process know-how to design automation solutions that actually work.
-      </p>
-      <a href="aboutmatic.html" class="view-all-button" style="margin-top: 30px;">Learn More</a>
-    </div>
-  </section>
-
-  <section id="solutions" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
-      <h2 style="font-size: 2.8em; margin-bottom: 40px; color: white;">Our Workshop</h2>
-      <p style="font-size: 1.2em; color: var(--gray); margin-bottom: 30px; line-height: 1.8;">
-        Welcome to a space where ideas are built, tested, and launched.<br />
-        The Workshop is where automation begins—crafted with purpose, fueled by collaboration, and designed to create real-world impact.
-      </p>
-      <a href="workshop.html" class="cta-button" style="margin-top: 20px;">Explore the Workshop</a>
-    </div>
-  </section>
-
-  <section id="team">
-    <h2>Meet the Team</h2>
-    <div class="team-wrapper">
-      <a href="https://www.linkedin.com/in/zoletanm/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-        <div class="team-card">
-          <video class="team-img" src="assets/team/neil.MOV" muted loop playsinline></video>
-          <div class="team-role">Neil Zoleta<br><span style="font-weight: 400;">Lead Architect, Founder</span></div>
-        </div>
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-        <div class="team-card">
-          <video class="team-img" src="assets/team/shiela.MOV" muted loop playsinline></video>
-          <div class="team-role">Shiela Joyce Canent<br><span style="font-weight: 400;">Chief Engineer, Partner</span></div>
-        </div>
-      </a>
-      <a href="#" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-        <div class="team-card">
-          <video class="team-img" src="assets/team/jane.MOV" muted loop playsinline></video>
-          <div class="team-role">Alex Chen<br><span style="font-weight: 400;">Chief Engineer, Partner</span></div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <section id="industries" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
-      <h2 style="font-size: 2.5em; color: var(--accent); margin-bottom: 40px;">
-        Experience That Spans Industries and Borders
-      </h2>
-      <p style="color: var(--gray); font-size: 1.1em; margin-bottom: 50px;">
-        From critical industries to everyday services, we help automate what matters most.
-      </p>
-      <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 40px;">
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/hospital-room.png" alt="Healthcare" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">Healthcare</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/atm.png" alt="Banking" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">Banking</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/oil-industry.png" alt="Oil and Gas" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">Oil & Gas</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/card-in-use.png" alt="Payments" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">Payments</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/headset.png" alt="BPOs" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">BPOs</span>
-        </div>
-        <div style="display: flex; flex-direction: column; align-items: center; width: 100px;">
-          <img src="https://img.icons8.com/ios-filled/100/ffffff/5g.png" alt="Telecom" style="width: 44px; filter: brightness(0) invert(1);">
-          <span style="margin-top: 10px; color: var(--gray);">Telecom</span>
+      <div class="hero-rule">
+        <p class="hero-tagline">We design and build process automation and AI solutions for Filipino businesses — practical, clear, and built to last.</p>
+        <div class="hero-cta-group">
+          <a href="form.html" class="btn btn-primary">Start a project</a>
+          <a href="workshop.html" class="btn btn-ghost">Explore the Workshop</a>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="highlights" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 1200px; margin: 0 auto; position: relative;">
-      <h2>MATIC Studio <em>Highlights</em></h2>
-      <div class="carousel-container">
-        <button class="carousel-btn carousel-prev" onclick="scrollCarousel(-1)" aria-label="Previous blogs">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="15,18 9,12 15,6"></polyline>
-          </svg>
-        </button>
-        <div class="blog-wrapper" id="blogCarousel">
-          <a href="blogs/ai-for-smes.html" class="blog-card">
-            <img src="blogs/blog-assets/aihype.jpg" alt="AI for SMEs: Beyond the Hype" class="blog-image" />
-            <div class="blog-overlay">
-              <h3 class="blog-title">Latest Blog: AI for SMEs: Beyond the Hype</h3>
+    <!-- ABOUT -->
+    <section id="aboutmatic" class="section">
+      <div class="section-meta">
+        <span class="section-index">01</span>
+        <span class="section-eyebrow">About us</span>
+      </div>
+      <div class="about-layout">
+        <div class="about-left">
+          <h2 class="section-h2">Who We Are</h2>
+          <p class="section-body">We're a group of engineers and IT professionals based in Metro Manila, driven by a shared goal: to make automation accessible, practical, and impactful for Filipino businesses. MATIC Studio combines deep tech experience with real-world process know-how to design automation solutions that actually work.</p>
+          <a href="aboutmatic.html" class="btn btn-secondary">Learn more</a>
+        </div>
+        <div class="about-right">
+          <div class="about-stat">
+            <div class="about-stat-num">6+</div>
+            <div class="about-stat-label">Industries served</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">Metro Manila</div>
+            <div class="about-stat-label">Headquarters</div>
+          </div>
+          <div class="about-stat">
+            <div class="about-stat-num">100%</div>
+            <div class="about-stat-label">Built for Filipino businesses</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOLUTIONS -->
+    <section id="solutions" class="section">
+      <div class="section-meta">
+        <span class="section-index">02</span>
+        <span class="section-eyebrow">What we do</span>
+      </div>
+      <h2 class="section-h2">Our Workshop</h2>
+      <p class="section-body">Welcome to a space where ideas are built, tested, and launched. The Workshop is where automation begins — crafted with purpose, fueled by collaboration, and designed to create real-world impact.</p>
+      <a href="workshop.html" class="btn btn-primary">Explore the Workshop</a>
+    </section>
+
+    <!-- TEAM -->
+    <section id="team" class="section">
+      <div class="section-meta">
+        <span class="section-index">03</span>
+        <span class="section-eyebrow">Our team</span>
+      </div>
+      <h2 class="section-h2">Meet the Team</h2>
+      <div class="team-grid">
+
+        <div class="team-card">
+          <a href="https://www.linkedin.com/in/zoletanm/" target="_blank" rel="noopener" aria-label="Neil Zoleta on LinkedIn">
+            <div class="team-thumb-wrap">
+              <video src="assets/team/neil.mp4" muted playsinline preload="none" poster="assets/team/neil-poster.jpg"></video>
             </div>
-          </a>
-          <a href="blogs/whatisbpa.html" class="blog-card">
-            <img src="blogs/blog-assets/whatisbpa.png" alt="What is BPA?" class="blog-image" />
-            <div class="blog-overlay">
-              <h3 class="blog-title">What is BPA?</h3>
-            </div>
-          </a>
-          <a href="blogs/launch.html" class="blog-card">
-            <img src="blogs/blog-assets/bloglaunch.png" alt="Launching Innovation" class="blog-image" />
-            <div class="blog-overlay">
-              <h3 class="blog-title">Announcement Blog: Launching Innovation</h3>
+            <div class="team-info">
+              <div class="team-name">Neil Zoleta</div>
+              <div class="team-role">Lead Architect, Founder</div>
             </div>
           </a>
         </div>
-        <button class="carousel-btn carousel-next" onclick="scrollCarousel(1)" aria-label="Next blogs">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="9,18 15,12 9,6"></polyline>
-          </svg>
-        </button>
-      </div>
-      <a href="blogs/blogs.html" class="view-all-button" style="margin-top: 40px;">View All Blogs</a>
-    </div>
-  </section>
 
-  <section id="get-started" style="padding: 120px 20px; text-align: center;">
-    <div style="max-width: 900px; margin: 0 auto;">
-      <h2 style="font-size: 2.5em; color: var(--accent); margin-bottom: 40px;">
-        Ready to Get Started?
-      </h2>
-      <p style="color: var(--gray); font-size: 1.2em; margin-bottom: 40px; line-height: 1.8;">
-        Let's discuss how automation can transform your business operations.
+        <div class="team-card">
+          <div aria-label="Shiela Joyce Canent">
+            <div class="team-thumb-wrap">
+              <video src="assets/team/shiela.mp4" muted playsinline preload="none" poster="assets/team/shiela-poster.jpg"></video>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Shiela Joyce Canent</div>
+              <div class="team-role">Chief Engineer, Partner</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div aria-label="Alex Chen">
+            <div class="team-thumb-wrap">
+              <video src="assets/team/alex.mp4" muted playsinline preload="none" poster="assets/team/alex-poster.jpg"></video>
+            </div>
+            <div class="team-info">
+              <div class="team-name">Alex Chen</div>
+              <div class="team-role">Chief Engineer, Partner</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- INDUSTRIES -->
+    <section id="industries" class="section">
+      <div class="section-meta">
+        <span class="section-index">04</span>
+        <span class="section-eyebrow">Who we serve</span>
+      </div>
+      <h2 class="section-h2">Experience that spans<br>industries and borders</h2>
+      <div class="industries-list">
+        <div class="industry-item"><span class="ind-num">01</span>Healthcare</div>
+        <div class="industry-item"><span class="ind-num">02</span>Banking</div>
+        <div class="industry-item"><span class="ind-num">03</span>Oil &amp; Gas</div>
+        <div class="industry-item"><span class="ind-num">04</span>Payments</div>
+        <div class="industry-item"><span class="ind-num">05</span>BPOs</div>
+        <div class="industry-item"><span class="ind-num">06</span>Telecom</div>
+      </div>
+    </section>
+
+    <!-- BLOG -->
+    <section class="section">
+      <div class="section-meta">
+        <span class="section-index">05</span>
+        <span class="section-eyebrow">Resources</span>
+      </div>
+      <h2 class="section-h2">Highlights</h2>
+      <div class="card-grid">
+        <a href="blogs/ai-for-smes.html" class="card">
+          <div class="card-image-wrap">
+            <img src="blogs/blog-assets/aihype.jpg" alt="Abstract illustration representing AI concepts for small and medium enterprises" class="card-image" />
+          </div>
+          <div class="card-body">
+            <div class="card-meta">Blog</div>
+            <h3 class="card-title">AI for SMEs: Beyond the Hype</h3>
+          </div>
+        </a>
+        <a href="blogs/whatisbpa.html" class="card">
+          <div class="card-image-wrap">
+            <img src="blogs/blog-assets/whatisbpa.png" alt="Diagram illustrating what Business Process Automation means" class="card-image" />
+          </div>
+          <div class="card-body">
+            <div class="card-meta">Blog</div>
+            <h3 class="card-title">What is BPA?</h3>
+          </div>
+        </a>
+        <a href="blogs/launch.html" class="card">
+          <div class="card-image-wrap">
+            <img src="blogs/blog-assets/bloglaunch.png" alt="MATIC Studio launch announcement graphic" class="card-image" />
+          </div>
+          <div class="card-body">
+            <div class="card-meta">Announcement</div>
+            <h3 class="card-title">Launching Innovation</h3>
+          </div>
+        </a>
+      </div>
+      <p style="margin-top: 2rem;">
+        <a href="blogs/blogs.html" class="btn btn-ghost">View all blogs</a>
       </p>
-      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px;">
-              <a href="form.html" class="cta-button">
-        Start Project
-        <div class="arrow-indicator"></div>
-      </a>
-      <a href="workshop.html" class="view-all-button">Explore Workshop</a>
+    </section>
+
+    <!-- CLOSING CTA -->
+    <section class="section section--closing">
+      <div class="section-meta">
+        <span class="section-index">06</span>
+        <span class="section-eyebrow">Discovery</span>
       </div>
-    </div>
-  </section>
+      <div class="closing-inner">
+        <div>
+          <h2 class="section-h2">Ready to get started?</h2>
+          <p class="section-body" style="margin-bottom: 0;">Let's discuss how automation can transform your business operations.</p>
+        </div>
+        <div class="closing-btns">
+          <a href="form.html" class="btn btn-primary">Start a project</a>
+          <a href="workshop.html" class="btn btn-ghost">Explore the Workshop</a>
+        </div>
+      </div>
+    </section>
 
+  </main>
 
-
-  <footer id="contact">
-    <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
-    <div class="contact-email">
-      Business inquiries: <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
-    </div>
-    <div class="contact-email">
+  <footer id="contact" class="site-footer">
+    <p class="footer-copy">&copy; 2026 MATIC Studio &nbsp;—&nbsp; Taguig City, Metro Manila &nbsp;·&nbsp; <a href="mailto:inquire@maticstudio.net" style="color: inherit; text-decoration: none;">inquire@maticstudio.net</a></p>
+    <div class="footer-links">
       <a href="policy.html">Company Policy</a>
       <a href="privacy.html">Privacy Policy</a>
     </div>
   </footer>
 
-  <script>
-    function toggleMenu() {
-      const mobileNav = document.getElementById('mobileNav');
-      mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    // Custom Cursor
-    const cursor = document.querySelector('.cursor');
-    const cursorDot = document.querySelector('.cursor-dot');
-
-    document.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.clientX + 'px';
-      cursor.style.top = e.clientY + 'px';
-      cursorDot.style.left = e.clientX + 'px';
-      cursorDot.style.top = e.clientY + 'px';
+  <script defer>
+    // Mobile nav toggle
+    var menuBtn = document.getElementById('menuBtn');
+    var mobileNav = document.getElementById('mobileNav');
+    menuBtn.addEventListener('click', function() {
+      var isOpen = mobileNav.classList.toggle('is-open');
+      mobileNav.setAttribute('aria-hidden', isOpen ? 'false' : 'true');
+      menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      menuBtn.innerHTML = isOpen
+        ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/></svg>'
+        : '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>';
     });
-
-    // Cursor hover effects
-    const interactiveElements = document.querySelectorAll('a, button, .team-card, .blog-card');
-    
-    interactiveElements.forEach(element => {
-      element.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
-      });
-      
-      element.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
+    mobileNav.querySelectorAll('a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        mobileNav.classList.remove('is-open');
+        mobileNav.setAttribute('aria-hidden', 'true');
+        menuBtn.setAttribute('aria-expanded', 'false');
       });
     });
 
-    // Floating Particles
-    function createParticle() {
-      const particlesContainer = document.getElementById('particles');
-      const particle = document.createElement('div');
-      particle.className = 'particle';
-      
-      // Random position
-      particle.style.left = Math.random() * 100 + '%';
-      particle.style.animationDelay = Math.random() * 6 + 's';
-      particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-      
-      particlesContainer.appendChild(particle);
-      
-      // Remove particle after animation
-      setTimeout(() => {
-        if (particle.parentNode) {
-          particle.parentNode.removeChild(particle);
-        }
-      }, 8000);
-    }
-
-    // Create particles periodically
-    setInterval(createParticle, 2000);
-    
-    // Create initial particles
-    for (let i = 0; i < 10; i++) {
-      setTimeout(createParticle, i * 200);
-    }
-
-    // Parallax effect for hero section
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const hero = document.querySelector('.hero');
-      const rate = scrolled * -0.5;
-      
-      if (hero) {
-        hero.style.transform = `translateY(${rate}px)`;
-      }
-    });
-
-    // 3D tilt effect for cards
-    const cards = document.querySelectorAll('.team-card, .blog-card');
-    
-    cards.forEach(card => {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+    // Team card videos: play on hover (desktop), tap on mobile
+    document.querySelectorAll('.team-card').forEach(function(card) {
+      var video = card.querySelector('video');
+      if (!video) return;
+      card.addEventListener('mouseenter', function() { video.play().catch(function(){}); });
+      card.addEventListener('mouseleave', function() { video.pause(); video.currentTime = 0; });
+      card.addEventListener('click', function() {
+        if (video.paused) { video.play().catch(function(){}); }
+        else { video.pause(); }
       });
-      
-      card.addEventListener('mouseleave', () => {
-        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-      });
-    });
-
-    // Glow effect on scroll
-    window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const scrollProgress = scrolled / maxScroll;
-      
-      document.documentElement.style.setProperty('--glow-opacity', scrollProgress * 0.5);
-    });
-
-    // Chat Agent integration is handled by website-integration.js
-
-    function initializeScheduler() {
-      // Set minimum date to today
-      const dateInput = document.getElementById('date');
-      if (dateInput) {
-        dateInput.min = new Date().toISOString().split('T')[0];
-      }
-
-      // Time slot selection
-      const timeSlots = document.querySelectorAll('.time-slot');
-      timeSlots.forEach(slot => {
-        slot.addEventListener('click', () => {
-          timeSlots.forEach(s => s.classList.remove('selected'));
-          slot.classList.add('selected');
-        });
-      });
-
-      // Form submission
-      const schedulerForm = document.getElementById('schedulerForm');
-      if (schedulerForm) {
-        schedulerForm.addEventListener('submit', handleFormSubmission);
-      }
-
-      // Close modal when clicking outside
-      const modal = document.getElementById('schedulerModal');
-      if (modal) {
-        modal.addEventListener('click', (e) => {
-          if (e.target.id === 'schedulerModal') {
-            closeScheduler();
-          }
-        });
-      }
-    }
-
-    async function handleFormSubmission(e) {
-      e.preventDefault();
-      
-      const submitBtn = document.getElementById('submitBtn');
-      const successMessage = document.getElementById('successMessage');
-      const errorMessage = document.getElementById('errorMessage');
-      
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Scheduling...';
-      
-      // Get form data
-      const formData = new FormData(e.target);
-      const selectedTime = document.querySelector('.time-slot.selected');
-      
-      if (!selectedTime) {
-        showError('Please select a preferred time.');
-        return;
-      }
-      
-      const meetingData = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        company: formData.get('company'),
-        date: formData.get('date'),
-        time: selectedTime.dataset.time,
-        topic: formData.get('topic')
-      };
-
-      try {
-        // Here you would integrate with your backend API
-        // For now, we'll simulate a successful response
-        await simulateScheduling(meetingData);
-        
-        showSuccess();
-        e.target.reset();
-        document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-        
-        // Close modal after 3 seconds
-        setTimeout(() => {
-          closeScheduler();
-        }, 3000);
-        
-      } catch (error) {
-        showError('Failed to schedule meeting. Please try again.');
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Schedule Meeting';
-      }
-    }
-
-    function showSuccess() {
-      const successEl = document.getElementById('successMessage');
-      const errorEl = document.getElementById('errorMessage');
-      if (successEl) successEl.style.display = 'block';
-      if (errorEl) errorEl.style.display = 'none';
-    }
-
-    function showError(message) {
-      const errorEl = document.getElementById('errorMessage');
-      const successEl = document.getElementById('successMessage');
-      if (errorEl) {
-        errorEl.textContent = message;
-        errorEl.style.display = 'block';
-      }
-      if (successEl) successEl.style.display = 'none';
-    }
-
-    async function simulateScheduling(data) {
-      // Simulate API call delay
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // In a real implementation, you would:
-      // 1. Send data to your backend
-      // 2. Backend creates Google Calendar event with Google Meet
-      // 3. Backend sends confirmation email with meeting details
-      // 4. Return success response
-      
-      console.log('Meeting data:', data);
-      return { success: true };
-    }
-
-    function closeScheduler() {
-      const modal = document.getElementById('schedulerModal');
-      if (modal) {
-        modal.classList.remove('active');
-      }
-      const successEl = document.getElementById('successMessage');
-      const errorEl = document.getElementById('errorMessage');
-      if (successEl) successEl.style.display = 'none';
-      if (errorEl) errorEl.style.display = 'none';
-    }
-
-    // 3D Logo Interactive Effects
-    document.addEventListener('DOMContentLoaded', function() {
-      const logoContainer = document.querySelector('.logo-container');
-      const symbols = document.querySelectorAll('.symbol');
-      const geometry = document.querySelectorAll('.geo-cube, .geo-sphere, .geo-cylinder, .geo-pyramid, .geo-ring, .geo-hexagon');
-      
-      if (logoContainer) {
-        // Mouse tracking for 3D effect
-        logoContainer.addEventListener('mousemove', function(e) {
-          const rect = logoContainer.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const rotateX = (y - centerY) / 10;
-          const rotateY = (centerX - x) / 10;
-          
-          logoContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-        });
-        
-        // Reset transform on mouse leave
-        logoContainer.addEventListener('mouseleave', function() {
-          logoContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
-        });
-        
-        // Click effect
-        logoContainer.addEventListener('click', function() {
-          // Add click animation
-          logoContainer.style.transform = 'perspective(1000px) rotateX(5deg) rotateY(5deg) scale(0.95)';
-          
-          // Trigger symbol animations
-          symbols.forEach((symbol, index) => {
-            setTimeout(() => {
-              symbol.style.animation = 'none';
-              symbol.offsetHeight; // Trigger reflow
-              symbol.style.animation = 'symbol-float 1s ease-in-out';
-            }, index * 100);
-          });
-          
-          // Trigger geometry animations
-          geometry.forEach((geo, index) => {
-            setTimeout(() => {
-              geo.style.animation = 'none';
-              geo.offsetHeight; // Trigger reflow
-              geo.style.animation = 'float-rotate 2s ease-in-out';
-            }, index * 150);
-          });
-          
-          // Reset after animation
-          setTimeout(() => {
-            logoContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
-          }, 1000);
-        });
-        
-        // Parallax effect for symbols
-        document.addEventListener('mousemove', function(e) {
-          const mouseX = e.clientX / window.innerWidth;
-          const mouseY = e.clientY / window.innerHeight;
-          
-          symbols.forEach((symbol, index) => {
-            const speed = (index + 1) * 0.5;
-            const x = (mouseX - 0.5) * speed * 20;
-            const y = (mouseY - 0.5) * speed * 20;
-            
-            symbol.style.transform = `translate(${x}px, ${y}px)`;
-          });
-        });
-      }
-    });
-
-    // 3D Hero Section Interactive Effects
-    document.addEventListener('DOMContentLoaded', function() {
-      const hero = document.querySelector('.hero');
-      const shapes = document.querySelectorAll('.shape');
-      const techElements = document.querySelectorAll('.tech-element');
-      const particles = document.querySelectorAll('.particle');
-      const rays = document.querySelectorAll('.ray');
-      
-      if (hero) {
-        // Mouse tracking for entire hero section
-        hero.addEventListener('mousemove', function(e) {
-          const rect = hero.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          
-          const mouseX = (x - centerX) / centerX;
-          const mouseY = (y - centerY) / centerY;
-          
-          // Parallax effect for shapes
-          shapes.forEach((shape, index) => {
-            const speed = (index + 1) * 0.3;
-            const translateX = mouseX * speed * 30;
-            const translateY = mouseY * speed * 30;
-            
-            shape.style.transform += ` translate(${translateX}px, ${translateY}px)`;
-          });
-          
-          // Parallax effect for tech elements
-          techElements.forEach((element, index) => {
-            const speed = (index + 1) * 0.4;
-            const translateX = mouseX * speed * 25;
-            const translateY = mouseY * speed * 25;
-            
-            element.style.transform += ` translate(${translateX}px, ${translateY}px)`;
-          });
-          
-          // Dynamic particle movement
-          particles.forEach((particle, index) => {
-            const speed = (index + 1) * 0.2;
-            const translateX = mouseX * speed * 15;
-            const translateY = mouseY * speed * 15;
-            
-            particle.style.transform += ` translate(${translateX}px, ${translateY}px)`;
-          });
-        });
-        
-        // Scroll-based animations
-        window.addEventListener('scroll', function() {
-          const scrolled = window.pageYOffset;
-          const heroHeight = hero.offsetHeight;
-          const scrollProgress = scrolled / heroHeight;
-          
-          // Fade out elements as user scrolls
-          if (scrollProgress < 1) {
-            const opacity = 1 - scrollProgress;
-            shapes.forEach(shape => {
-              shape.style.opacity = opacity * 0.3;
-            });
-            
-            techElements.forEach(element => {
-              element.style.opacity = opacity * 0.6;
-            });
-            
-            particles.forEach(particle => {
-              particle.style.opacity = opacity;
-            });
-          }
-        });
-        
-        // Click interactions for tech elements
-        techElements.forEach(element => {
-          element.addEventListener('click', function() {
-            // Add click effect
-            element.style.transform += ' scale(1.2)';
-            element.style.filter = 'drop-shadow(0 0 20px var(--glow)) brightness(1.5)';
-            
-            // Reset after animation
-            setTimeout(() => {
-              element.style.transform = element.style.transform.replace(' scale(1.2)', '');
-              element.style.filter = 'drop-shadow(0 0 8px var(--glow))';
-            }, 300);
-          });
-        });
-        
-        // Dynamic ray rotation
-        rays.forEach((ray, index) => {
-          setInterval(() => {
-            const rotation = Math.random() * 10 - 5;
-            ray.style.transform = `rotate(${rotation}deg)`;
-          }, 3000 + index * 500);
-        });
-        
-        // Energy pulse effect
-        setInterval(() => {
-          particles.forEach((particle, index) => {
-            setTimeout(() => {
-              particle.style.filter = 'blur(2px) brightness(1.5)';
-              setTimeout(() => {
-                particle.style.filter = 'blur(1px)';
-              }, 200);
-            }, index * 100);
-          });
-        }, 4000);
-
-        // Enhanced rising effect for shapes
-        shapes.forEach((shape, index) => {
-          setInterval(() => {
-            const riseAmount = Math.random() * 50 + 20;
-            const duration = Math.random() * 3000 + 2000;
-            
-            shape.style.transition = `transform ${duration}ms ease-in-out`;
-            shape.style.transform += ` translateY(-${riseAmount}px)`;
-            
-            setTimeout(() => {
-              shape.style.transform = shape.style.transform.replace(` translateY(-${riseAmount}px)`, '');
-            }, duration);
-          }, 8000 + index * 1000);
-        });
-
-        // Dynamic tech element rising
-        techElements.forEach((element, index) => {
-          setInterval(() => {
-            const riseAmount = Math.random() * 30 + 15;
-            const duration = Math.random() * 2000 + 1500;
-            
-            element.style.transition = `transform ${duration}ms ease-in-out`;
-            element.style.transform += ` translateY(-${riseAmount}px)`;
-            
-            setTimeout(() => {
-              element.style.transform = element.style.transform.replace(` translateY(-${riseAmount}px)`, '');
-            }, duration);
-          }, 6000 + index * 800);
-        });
-
-        // Team Card Video Hover Interactions
-        const teamCards = document.querySelectorAll('.team-card');
-        teamCards.forEach(card => {
-          const video = card.querySelector('.team-img');
-          
-          if (video) {
-            // Pause video initially
-            video.pause();
-            
-            // Play video on hover
-            card.addEventListener('mouseenter', () => {
-              video.play().catch(e => console.log('Video play failed:', e));
-              card.style.transform = 'scale(1.05) rotateY(5deg)';
-            });
-            
-            // Pause video on mouse leave
-            card.addEventListener('mouseleave', () => {
-              video.pause();
-              video.currentTime = 0; // Reset to beginning
-              card.style.transform = 'scale(1) rotateY(0deg)';
-            });
-            
-            // Add click effect
-            card.addEventListener('click', () => {
-              card.style.transform = 'scale(0.95) rotateY(10deg)';
-              setTimeout(() => {
-                card.style.transform = 'scale(1.05) rotateY(5deg)';
-              }, 150);
-            });
-          }
-        });
-      }
-    });
-
-    // Mobile menu toggle
-    function toggleMenu() {
-      const mobileNav = document.getElementById('mobileNav');
-      mobileNav.classList.toggle('active');
-    }
-
-    // Enhanced word scrolling animation
-    function initWordAnimation() {
-      const changingWord = document.getElementById('changingWord');
-      const words = ['Automation', 'Innovation', 'AI Enablement'];
-      let currentIndex = 0;
-      
-      if (changingWord) {
-        setInterval(() => {
-          // Fade out
-          changingWord.style.opacity = '0';
-          
-          setTimeout(() => {
-            // Change word
-            currentIndex = (currentIndex + 1) % words.length;
-            changingWord.textContent = words[currentIndex];
-            
-            // Fade in
-            changingWord.style.opacity = '1';
-          }, 250);
-        }, 3000); // Change every 3 seconds
-      }
-    }
-
-    // Initialize animations when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      initWordAnimation();
-    });
-
-    // Enhanced FIDS-style word animation
-    function initFidsAnimation() {
-      const fidsScroll = document.getElementById('fidsScroll');
-      const fidsItems = document.querySelectorAll('.fids-item');
-      
-      if (fidsScroll) {
-        // Pause animation on hover
-        fidsScroll.addEventListener('mouseenter', () => {
-          fidsScroll.style.animationPlayState = 'paused';
-        });
-        
-        fidsScroll.addEventListener('mouseleave', () => {
-          fidsScroll.style.animationPlayState = 'running';
-        });
-
-        // Active state management based on animation progress
-        let currentActiveIndex = 0;
-        
-        function updateActiveState() {
-          // Remove active class from all items
-          fidsItems.forEach(item => item.classList.remove('active'));
-          
-          // Add active class to current item
-          if (fidsItems[currentActiveIndex]) {
-            fidsItems[currentActiveIndex].classList.add('active');
-          }
-        }
-
-        // Update active state every 3 seconds (matching the animation timing)
-        setInterval(() => {
-          currentActiveIndex = (currentActiveIndex + 1) % fidsItems.length;
-          updateActiveState();
-        }, 3000);
-
-        // Initialize active state
-        updateActiveState();
-
-        // Add click interaction for manual control
-        fidsItems.forEach((item, index) => {
-          item.addEventListener('click', () => {
-            // Pause animation
-            fidsScroll.style.animationPlayState = 'paused';
-            
-            // Update active state
-            currentActiveIndex = index;
-            updateActiveState();
-            
-            // Resume animation after 2 seconds
-            setTimeout(() => {
-              fidsScroll.style.animationPlayState = 'running';
-            }, 2000);
-          });
-        });
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
-            e.preventDefault();
-            
-            // Pause animation
-            fidsScroll.style.animationPlayState = 'paused';
-            
-            if (e.key === 'ArrowUp') {
-              currentActiveIndex = (currentActiveIndex - 1 + fidsItems.length) % fidsItems.length;
-            } else {
-              currentActiveIndex = (currentActiveIndex + 1) % fidsItems.length;
-            }
-            
-            updateActiveState();
-            
-            // Resume animation after 2 seconds
-            setTimeout(() => {
-              fidsScroll.style.animationPlayState = 'running';
-            }, 2000);
-          }
-        });
-      }
-    }
-
-    // Initialize animations when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-      initFidsAnimation();
-    });
-
-    // Carousel functionality
-    function scrollCarousel(direction) {
-      const carousel = document.getElementById('blogCarousel');
-      const cardWidth = 300 + 30; // card width + gap
-      const scrollAmount = cardWidth * direction;
-      
-      carousel.scrollBy({
-        left: scrollAmount,
-        behavior: 'smooth'
-      });
-      
-      // Update button states after scroll
-      setTimeout(updateCarouselButtons, 300);
-    }
-
-    function updateCarouselButtons() {
-      const carousel = document.getElementById('blogCarousel');
-      const prevBtn = document.querySelector('.carousel-prev');
-      const nextBtn = document.querySelector('.carousel-next');
-      
-      if (carousel && prevBtn && nextBtn) {
-        const isAtStart = carousel.scrollLeft <= 0;
-        const isAtEnd = carousel.scrollLeft >= (carousel.scrollWidth - carousel.clientWidth);
-        
-        prevBtn.disabled = isAtStart;
-        nextBtn.disabled = isAtEnd;
-      }
-    }
-
-    // Initialize carousel on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      updateCarouselButtons();
-      
-      // Update buttons on scroll
-      const carousel = document.getElementById('blogCarousel');
-      if (carousel) {
-        carousel.addEventListener('scroll', updateCarouselButtons);
-      }
-    });
-
-    // Pencil underline animation reset on scroll
-    let pencilAnimated = false;
-    let lastScrollTop = 0;
-
-    window.addEventListener('scroll', function() {
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const heroSection = document.querySelector('.hero');
-      
-      if (heroSection) {
-        const heroTop = heroSection.offsetTop;
-        const heroHeight = heroSection.offsetHeight;
-        
-        // Check if we're back at the top of the hero section
-        if (scrollTop <= heroTop + 100 && pencilAnimated) {
-          // Reset animation
-          const pencilUnderline = document.querySelector('.pencil-underline');
-          if (pencilUnderline) {
-            pencilUnderline.style.animation = 'none';
-            pencilUnderline.offsetHeight; // Trigger reflow
-            pencilUnderline.style.animation = 'pencil-draw-once 2s ease-in-out forwards';
-            
-            const pencilPath = pencilUnderline.querySelector('path');
-            if (pencilPath) {
-              pencilPath.style.animation = 'none';
-              pencilPath.offsetHeight; // Trigger reflow
-              pencilPath.style.animation = 'draw-line-once 1.5s ease-in-out forwards';
-            }
-          }
-          pencilAnimated = false;
-        }
-        
-        // Mark as animated when we scroll past hero
-        if (scrollTop > heroTop + heroHeight / 2 && !pencilAnimated) {
-          pencilAnimated = true;
-        }
-      }
-      
-      lastScrollTop = scrollTop;
     });
   </script>
-  <script src="/website-integration.js"></script>
+  <script src="/website-integration.js" defer></script>
+
 </body>
 </html>

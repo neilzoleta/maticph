@@ -4,465 +4,55 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MATIC Studio — About Us</title>
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+  <link rel="stylesheet" href="assets/openai-theme.css" />
   <style>
-    :root {
-      --bg: #000;
-      --text: #fff;
-      --gray: #aaa;
-      --accent: #e5e5e5;
-      --hover: #ccc;
-      --glow: #00ffff;
-      --shadow: rgba(0, 255, 255, 0.3);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      letter-spacing: 0.02em;
-      min-height: 100vh;
-      padding-bottom: 100px;
-      font-size: 18px;
-      cursor: none;
-      overflow-x: hidden;
-    }
-
-    /* Custom Cursor */
-    .cursor {
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--glow);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: all 0.1s ease;
-      mix-blend-mode: difference;
-    }
-
-    .cursor-dot {
-      width: 4px;
-      height: 4px;
-      background: var(--glow);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-      transition: all 0.15s ease;
-    }
-
-    .cursor.hover {
-      transform: scale(1.5);
-      background: rgba(0, 255, 255, 0.1);
-      border-color: var(--glow);
-    }
-
-    /* Floating Particles */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .particle {
-      position: absolute;
-      width: 2px;
-      height: 2px;
-      background: var(--glow);
-      border-radius: 50%;
-      opacity: 0.6;
-      animation: float 6s infinite linear;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.6;
-      }
-      90% {
-        opacity: 0.6;
-      }
-      100% {
-        transform: translateY(-100px) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      color: white;
-      cursor: pointer;
-      z-index: 1001;
-      flex-direction: column;
-      gap: 5px;
-      margin-left: auto;
-    }
-    .mobile-container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 24px;
-      position: relative;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: white !important;
-      transition: 0.3s;
-    }
-
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      background-color: rgba(0, 0, 0, 0.9);
-      position: absolute;
-      top: 60px;
-      right: 24px;
-      left: 24px;
-      text-align: center;
-      padding: 30px 0;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      z-index: 1001;
-    }
-
-    .mobile-nav a {
-      margin: 10px 0;
-      font-size: 1rem;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .mobile-nav a:hover {
-      color: var(--hover);
-    }
-
-    @media (max-width: 768px) {
-      header {
-        display: none;
-      }
-    }
-    /* Stronger rule for header hiding on small viewports */
-    @media screen and (max-width: 768px) {
-      header {
-        display: none !important;
-        visibility: hidden;
-        height: 0;
-        overflow: hidden;
-      }
-    }
-
-    header {
-      position: fixed;
-      top: 32px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 699px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 28px;
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      padding: 9px 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      transition: all 0.3s ease;
-      margin: 0 20px;
-      box-sizing: border-box;
-    }
-
-    header img {
-      height: 40px;
-      filter: brightness(0) invert(1);
-    }
-
-    nav {
-      display: flex;
-      gap: 40px;
-      justify-content: flex-start;
-      align-items: center;
-      flex: 1 1 auto;
-      margin-right: auto;
-      min-width: 0;
-    }
-    nav a {
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-      padding: 0 6px;
-    }
-
-    nav a:hover {
-      color: var(--hover);
-    }
-
-    .linkedin-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      background-color: transparent;
-      border: 1px solid white;
-      padding: 6px 14px;
-      border-radius: 50px;
-      color: white;
-      text-decoration: none;
-      font-size: 13px;
-      line-height: 1;
-      transition: background-color 0.3s;
-    }
-
-    .linkedin-button:hover {
-      background-color: white;
-      color: black;
-    }
-
-    .linkedin-button svg {
-      fill: currentColor;
-      transition: fill 0.3s;
-    }
-
-    .linkedin-button:hover svg {
-      fill: black;
-    }
-
-    .content {
-      padding: 120px 20px 80px 20px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .content h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .content h2 {
-      font-size: 1.6em;
-      margin-top: 40px;
-      margin-bottom: 10px;
-    }
-
-    .content p {
-      font-size: 1.05em;
-      color: var(--gray);
-      margin-bottom: 20px;
-    }
-
-    .content ul li {
-      color: var(--gray);
-      font-size: 1.05em;
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .language-selector {
-      font-size: 0.95em;
-      background-color: transparent;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      outline: none;
-      transition: background-color 0.3s ease;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 500;
-      padding: 6px 0;
-    }
-
-    .lang-container {
-      display: inline-flex;
-      align-items: center;
-      margin-left: 20px;
-    }
-
-    .language-selector:hover,
-    .language-selector:focus {
-      background-color: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    footer {
-      position: relative;
-      text-align: center;
-      padding: 40px 20px;
-      background-color: #111;
-      color: var(--gray);
-      font-size: 0.95em;
-    }
-
-    .contact-email {
-      margin-top: 15px;
-    }
-
-    .contact-email a {
-      color: #fff;
-      text-decoration: underline;
-      transition: color 0.3s ease;
-    }
-
-    .contact-email a:hover {
-      color: var(--hover);
-    }
-
-    .privacy-link {
-      position: absolute;
-      left: 20px;
-      top: 50%;
-      transform: translateY(-20%);
-      font-size: 0.9em;
-    }
-
-    .privacy-link a {
-      color: var(--gray);
-      text-decoration: underline;
-      transition: color 0.3s ease;
-    }
-
-    .privacy-link a:hover {
-      color: var(--hover);
-    }
-
-    @media (max-width: 600px) {
-      .privacy-link {
-        top: 60%;
-        font-size: 0.8em;
-        left: 10px;
-      }
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      gap: 5px;
-      z-index: 1100;
-      margin-left: auto;
-    }
-
-    .hamburger div {
-      width: 25px;
-      height: 3px;
-      background-color: white !important;
-      transition: 0.3s;
-    }
-
-    .mobile-nav {
-      display: none;
-      flex-direction: column;
-      background-color: #000;
-      position: absolute;
-      top: 60px;
-      right: 24px;
-      left: 24px;
-      text-align: center;
-      padding: 20px 0;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 1001;
-    }
-
-    .mobile-nav a {
-      margin: 10px 0;
-      font-size: 1rem;
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-
-    .mobile-nav a:hover {
-      color: var(--hover);
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .mobile-nav.show {
-        display: flex;
-      }
-    }
+    .content-page { padding: calc(100px + 2rem) 24px 80px; max-width: 720px; margin: 0 auto; }
+    .content-page .logo-wrap { text-align: center; margin-bottom: 3rem; }
+    .content-page .logo-wrap img { height: 48px; width: auto; }
+    body:not(.dark) .content-page .logo-wrap img { filter: brightness(0); }
+    .content-page h1 { margin-bottom: 1.5rem; }
+    .content-page h2 { margin-top: 2.5rem; margin-bottom: 0.5rem; font-size: 1.35rem; }
+    .content-page p, .content-page li { margin-bottom: 1rem; color: var(--text-muted); }
+    .content-page ul { padding-left: 1.5rem; margin-bottom: 1.5rem; }
   </style>
 </head>
 <body>
 
-  <!-- Custom Cursor -->
-  <div class="cursor"></div>
-  <div class="cursor-dot"></div>
-
-  <!-- Floating Particles -->
-  <div class="particles" id="particles"></div>
-
-  <header>
-    <nav>
-      <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#team">Team</a>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="index.html#contact">Contact Us</a>
-    </nav>
-    <a href="https://www.linkedin.com/company/maticstudio" target="_blank" class="linkedin-button" style="margin-left: 20px;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="white" viewBox="0 0 24 24" style="display: block;">
-        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8.5h4V24h-4V8.5zm7.5 0h3.8v2.1h.05c.53-1 1.82-2.05 3.75-2.05 4 0 4.7 2.63 4.7 6.05V24h-4v-7.8c0-1.86-.03-4.26-2.6-4.26-2.6 0-3 2-3 4.1V24h-4V8.5z"/>
-      </svg>
-      <span style="position: relative; top: 1px;">/MATICStudio</span>
-    </a>
-    <button class="hamburger" onclick="toggleMenu()">
-      ☰
-    </button>
-    <div class="mobile-nav" id="mobileNav">
-      <a href="aboutmatic.html">Who We Are</a>
-      <a href="index.html#team">Team</a>
-      <a href="index.html#solutions">Solutions</a>
-      <a href="index.html#contact">Contact Us</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a href="index.html" aria-label="MATIC Studio home">
+        <img src="assets/logo.png" alt="MATIC Studio" class="site-logo" />
+      </a>
+      <nav class="site-nav">
+        <a href="aboutmatic.html">Who We Are</a>
+        <a href="index.html#team">Team</a>
+        <a href="index.html#solutions">Solutions</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" rel="noopener">LinkedIn</a>
+      </nav>
+      <button type="button" class="mobile-menu-btn" aria-label="Menu" onclick="toggleMobileNav()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
     </div>
+    <nav class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <div class="mobile-nav-inner">
+        <a href="aboutmatic.html">Who We Are</a>
+        <a href="index.html#team">Team</a>
+        <a href="index.html#solutions">Solutions</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="https://www.linkedin.com/company/maticstudio" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </nav>
   </header>
 
-  <main class="content">
-    <div style="text-align: center; margin-bottom: 60px;">
-      <a href="index.html">
-        <img src="assets/logo.png" alt="matic logo" style="height: 60px; margin-bottom: 30px; filter: brightness(0) invert(1); cursor: pointer;" />
-      </a>
+  <main class="content-page">
+    <div class="logo-wrap">
+      <a href="index.html"><img src="assets/logo.png" alt="MATIC Studio" /></a>
     </div>
     <h1>Who We Are</h1>
     <p><strong>MATIC Studio</strong> is a business process automation studio focused on building streamlined digital solutions for local teams and global players alike.</p>
-
-    <p>Launched in 2025, we’re a young team of engineers, analysts, and designers that believes in the power of practical, rapid automation. While we're new to the scene, our team is not new to solving problems. We’ve created internal tools, led process transformation efforts, and have been on the frontlines of operations—so we know what friction looks like.</p>
+    <p>Launched in 2025, we're a young team of engineers, analysts, and designers that believes in the power of practical, rapid automation. While we're new to the scene, our team is not new to solving problems. We've created internal tools, led process transformation efforts, and have been on the frontlines of operations—so we know what friction looks like.</p>
 
     <h2>What We Do</h2>
     <p>We specialize in automation, but our value goes beyond writing scripts or flows. We work closely with teams to understand what slows them down and design elegant, efficient ways to improve their work experience—from click-saving UI helpers to full-blown reporting pipelines.</p>
@@ -470,7 +60,7 @@
     <h2>Why Choose MATIC Studio?</h2>
     <ul>
       <li><strong>Simple and fast:</strong> We design with clarity and function in mind. No bloated dashboards. No extra clicks.</li>
-      <li><strong>Made for people:</strong> Our tools are built with your team’s habits in mind—not just technical specs.</li>
+      <li><strong>Made for people:</strong> Our tools are built with your team's habits in mind—not just technical specs.</li>
       <li><strong>Culture-driven:</strong> As a local startup, we take pride in aligning automation with Filipino workplace culture and ways of working.</li>
     </ul>
 
@@ -478,146 +68,24 @@
     <p>To make automation a normal part of how Filipinos work—starting with the simplest things that make the biggest difference.</p>
   </main>
 
-  <footer id="contact">
+  <footer id="contact" class="site-footer">
     <p>&copy; 2025 MATIC Studio — Taguig City, Metro Manila</p>
-    <div class="contact-email">
+    <div class="contact">
       Business inquiries: <a href="mailto:inquire@maticstudio.net">inquire@maticstudio.net</a>
     </div>
-    <div class="contact-email">
+    <div class="legal">
       <a href="policy.html">Company Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
     </div>
   </footer>
 
-<script>
-  function toggleMenu() {
-    const mobileNav = document.getElementById('mobileNav');
-    mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
-  }
-
-  function toggleLangDropdown() {
-    const dropdown = document.getElementById("langDropdown");
-    dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-  }
-
-  // Custom Cursor
-  const cursor = document.querySelector('.cursor');
-  const cursorDot = document.querySelector('.cursor-dot');
-
-  document.addEventListener('mousemove', (e) => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    cursorDot.style.left = e.clientX + 'px';
-    cursorDot.style.top = e.clientY + 'px';
-  });
-
-  // Cursor hover effects
-  const interactiveElements = document.querySelectorAll('a, button, .team-card, .blog-card');
-  
-  interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-      cursor.classList.add('hover');
-    });
-    
-    element.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hover');
-    });
-  });
-
-  // Floating Particles
-  function createParticle() {
-    const particlesContainer = document.getElementById('particles');
-    const particle = document.createElement('div');
-    particle.className = 'particle';
-    
-    // Random position
-    particle.style.left = Math.random() * 100 + '%';
-    particle.style.animationDelay = Math.random() * 6 + 's';
-    particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
-    
-    particlesContainer.appendChild(particle);
-    
-    // Remove particle after animation
-    setTimeout(() => {
-      if (particle.parentNode) {
-        particle.parentNode.removeChild(particle);
-      }
-    }, 8000);
-  }
-
-  // Create particles periodically
-  setInterval(createParticle, 2000);
-  
-  // Create initial particles
-  for (let i = 0; i < 10; i++) {
-    setTimeout(createParticle, i * 200);
-  }
-
-  // Parallax effect for content sections
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const content = document.querySelector('.content');
-    const rate = scrolled * -0.3;
-    
-    if (content) {
-      content.style.transform = `translateY(${rate}px)`;
+  <script>
+    function toggleMobileNav() {
+      var nav = document.getElementById('mobileNav');
+      nav.classList.toggle('is-open');
+      nav.setAttribute('aria-hidden', nav.classList.contains('is-open') ? 'false' : 'true');
     }
-  });
-
-  // 3D tilt effect for interactive elements
-  const interactiveCards = document.querySelectorAll('a, button, .content h1, .content h2');
-  
-  interactiveCards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const rotateX = (y - centerY) / 20;
-      const rotateY = (centerX - x) / 20;
-      
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(5px)`;
-    });
-    
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
-    });
-  });
-
-  // Glow effect on scroll
-  window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollProgress = scrolled / maxScroll;
-    
-    document.documentElement.style.setProperty('--glow-opacity', scrollProgress * 0.5);
-  });
-
-  // Smooth reveal animations for content
-  const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, observerOptions);
-
-  // Observe all content elements
-  document.querySelectorAll('.content h1, .content h2, .content p, .content ul').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
-</script>
-<script src="/website-integration.js"></script>
+  </script>
+  <script src="/website-integration.js"></script>
 </body>
 </html>

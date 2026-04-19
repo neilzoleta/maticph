@@ -1,0 +1,927 @@
+/*
+ * MATIC Studio — OpenAI-inspired design system
+ * Clean, editorial, typography-led. Generous whitespace, soft palette.
+ * Homepage (home-casper): dark editorial hero inspired by agency reference.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Rubik+Mono+One&display=swap');
+
+:root {
+  /* OpenAI-style palette: clean, minimal, human */
+  --bg: #fafafa;
+  --bg-elevated: #ffffff;
+  --bg-dark: #0a0a0a;
+  --text: #171717;
+  --text-muted: #525252;
+  --text-muted-2: #737373;
+  --border: #e5e5e5;
+  --border-subtle: #f0f0f0;
+  --accent: #10a37f;
+  --accent-hover: #0d8c6a;
+  --accent-soft: rgba(16, 163, 127, 0.12);
+  --link: #10a37f;
+  --link-hover: #0d8c6a;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --radius-lg: 16px;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Rubik Mono One', ui-monospace, monospace;
+  --max-width: 1120px;
+  --section-padding: clamp(64px, 9vw, 112px);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  background-image: linear-gradient(180deg, #fafafa 0%, #f7f7f7 48%, #fafafa 100%);
+  color: var(--text);
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  min-height: 100vh;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+h1 { font-size: clamp(2.25rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.75rem, 3vw, 2.25rem); margin-bottom: 0.5em; }
+h3 { font-size: 1.25rem; }
+
+p {
+  color: var(--text-muted);
+  max-width: 65ch;
+}
+
+a {
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--link-hover);
+}
+
+/* Header — minimal, top-aligned */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px 24px;
+  background: rgba(250, 250, 250, 0.78);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border-bottom: 1px solid rgba(229, 229, 229, 0.65);
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.site-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
+/* If logo is white, use dark version on light bg */
+body:not(.dark) .site-logo,
+body:not(.dark) .hero-openai .logo-wrap img {
+  filter: brightness(0);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.site-nav a {
+  color: var(--text);
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.site-nav a:hover {
+  color: var(--text-muted);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--text);
+  color: var(--bg-elevated);
+}
+
+.btn-primary:hover {
+  background: var(--text-muted);
+  color: var(--bg-elevated);
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border-subtle);
+  border-color: var(--text-muted-2);
+}
+
+/* Hero — calm, centered, no gimmicks */
+.hero-openai {
+  padding: calc(120px + 4rem) 24px clamp(4rem, 10vw, 5.5rem);
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-openai::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: min(100% - 48px, 560px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-subtle) 20%, var(--border-subtle) 80%, transparent);
+  pointer-events: none;
+}
+
+.hero-openai .logo-wrap {
+  margin-bottom: 2rem;
+}
+
+.hero-openai .logo-wrap img {
+  height: 48px;
+  width: auto;
+}
+
+.hero-openai h1 {
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+.hero-openai .tagline {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.hero-openai .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.cta-row--center {
+  justify-content: center;
+}
+
+.section-actions {
+  margin-top: 1.75rem;
+  text-align: center;
+}
+
+/* Industry chips — compact grid */
+.industries-grid {
+  max-width: 800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.industry-chip {
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.industry-chip:hover {
+  border-color: var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+/* Section block */
+main {
+  display: flex;
+  flex-direction: column;
+}
+
+.section {
+  padding: var(--section-padding) 24px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+main > .section + .section {
+  border-top: 1px solid rgba(229, 229, 229, 0.55);
+}
+
+/* First content section sits closer to hero for a single visual beat */
+main > .hero-openai + .section,
+main > .hero-casper + .section {
+  padding-top: clamp(56px, 8vw, 88px);
+}
+
+.section-header {
+  margin-bottom: 2.5rem;
+}
+
+.section-header h2 {
+  margin-bottom: 0.35em;
+}
+
+.section-header p {
+  font-size: 1.0625rem;
+  margin-bottom: 0;
+}
+
+/* Cards — OpenAI “Recent news” style */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--border);
+}
+
+.card a {
+  color: inherit;
+  display: block;
+}
+
+.card a:hover {
+  color: var(--link);
+}
+
+.card-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  background: var(--border-subtle);
+}
+
+.card-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.card-meta {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* Team cards */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  justify-items: center;
+}
+
+.team-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  width: 100%;
+  max-width: 280px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.team-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--border);
+}
+
+.team-card a {
+  color: inherit;
+}
+
+.team-card a:hover {
+  color: var(--link);
+}
+
+.team-card .thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--border-subtle);
+}
+
+.team-card .info {
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.team-card .name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.team-card .role {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+/* Footer */
+.site-footer {
+  padding: 48px 24px;
+  border-top: 1px solid var(--border-subtle);
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.site-footer a {
+  color: var(--text);
+}
+
+.site-footer a:hover {
+  color: var(--link);
+}
+
+.site-footer .contact {
+  margin-top: 0.75rem;
+}
+
+.site-footer .legal {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* Dark section variant (optional) */
+.section-dark {
+  background: var(--bg-dark);
+  color: var(--bg-elevated);
+}
+
+.section-dark h2,
+.section-dark .section-header p {
+  color: var(--bg-elevated);
+}
+
+.section-dark p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.section-dark .card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.section-dark .card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+/* Mobile nav */
+.mobile-nav {
+  display: none;
+}
+
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* Workshop / content page: step cards and pills */
+.step-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.75rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.step-card:hover {
+  box-shadow: var(--card-shadow-hover);
+  border-color: var(--border);
+}
+
+.step-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.step-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-card h2,
+.step-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.pill {
+  font-size: 0.8125rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.section-dark .step-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.section-dark .step-card-icon {
+  background: rgba(16, 163, 127, 0.25);
+  color: #34d399;
+}
+
+.section-dark .pill {
+  background: rgba(16, 163, 127, 0.25);
+  color: #34d399;
+}
+
+/* ——— Homepage: matches Casper Studios (Framer) — DM Sans + Rubik Mono One, #131313 surfaces ——— */
+.home-casper {
+  --casper-bg: #0a0a0a;
+  --casper-surface: #131313;
+  --casper-border: rgba(255, 255, 255, 0.07);
+  --casper-muted: rgba(255, 255, 255, 0.52);
+  --casper-font: 'DM Sans', var(--font-sans);
+  font-family: var(--casper-font);
+  background: var(--casper-bg);
+  background-image: none;
+  color: #fafafa;
+}
+
+.home-casper .btn {
+  font-family: var(--casper-font);
+}
+
+.home-casper p {
+  color: var(--casper-muted);
+}
+
+.home-casper a:not(.btn) {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.home-casper a:not(.btn):hover {
+  color: #fff;
+}
+
+.home-casper .site-header--hero-dark {
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(20px) saturate(1.1);
+  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  border-bottom: 1px solid var(--casper-border);
+}
+
+.home-casper .site-header--hero-dark .site-logo {
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
+.home-casper .site-header--hero-dark .site-nav a {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.home-casper .site-header--hero-dark .site-nav a:hover {
+  color: #fff;
+}
+
+.home-casper .mobile-menu-btn {
+  color: #fafafa;
+}
+
+/* Hero — stacked Rubik Mono One, near-black (casperstudios.xyz) */
+.hero-casper {
+  position: relative;
+  min-height: min(88vh, 820px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(96px + 3rem) 24px clamp(5.5rem, 14vw, 8rem);
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero-casper-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(59, 130, 246, 0.06), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 60%, rgba(255, 255, 255, 0.04), transparent 50%),
+    linear-gradient(180deg, #0c0c0c 0%, #060606 100%);
+  pointer-events: none;
+}
+
+.hero-casper::after {
+  display: none;
+}
+
+.hero-casper-inner {
+  position: relative;
+  z-index: 2;
+  max-width: min(920px, 100%);
+  margin: 0 auto;
+}
+
+.hero-casper .logo-wrap {
+  margin-bottom: 2rem;
+}
+
+.hero-casper .logo-wrap img {
+  height: 40px;
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+.hero-eyebrow {
+  font-family: var(--casper-font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0 0 1.75rem;
+}
+
+.hero-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 5.5vw, 3.35rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  color: #fafafa;
+  margin: 0 0 1.5rem;
+  text-transform: none;
+}
+
+.hero-display .display-line {
+  display: block;
+}
+
+.hero-display .display-line--accent {
+  margin-top: 0.12em;
+  color: #34d399;
+}
+
+.hero-casper .tagline {
+  font-family: var(--casper-font);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.65;
+  margin: 0 auto 2.5rem;
+  max-width: 36ch;
+}
+
+.hero-casper .cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.home-casper .hero-casper .btn-primary {
+  background: #fafafa;
+  color: #0a0a0a;
+  font-weight: 600;
+}
+
+.home-casper .hero-casper .btn-primary:hover {
+  background: #fff;
+  color: #0a0a0a;
+}
+
+.btn-pill {
+  border-radius: 999px;
+  padding: 14px 28px;
+}
+
+.btn-on-dark {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--casper-border);
+}
+
+.btn-on-dark:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* Sections — same dark canvas as Casper cards sit on */
+.home-casper .section {
+  border-color: transparent;
+}
+
+.home-casper main > .section + .section {
+  border-top: 1px solid var(--casper-border);
+}
+
+.home-casper .section-header h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: #fafafa;
+  margin-bottom: 0.4em;
+}
+
+.home-casper .section-header p {
+  font-size: 1.0625rem;
+  color: var(--casper-muted);
+}
+
+.section-eyebrow {
+  font-family: var(--casper-font);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.38);
+  margin: 0 0 0.75rem;
+  max-width: none;
+}
+
+.home-casper .btn-primary {
+  background: #fafafa;
+  color: #0a0a0a;
+  font-weight: 600;
+}
+
+.home-casper .btn-primary:hover {
+  background: #fff;
+  color: #0a0a0a;
+}
+
+.home-casper .btn-secondary {
+  background: var(--casper-surface);
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--casper-border);
+}
+
+.home-casper .btn-secondary:hover {
+  background: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Cards / chips / team — Framer-style #131313 + hairline border + 20px radius */
+.home-casper .card,
+.home-casper .team-card,
+.home-casper .industry-chip {
+  background: var(--casper-surface);
+  border: 1px solid var(--casper-border);
+  border-radius: 20px;
+  box-shadow: none;
+}
+
+.home-casper .card:hover,
+.home-casper .team-card:hover,
+.home-casper .industry-chip:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.home-casper .card-meta {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.home-casper .card-title {
+  color: #fafafa;
+}
+
+.home-casper .card a:hover .card-title {
+  color: #fff;
+}
+
+.home-casper .team-card .name {
+  color: #fafafa;
+}
+
+.home-casper .team-card .role {
+  color: var(--casper-muted);
+}
+
+.home-casper .industry-chip {
+  color: rgba(255, 255, 255, 0.65);
+  padding: 1.15rem 1.35rem;
+}
+
+.home-casper .section--closing {
+  background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.02));
+}
+
+.site-footer--dark {
+  background: #050505;
+  color: rgba(255, 255, 255, 0.42);
+  border-top: 1px solid var(--casper-border);
+  padding: 56px 24px 48px;
+}
+
+.site-footer--dark p {
+  color: rgba(255, 255, 255, 0.42);
+  max-width: none;
+}
+
+.site-footer--dark a {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.site-footer--dark a:hover {
+  color: #34d399;
+}
+
+.home-casper .card a:hover {
+  color: inherit;
+}
+
+.home-casper .team-grid > a {
+  color: inherit;
+}
+
+.home-casper .team-grid > a:hover {
+  color: inherit;
+}
+
+@media (max-width: 768px) {
+  .site-nav {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-nav {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.28s ease;
+    border-bottom: 1px solid transparent;
+  }
+
+  .mobile-nav > * {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .mobile-nav.is-open {
+    grid-template-rows: 1fr;
+    border-bottom-color: var(--border-subtle);
+  }
+
+  .mobile-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 24px;
+    background: var(--bg-elevated);
+  }
+
+  .mobile-nav.is-open .mobile-nav-inner {
+    padding-top: 8px;
+    padding-bottom: 24px;
+  }
+
+  .mobile-nav a {
+    padding: 12px 0;
+    color: var(--text);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .home-casper .mobile-nav-inner {
+    background: #131313;
+  }
+
+  .home-casper .mobile-nav a {
+    color: rgba(255, 255, 255, 0.88);
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+  }
+
+  .home-casper .mobile-nav.is-open {
+    border-bottom-color: rgba(255, 255, 255, 0.07);
+  }
+
+  .mobile-nav a:last-child {
+    border-bottom: none;
+  }
+
+  .hero-casper {
+    min-height: unset;
+    padding-top: calc(88px + 2.5rem);
+    padding-bottom: clamp(5rem, 14vw, 7rem);
+  }
+
+  .hero-display {
+    font-size: clamp(1.65rem, 8vw, 2.75rem);
+  }
+}

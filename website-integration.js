@@ -1,704 +1,576 @@
 /**
  * MATIC Studio Chat Agent - Website Integration
- * 
- * Add this script to your website to integrate the chat agent.
- * Replace 'YOUR_RENDER_URL' with your actual Render.com deployment URL.
+ * Redesigned to match MATIC Studio's clean corporate identity.
  */
 
-(function() {
+(function () {
     'use strict';
-    
-    // Configuration
-    const CHAT_API_URL = 'https://maticstudio-chat-agent.onrender.com'; // Render API
-
-    const CHAT_CONTAINER_ID = 'maticstudio-chat';
-    
-    // Chat state
+  
+    const CHAT_API_URL = 'https://maticstudio-chat-agent.onrender.com';
+    const CALENDLY_URL = 'https://calendly.com/maticstudio/tune-up-call';
+    const SCHEDULING_KEYWORDS = ['schedule', 'booking', 'appointment', 'call', 'meeting', 'consultation', 'tune-up', 'calendly'];
+    const FETCH_TIMEOUT_MS = 12000;
+  
     let sessionId = null;
     let conversationHistory = [];
     let isProcessing = false;
-    
-    // Create chat widget HTML
-    function createChatWidget() {
-        const chatHTML = `
-            <div id="${CHAT_CONTAINER_ID}" class="maticstudio-chat-widget">
-                <div class="chat-header" style="display: none;">
-                    <div class="chat-title">
-                        <h3>MATIC Studio Assistant</h3>
-                        <span class="status-indicator">🟢 Online</span>
-                    </div>
-                    <div class="chat-controls">
-                        <button class="chat-reset" onclick="resetChat()" title="Reset Chat">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                            </svg>
-                        </button>
-                        <button class="chat-minimize" onclick="toggleChat()" title="Minimize Chat">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M5 12h14"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="chat-body" id="chat-body" style="display: none;">
-                    <div class="chat-messages" id="chat-messages" style="display: none;">
-                        <div class="message bot-message">
-                            <p>Hello! I'm your MATIC Studio assistant. I'm here to help you discover how automation can transform your business processes. I can answer questions about our services, help you schedule consultations, and guide you through our solutions. What would you like to learn about today?</p>
-                        </div>
-                    </div>
-                    
-                    <div class="quick-replies" id="quick-replies" style="display: none;">
-                        <button class="quick-reply-btn" onclick="sendQuickReply('What do you offer?')">What do you offer?</button>
-                        <button class="quick-reply-btn" onclick="sendQuickReply('Learn more about MATICStudio')">Learn more about MATICStudio</button>
-                    </div>
-                    
-                    <div class="chat-input" id="chat-input" style="display: none;">
-                        <input type="text" id="message-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
-                        <button onclick="sendMessage()" id="send-btn">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22,2 15,22 11,13 2,9"></polygon>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
+    let isOpen = false;
+    let calendlyWindow = null;
+  
+    /* ─── STYLES ─────────────────────────────────────────────────── */
+    function injectStyles() {
+      const style = document.createElement('style');
+      style.textContent = `
+        :root {
+          --mc-ink:       #0f0f0f;
+          --mc-ink-mid:   #3a3a3a;
+          --mc-ink-muted: #888888;
+          --mc-rule:      #e0ddd6;
+          --mc-bg:        #faf9f7;
+          --mc-surface:   #ffffff;
+          --mc-accent:    #c8a96e;
+          --mc-font-head: 'Instrument Serif', Georgia, serif;
+          --mc-font-body: 'DM Sans', system-ui, sans-serif;
+          --mc-radius:    2px;
+          --mc-shadow:    0 8px 40px rgba(15,15,15,0.14);
+        }
+  
+        /* ── Trigger button ── */
+        #mc-trigger {
+          position: fixed;
+          bottom: 2rem;
+          right: 2rem;
+          z-index: 9000;
+          display: flex;
+          align-items: center;
+          gap: 0.6rem;
+          background: var(--mc-ink);
+          color: #fff;
+          border: none;
+          cursor: pointer;
+          padding: 0.75rem 1.25rem 0.75rem 1rem;
+          border-radius: var(--mc-radius);
+          font-family: var(--mc-font-body);
+          font-size: 0.8125rem;
+          font-weight: 500;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          box-shadow: var(--mc-shadow);
+          transition: background 0.2s, transform 0.15s;
+          -webkit-tap-highlight-color: transparent;
+        }
+        #mc-trigger:hover { background: #2a2a2a; transform: translateY(-1px); }
+  
+        #mc-trigger-dot {
+          width: 7px; height: 7px;
+          border-radius: 50%;
+          background: var(--mc-accent);
+          flex-shrink: 0;
+          animation: mc-pulse 2.4s ease-in-out infinite;
+        }
+        @keyframes mc-pulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50%       { opacity: 0.45; transform: scale(0.65); }
+        }
+  
+        /* ── Backdrop ── */
+        #mc-backdrop {
+          position: fixed; inset: 0;
+          z-index: 9001;
+          background: rgba(15,15,15,0.32);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity 0.32s ease;
+        }
+        #mc-backdrop.mc-open { opacity: 1; pointer-events: all; }
+  
+        /* ── Panel ── */
+        #mc-panel {
+          position: fixed;
+          top: 0; right: 0; bottom: 0;
+          z-index: 9002;
+          width: min(420px, 100vw);
+          background: var(--mc-bg);
+          border-left: 1px solid var(--mc-rule);
+          display: flex;
+          flex-direction: column;
+          transform: translateX(100%);
+          transition: transform 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+          font-family: var(--mc-font-body);
+        }
+        #mc-panel.mc-open { transform: translateX(0); }
+  
+        /* ── Header ── */
+        #mc-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 1.25rem 1.5rem;
+          border-bottom: 1px solid var(--mc-rule);
+          flex-shrink: 0;
+          background: var(--mc-bg);
+        }
+        #mc-header-left { display: flex; align-items: center; gap: 0.75rem; }
+        #mc-avatar {
+          width: 36px; height: 36px;
+          border-radius: var(--mc-radius);
+          background: var(--mc-ink);
+          display: flex; align-items: center; justify-content: center;
+          flex-shrink: 0;
+        }
+        #mc-avatar span {
+          font-family: var(--mc-font-head);
+          font-style: italic;
+          font-size: 1rem;
+          color: #fff;
+          line-height: 1;
+        }
+        #mc-title {
+          font-size: 0.9375rem;
+          font-weight: 500;
+          color: var(--mc-ink);
+          line-height: 1.2;
+        }
+        #mc-subtitle {
+          font-size: 0.725rem;
+          color: var(--mc-ink-muted);
+          margin-top: 1px;
+        }
+        #mc-header-right { display: flex; align-items: center; gap: 0.5rem; }
+        .mc-icon-btn {
+          background: none; border: none; cursor: pointer;
+          color: var(--mc-ink-muted);
+          padding: 5px; border-radius: var(--mc-radius);
+          display: flex; align-items: center;
+          transition: color 0.15s, background 0.15s;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .mc-icon-btn:hover { color: var(--mc-ink); background: var(--mc-rule); }
+  
+        /* ── Messages ── */
+        #mc-messages {
+          flex: 1;
+          overflow-y: auto;
+          padding: 1.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          scroll-behavior: smooth;
+        }
+        #mc-messages::-webkit-scrollbar { width: 3px; }
+        #mc-messages::-webkit-scrollbar-track { background: transparent; }
+        #mc-messages::-webkit-scrollbar-thumb { background: var(--mc-rule); border-radius: 2px; }
+  
+        .mc-msg { display: flex; flex-direction: column; gap: 3px; max-width: 86%; }
+        .mc-msg--bot  { align-self: flex-start; }
+        .mc-msg--user { align-self: flex-end; }
+  
+        .mc-bubble {
+          padding: 0.7rem 1rem;
+          border-radius: var(--mc-radius);
+          font-size: 0.875rem;
+          line-height: 1.65;
+        }
+        .mc-msg--bot  .mc-bubble { background: var(--mc-surface); border: 1px solid var(--mc-rule); color: var(--mc-ink); }
+        .mc-msg--user .mc-bubble { background: var(--mc-ink); color: #fff; }
+  
+        .mc-time {
+          font-size: 0.6563rem;
+          color: var(--mc-ink-muted);
+          padding: 0 0.2rem;
+        }
+        .mc-msg--user .mc-time { text-align: right; }
+  
+        /* ── Typing indicator ── */
+        .mc-typing {
+          display: flex; align-items: center; gap: 4px;
+          padding: 0.7rem 1rem;
+          background: var(--mc-surface);
+          border: 1px solid var(--mc-rule);
+          border-radius: var(--mc-radius);
+          width: fit-content;
+        }
+        .mc-typing-dot {
+          width: 5px; height: 5px;
+          border-radius: 50%;
+          background: var(--mc-ink-muted);
+          animation: mc-bounce 1.2s ease-in-out infinite;
+        }
+        .mc-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .mc-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes mc-bounce {
+          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+          30%            { transform: translateY(-5px); opacity: 1; }
+        }
+  
+        /* ── Quick replies ── */
+        #mc-suggestions {
+          display: flex; flex-wrap: wrap; gap: 0.5rem;
+          padding: 0 1.5rem 1rem;
+          flex-shrink: 0;
+        }
+        .mc-suggestion {
+          background: none;
+          border: 1px solid var(--mc-rule);
+          border-radius: var(--mc-radius);
+          padding: 0.4rem 0.8rem;
+          font-family: var(--mc-font-body);
+          font-size: 0.75rem;
+          color: var(--mc-ink-mid, #3a3a3a);
+          cursor: pointer;
+          transition: border-color 0.15s, color 0.15s, background 0.15s;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+        .mc-suggestion:hover { border-color: var(--mc-ink); color: var(--mc-ink); background: var(--mc-surface); }
+  
+        /* ── Input row ── */
+        #mc-input-row {
+          display: flex; gap: 0.5rem;
+          padding: 1rem 1.5rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+          border-top: 1px solid var(--mc-rule);
+          flex-shrink: 0;
+          background: var(--mc-bg);
+        }
+        #mc-input {
+          flex: 1;
+          font-family: var(--mc-font-body);
+          font-size: 0.875rem;
+          color: var(--mc-ink);
+          background: var(--mc-surface);
+          border: 1px solid var(--mc-rule);
+          border-radius: var(--mc-radius);
+          padding: 0.65rem 0.9rem;
+          resize: none;
+          height: 42px;
+          line-height: 1.5;
+          outline: none;
+          transition: border-color 0.2s;
+        }
+        #mc-input:focus { border-color: var(--mc-ink); }
+        #mc-input::placeholder { color: var(--mc-ink-muted); }
+        #mc-send {
+          background: var(--mc-ink); color: #fff;
+          border: none; border-radius: var(--mc-radius);
+          width: 42px; height: 42px; flex-shrink: 0;
+          cursor: pointer;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.2s;
+          -webkit-tap-highlight-color: transparent;
+          touch-action: manipulation;
+        }
+        #mc-send:hover:not(:disabled) { background: #2a2a2a; }
+        #mc-send:disabled { background: var(--mc-rule); cursor: not-allowed; }
+  
+        /* ── Calendly notice ── */
+        .mc-calendly-notice {
+          display: flex; align-items: center; gap: 0.5rem;
+          font-size: 0.8125rem; color: var(--mc-ink-muted);
+          margin-top: 4px; padding: 0 0.2rem;
+        }
+        .mc-calendly-link {
+          color: var(--mc-ink); font-weight: 500;
+          text-decoration: underline; cursor: pointer; background: none; border: none;
+          font-family: var(--mc-font-body); font-size: 0.8125rem; padding: 0;
+        }
+        .mc-calendly-link:hover { color: var(--mc-ink-muted); }
+      `;
+      document.head.appendChild(style);
+    }
+  
+    /* ─── DOM ─────────────────────────────────────────────────────── */
+    function buildWidget() {
+      // Trigger button
+      const trigger = document.createElement('button');
+      trigger.id = 'mc-trigger';
+      trigger.setAttribute('aria-label', 'Open MATIC Studio Assistant');
+      trigger.innerHTML = `<span id="mc-trigger-dot"></span>Ask MATIC`;
+      trigger.addEventListener('click', openPanel);
+      document.body.appendChild(trigger);
+  
+      // Backdrop
+      const backdrop = document.createElement('div');
+      backdrop.id = 'mc-backdrop';
+      backdrop.addEventListener('click', closePanel);
+      document.body.appendChild(backdrop);
+  
+      // Panel
+      const panel = document.createElement('div');
+      panel.id = 'mc-panel';
+      panel.setAttribute('role', 'dialog');
+      panel.setAttribute('aria-label', 'MATIC Studio Assistant');
+      panel.setAttribute('aria-modal', 'true');
+      panel.innerHTML = `
+        <div id="mc-header">
+          <div id="mc-header-left">
+            <div id="mc-avatar"><span>M</span></div>
+            <div>
+              <div id="mc-title">MATIC Assistant</div>
+              <div id="mc-subtitle">Ask me anything about automation</div>
             </div>
-        `;
-        
-        // Add to page
-        document.body.insertAdjacentHTML('beforeend', chatHTML);
-        
-        // Add floating chat icon
-        const floatingChatHTML = `
-            <div id="floating-chat-icon" class="floating-chat-icon" onclick="toggleChat()">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                </svg>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', floatingChatHTML);
-        
-        // Add CSS
-        addChatStyles();
+          </div>
+          <div id="mc-header-right">
+            <button class="mc-icon-btn" id="mc-reset-btn" title="Reset conversation" aria-label="Reset conversation">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+            </button>
+            <button class="mc-icon-btn" id="mc-close-btn" title="Close" aria-label="Close assistant">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <line x1="4" y1="4" x2="20" y2="20"/><line x1="20" y1="4" x2="4" y2="20"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+  
+        <div id="mc-messages"></div>
+  
+        <div id="mc-suggestions">
+          <button class="mc-suggestion" data-q="What services does MATIC Studio offer?">What do you offer?</button>
+          <button class="mc-suggestion" data-q="How do I start a project with MATIC Studio?">Start a project</button>
+          <button class="mc-suggestion" data-q="Who are the people behind MATIC Studio?">Meet the team</button>
+          <button class="mc-suggestion" data-q="I'd like to schedule a consultation">Book a call</button>
+        </div>
+  
+        <div id="mc-input-row">
+          <textarea id="mc-input" placeholder="Ask about automation, pricing, the team…" rows="1" aria-label="Your message"></textarea>
+          <button id="mc-send" disabled aria-label="Send message">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      `;
+      document.body.appendChild(panel);
+  
+      // Wire events
+      document.getElementById('mc-close-btn').addEventListener('click', closePanel);
+      document.getElementById('mc-reset-btn').addEventListener('click', resetChat);
+      document.getElementById('mc-send').addEventListener('click', () => submitMessage());
+      document.getElementById('mc-input').addEventListener('input', onInputChange);
+      document.getElementById('mc-input').addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitMessage(); }
+      });
+      document.getElementById('mc-suggestions').querySelectorAll('.mc-suggestion').forEach(btn => {
+        btn.addEventListener('click', () => {
+          hideSuggestions();
+          submitMessage(btn.getAttribute('data-q'));
+        });
+      });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && isOpen) closePanel(); });
     }
-    
-    // Add chat styles
-    function addChatStyles() {
-        const styles = `
-            <style>
-                .maticstudio-chat-widget {
-                    position: fixed;
-                    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-                    right: calc(20px + env(safe-area-inset-right, 0px));
-                    width: 350px;
-                    max-height: 800px;
-                    background: #000;
-                    border-radius: 12px;
-                    box-shadow: 0 4px 20px rgba(0,255,255,0.2);
-                    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    z-index: 2147483647 !important;
-                    border: 1px solid #333;
-                    -webkit-tap-highlight-color: transparent;
-                }
-                
-                .chat-header {
-                    background: #000;
-                    color: #00ffff;
-                    padding: 15px 20px;
-                    border-radius: 12px 12px 0 0;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid #333;
-                    position: relative;
-                    z-index: 10001;
-                }
-                
-                .chat-controls {
-                    display: flex;
-                    gap: 8px;
-                    align-items: center;
-                }
-                
-                .chat-reset {
-                    background: none;
-                    border: none;
-                    color: #00ffff;
-                    cursor: pointer;
-                    padding: 5px;
-                    border-radius: 4px;
-                    transition: all 0.2s;
-                }
-                
-                .chat-reset:hover {
-                    background: rgba(0, 255, 255, 0.1);
-                }
-                
-                .chat-title h3 {
-                    margin: 0;
-                    font-size: 16px;
-                    font-weight: 500;
-                }
-                
-                .status-indicator {
-                    font-size: 12px;
-                    opacity: 0.8;
-                }
-                
-                .chat-minimize {
-                    background: none;
-                    border: none;
-                    color: white;
-                    cursor: pointer;
-                    padding: 5px;
-                    transition: all 0.2s;
-                }
-                
-                .chat-minimize:hover {
-                    color: #00ffff;
-                    background: rgba(0, 255, 255, 0.1);
-                    border-radius: 4px;
-                }
-                
-                .floating-chat-icon {
-                    position: fixed;
-                    bottom: calc(20px + env(safe-area-inset-bottom, 0px));
-                    right: calc(20px + env(safe-area-inset-right, 0px));
-                    width: 60px;
-                    height: 60px;
-                    background: #00ffff;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    box-shadow: 0 4px 20px rgba(0,255,255,0.3);
-                    z-index: 2147483647 !important;
-                    transition: all 0.3s ease;
-                    color: #000;
-                    pointer-events: auto;
-                    -webkit-tap-highlight-color: transparent;
-                }
-                
-                .floating-chat-icon:hover {
-                    transform: scale(1.1);
-                    box-shadow: 0 6px 25px rgba(0,255,255,0.4);
-                }
-                
-                .chat-body {
-                    min-height: 200px;
-                    max-height: 600px;
-                    display: flex;
-                    flex-direction: column;
-                    background: #000;
-                }
-                
-                .chat-messages {
-                    flex: 1;
-                    padding: 15px;
-                    overflow-y: auto;
-                    max-height: 450px;
-                    min-height: 200px;
-                }
-                
-                .message {
-                    margin-bottom: 15px;
-                    padding: 12px 15px;
-                    border-radius: 8px;
-                    font-size: 14px;
-                    line-height: 1.5;
-                    word-wrap: break-word;
-                }
-                
-                .bot-message {
-                    background: #111;
-                    color: #fff;
-                    border: 1px solid #333;
-                }
-                
-                .user-message {
-                    background: #00ffff;
-                    color: #000;
-                    margin-left: 20px;
-                }
-                
-                .quick-replies {
-                    padding: 6px 15px;
-                    background: #000;
-                    max-height: 120px;
-                    overflow-y: auto;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 4px;
-                    align-items: flex-start;
-                }
-                
-                .quick-reply-btn {
-                    display: inline-block;
-                    background: #00ffff;
-                    border: none;
-                    border-radius: 18px;
-                    padding: 6px 14px;
-                    font-size: 12px;
-                    font-weight: 500;
-                    color: #000;
-                    cursor: pointer;
-                    text-align: center;
-                    transition: all 0.2s;
-                    box-shadow: 0 2px 8px rgba(0, 255, 255, 0.3);
-                    max-width: 80%;
-                    word-wrap: break-word;
-                    margin: 0;
-                }
-                
-                .quick-reply-btn:hover {
-                    background: #00e6e6;
-                    transform: translateY(-2px);
-                    box-shadow: 0 6px 16px rgba(0, 255, 255, 0.5);
-                }
-                
-                .chat-input {
-                    padding: 15px;
-                    border-top: 1px solid #333;
-                    display: flex;
-                    gap: 8px;
-                    background: #000;
-                    position: relative;
-                    z-index: 10001;
-                    flex-shrink: 0;
-                    min-height: 60px;
-                }
-                .chat-input { padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px)); }
-                
-                .chat-input input {
-                    flex: 1;
-                    padding: 8px 12px;
-                    border: 1px solid #333;
-                    border-radius: 20px;
-                    font-size: 14px;
-                    outline: none;
-                    background: #111;
-                    color: #fff;
-                    caret-color: #00ffff;
-                }
-                
-                .chat-input input:focus {
-                    border-color: #00ffff;
-                }
-                
-                .chat-input button {
-                    width: 32px;
-                    height: 32px;
-                    background: #00ffff;
-                    border: none;
-                    border-radius: 50%;
-                    color: #000;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
-                
-                .chat-input button:hover {
-                    background: #00cccc;
-                }
-                
-                .chat-input button:disabled {
-                    background: #adb5bd;
-                    cursor: not-allowed;
-                }
-                
-                .typing-indicator {
-                    padding: 10px 12px;
-                    background: #f8f9fa;
-                    border: 1px solid #e9ecef;
-                    border-radius: 8px;
-                    font-size: 14px;
-                    color: #6c757d;
-                    margin-bottom: 10px;
-                }
-                
-                @media (max-width: 480px) {
-                    .maticstudio-chat-widget {
-                        width: calc(100vw - 40px);
-                        right: calc(20px + env(safe-area-inset-right, 0px));
-                        left: calc(20px + env(safe-area-inset-left, 0px));
-                    }
-                }
-
-                /* Improve touch responsiveness */
-                .quick-reply-btn, .chat-input button { touch-action: manipulation; }
-            </style>
-        `;
-        
-        document.head.insertAdjacentHTML('beforeend', styles);
+  
+    /* ─── PANEL OPEN / CLOSE ──────────────────────────────────────── */
+    function openPanel() {
+      isOpen = true;
+      document.getElementById('mc-panel').classList.add('mc-open');
+      document.getElementById('mc-backdrop').classList.add('mc-open');
+      document.getElementById('mc-trigger').style.display = 'none';
+      if (conversationHistory.length === 0) addWelcome();
+      if (!sessionId) sessionId = newSessionId();
+      setTimeout(() => document.getElementById('mc-input').focus(), 380);
     }
-    
-    // Toggle chat visibility
-    window.toggleChat = function() {
-        const chatBody = document.getElementById('chat-body');
-        const isVisible = chatBody && chatBody.style.display !== 'none';
-        
-        if (isVisible) {
-            // Minimize - hide entire chat body and header, show only chat icon
-            const chatBody = document.getElementById('chat-body');
-            const chatHeader = document.querySelector('.chat-header');
-            if (chatBody) {
-                chatBody.style.display = 'none';
-            }
-            if (chatHeader) {
-                chatHeader.style.display = 'none';
-            }
-            
-            // Show floating chat icon when minimized
-            const floatingIcon = document.getElementById('floating-chat-icon');
-            if (floatingIcon) {
-                floatingIcon.style.display = 'flex';
-            }
-        } else {
-            // Expand - show entire chat body, header, and all its elements
-            const chatBody = document.getElementById('chat-body');
-            const chatHeader = document.querySelector('.chat-header');
-            const chatMessages = document.getElementById('chat-messages');
-            const quickReplies = document.getElementById('quick-replies');
-            const chatInput = document.getElementById('chat-input');
-            
-            if (chatBody) {
-                chatBody.style.display = 'flex';
-            }
-            if (chatHeader) {
-                chatHeader.style.display = 'flex';
-            }
-            if (chatMessages) {
-                chatMessages.style.display = 'block';
-            }
-            if (quickReplies) {
-                quickReplies.style.display = 'block';
-            }
-            if (chatInput) {
-                chatInput.style.display = 'flex';
-            }
-            
-            // Hide floating chat icon when expanded
-            const floatingIcon = document.getElementById('floating-chat-icon');
-            if (floatingIcon) {
-                floatingIcon.style.display = 'none';
-            }
-            
-            if (!sessionId) {
-                // Initialize session on first open
-                sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-            }
-        }
-    };
-    
-    // Reset chat
-    window.resetChat = function() {
-        const chatMessages = document.getElementById('chat-messages');
-        const quickReplies = document.getElementById('quick-replies');
-        const messageInput = document.getElementById('message-input');
-        
-        // Clear conversation history
-        conversationHistory = [];
-        sessionId = null;
-        
-        // Reset messages to initial state
-        chatMessages.innerHTML = `
-            <div class="message bot-message">
-                <p>Hello! I'm your MATIC Studio assistant. I'm here to help you discover how automation can transform your business processes. I can answer questions about our services, help you schedule consultations, and guide you through our solutions. What would you like to learn about today?</p>
-            </div>
-        `;
-        
-        // Show quick replies
-        quickReplies.style.display = 'block';
-        
-        // Clear input
-        messageInput.value = '';
-        messageInput.focus();
-        
-
-    };
-    
-    // Send message
-    window.sendMessage = function() {
-        const input = document.getElementById('message-input');
-        const message = input.value.trim();
-        
-        if (message && !isProcessing) {
-            addUserMessage(message);
-            input.value = '';
-            hideQuickReplies();
-            sendToAPI(message);
-        }
-    };
-    
-    // Send quick reply
-    window.sendQuickReply = function(message) {
-        if (!isProcessing) {
-            addUserMessage(message);
-            sendToAPI(message);
-            hideQuickReplies();
-        }
-    };
-    
-    // Handle Enter key
-    window.handleKeyPress = function(event) {
-        if (event.key === 'Enter') {
-            sendMessage();
-        }
-    };
-    
-    // Add user message to chat
-    function addUserMessage(message) {
-        const messagesContainer = document.getElementById('chat-messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message user-message';
-        messageDiv.textContent = message;
-        messagesContainer.appendChild(messageDiv);
-        scrollToBottom();
-        
-        // Hide quick replies when user sends a message
-        hideQuickReplies();
+  
+    function closePanel() {
+      isOpen = false;
+      document.getElementById('mc-panel').classList.remove('mc-open');
+      document.getElementById('mc-backdrop').classList.remove('mc-open');
+      document.getElementById('mc-trigger').style.display = '';
     }
-    
-    // Add bot message to chat
-    function addBotMessage(message) {
-        const messagesContainer = document.getElementById('chat-messages');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message bot-message';
-        messageDiv.innerHTML = formatMessage(message);
-        messagesContainer.appendChild(messageDiv);
-        scrollToBottom();
+  
+    function resetChat() {
+      conversationHistory = [];
+      sessionId = newSessionId();
+      document.getElementById('mc-messages').innerHTML = '';
+      document.getElementById('mc-suggestions').style.display = '';
+      addWelcome();
+      document.getElementById('mc-input').value = '';
+      document.getElementById('mc-input').style.height = '42px';
+      document.getElementById('mc-send').disabled = true;
     }
-    
-    // Format message with markdown-like formatting
-    function formatMessage(message) {
-        return message
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.*?)\*/g, '<em>$1</em>')
-            .replace(/\n/g, '<br>')
-            .replace(/•/g, '•');
+  
+    /* ─── MESSAGES ────────────────────────────────────────────────── */
+    function addWelcome() {
+      addBotMessage("Hello! I'm your MATIC Studio assistant. I can answer questions about our services, help scope your project, or book a consultation with the team. What brings you here today?");
     }
-    
-    // Show typing indicator
-    function showTypingIndicator() {
-        const messagesContainer = document.getElementById('chat-messages');
-        const typingDiv = document.createElement('div');
-        typingDiv.className = 'typing-indicator';
-        typingDiv.id = 'typing-indicator';
-        typingDiv.innerHTML = '🤖 Thinking...';
-        messagesContainer.appendChild(typingDiv);
-        scrollToBottom();
+  
+    function getTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     }
-    
-    // Hide typing indicator
-    function hideTypingIndicator() {
-        const typingIndicator = document.getElementById('typing-indicator');
-        if (typingIndicator) {
-            typingIndicator.remove();
-        }
+  
+    function addBotMessage(text) {
+      const wrap = document.createElement('div');
+      wrap.className = 'mc-msg mc-msg--bot';
+      wrap.innerHTML = `<div class="mc-bubble">${formatText(text)}</div><div class="mc-time">${getTime()}</div>`;
+      document.getElementById('mc-messages').appendChild(wrap);
+      scrollBottom();
     }
-    
-    // Hide quick replies
-    function hideQuickReplies() {
-        const quickReplies = document.getElementById('quick-replies');
-        quickReplies.style.display = 'none';
+  
+    function addUserMessage(text) {
+      const wrap = document.createElement('div');
+      wrap.className = 'mc-msg mc-msg--user';
+      wrap.innerHTML = `<div class="mc-bubble">${esc(text)}</div><div class="mc-time">${getTime()}</div>`;
+      document.getElementById('mc-messages').appendChild(wrap);
+      scrollBottom();
     }
-    
-    // Scroll to bottom of messages
-    function scrollToBottom() {
-        const messagesContainer = document.getElementById('chat-messages');
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  
+    function showTyping() {
+      const wrap = document.createElement('div');
+      wrap.className = 'mc-msg mc-msg--bot';
+      wrap.id = 'mc-typing';
+      wrap.innerHTML = `<div class="mc-typing"><div class="mc-typing-dot"></div><div class="mc-typing-dot"></div><div class="mc-typing-dot"></div></div>`;
+      document.getElementById('mc-messages').appendChild(wrap);
+      scrollBottom();
     }
-    
-    // Calendly integration
+  
+    function hideTyping() {
+      const el = document.getElementById('mc-typing');
+      if (el) el.remove();
+    }
+  
+    function hideSuggestions() {
+      document.getElementById('mc-suggestions').style.display = 'none';
+    }
+  
+    function scrollBottom() {
+      const el = document.getElementById('mc-messages');
+      el.scrollTop = el.scrollHeight;
+    }
+  
+    function formatText(str) {
+      return str
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n/g, '<br>');
+    }
+  
+    function esc(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  
+    /* ─── INPUT ───────────────────────────────────────────────────── */
+    function onInputChange() {
+      const inp = document.getElementById('mc-input');
+      document.getElementById('mc-send').disabled = inp.value.trim() === '' || isProcessing;
+      inp.style.height = 'auto';
+      inp.style.height = Math.min(inp.scrollHeight, 120) + 'px';
+    }
+  
+    /* ─── SEND / API ──────────────────────────────────────────────── */
+    async function submitMessage(overrideText) {
+      const inp = document.getElementById('mc-input');
+      const text = overrideText || inp.value.trim();
+      if (!text || isProcessing) return;
+  
+      hideSuggestions();
+      addUserMessage(text);
+      if (!overrideText) { inp.value = ''; inp.style.height = '42px'; }
+      document.getElementById('mc-send').disabled = true;
+      isProcessing = true;
+      showTyping();
+  
+      // Scheduling intent → open Calendly
+      const lower = text.toLowerCase();
+      if (SCHEDULING_KEYWORDS.some(k => lower.includes(k))) {
+        hideTyping();
+        addBotMessage("I'd love to help you book time with the team. Opening our scheduling calendar now…");
+        openCalendly();
+        isProcessing = false;
+        return;
+      }
+  
+      if (!sessionId) sessionId = newSessionId();
+      conversationHistory.push({ role: 'user', content: text });
+  
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  
+      try {
+        const res = await fetch(`${CHAT_API_URL}/api/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: text,
+            conversation_history: conversationHistory,
+            session_id: sessionId
+          }),
+          signal: controller.signal,
+          mode: 'cors'
+        });
+  
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  
+        const data = await res.json();
+        hideTyping();
+  
+        const isSuccess = data && (data.status === 'success' || (typeof data.response === 'string' && data.response.length > 0));
+        const reply = isSuccess
+          ? (data.response || 'Got it.')
+          : fallback(lower);
+  
+        if (data.session_id) sessionId = data.session_id;
+        conversationHistory.push({ role: 'assistant', content: reply });
+        addBotMessage(reply);
+  
+      } catch (err) {
+        clearTimeout(timeout);
+        hideTyping();
+        const reply = fallback(lower);
+        addBotMessage(reply);
+      } finally {
+        isProcessing = false;
+        document.getElementById('mc-send').disabled = document.getElementById('mc-input').value.trim() === '';
+        document.getElementById('mc-input').focus();
+      }
+    }
+  
+    /* ─── FALLBACK ────────────────────────────────────────────────── */
+    const FALLBACKS = [
+      [['what do you offer', 'services', 'what can you do'],
+        "MATIC Studio specializes in business process automation — workflow automation, AI integration, custom scheduling, and process optimization. We work across Healthcare, Banking, BPOs, Telecom, Oil & Gas, and Payments. Want to tell me about your business so I can suggest where we'd fit?"],
+      [['team', 'who are you', 'founders', 'people'],
+        "MATIC Studio was founded by **Neil Zoleta** (Lead Architect) alongside partners **Shiela Joyce Canent** and **Alex Chen**, both Chief Engineers. We're based in Taguig City, Metro Manila."],
+      [['pricing', 'cost', 'how much', 'rates'],
+        "Our pricing depends on the scope and complexity of your automation needs. I'd recommend a free consultation so we can understand your processes and give you a tailored quote. Want to book a call?"],
+      [['contact', 'email', 'reach'],
+        "You can reach the team at **inquire@maticstudio.net**, or book a consultation directly through our calendar. I can open the scheduler for you — just say the word."],
+    ];
+  
+    function fallback(lower) {
+      for (const [keywords, response] of FALLBACKS) {
+        if (keywords.some(k => lower.includes(k))) return response;
+      }
+      return "I'm having a little trouble reaching our servers right now. You're welcome to email us at **inquire@maticstudio.net** and the team will respond promptly.";
+    }
+  
+    /* ─── CALENDLY ────────────────────────────────────────────────── */
     function openCalendly() {
-        const calendlyUrl = 'https://calendly.com/maticstudio/tune-up-call';
-
-        // If a Calendly tab is already open, reuse it
-        if (window.calendlyWindow && !window.calendlyWindow.closed) {
-            try {
-                window.calendlyWindow.location.href = calendlyUrl;
-                window.calendlyWindow.focus();
-                return;
-            } catch (_) { /* ignore cross-origin errors and continue */ }
-        }
-
-        // Try opening a new tab; if blocked, fall back to same-tab navigation
-        const newWin = window.open(calendlyUrl, '_blank', 'noopener');
-        if (newWin) {
-            window.calendlyWindow = newWin;
-        } else {
-            window.location.href = calendlyUrl;
-        }
-
-        // Add a message to the chat
-        addBotMessage("Perfect! I've opened our scheduling calendar for you. You can book a 30-minute tune-up call with our team. If you need any help or have questions while scheduling, feel free to ask me!");
+      if (calendlyWindow && !calendlyWindow.closed) {
+        try { calendlyWindow.focus(); return; } catch (_) {}
+      }
+      const win = window.open(CALENDLY_URL, '_blank', 'noopener');
+      calendlyWindow = win || null;
+      if (!win) window.location.href = CALENDLY_URL;
     }
-    // Expose for inline onclick handlers
-    window.openCalendly = openCalendly;
-
-    // Send message to API
-    async function sendToAPI(message) {
-        isProcessing = true;
-        showTypingIndicator();
-        
-        // Ensure session ID exists
-        if (!sessionId) {
-            sessionId = 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-        
-        // Disable input
-        const input = document.getElementById('message-input');
-        const sendBtn = document.getElementById('send-btn');
-        input.disabled = true;
-        sendBtn.disabled = true;
-        
-        try {
-            // Check if message contains scheduling keywords
-            const schedulingKeywords = ['schedule', 'booking', 'appointment', 'call', 'meeting', 'consultation', 'tune-up'];
-            const hasSchedulingIntent = schedulingKeywords.some(keyword => 
-                message.toLowerCase().includes(keyword)
-            );
-            
-            if (hasSchedulingIntent) {
-                hideTypingIndicator();
-                addBotMessage("Great! I'd be happy to help you schedule a consultation. Let me open our booking calendar for you.");
-                setTimeout(() => {
-                    openCalendly();
-                }, 1000);
-                return;
-            }
-            
-            const apiUrl = `${CHAT_API_URL}/api/chat`;
-
-            const requestBody = {
-                message: message,
-                conversation_history: conversationHistory,
-                session_id: sessionId
-            };
-            
-            // Abortable fetch with timeout to avoid hanging on some mobile networks
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 12000);
-            let response;
-            try {
-                response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(requestBody),
-                    signal: controller.signal,
-                    mode: 'cors'
-                });
-            } finally {
-                clearTimeout(timeoutId);
-            }
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-
-            hideTypingIndicator();
-
-            // Accept both new and legacy API schemas
-            const isSuccess = data && (data.status === 'success' || (typeof data.response === 'string' && data.response.length > 0));
-            if (isSuccess) {
-                const reply = data.response || 'Okay.';
-                addBotMessage(reply);
-                conversationHistory.push(
-                    { role: 'user', content: message },
-                    { role: 'assistant', content: reply }
-                );
-                if (data.session_id) {
-                    sessionId = data.session_id;
-                }
-            } else {
-                // Fallback responses for common questions
-                const fallbackResponses = {
-                    'what do you offer': "MATIC Studio specializes in business process automation solutions. We help businesses streamline operations, reduce manual tasks, and improve efficiency through intelligent automation. Our services include workflow automation, custom scheduling systems, AI integration, and process optimization. Would you like to schedule a consultation to discuss your specific needs?",
-                    'learn more about maticstudio': "MATIC Studio is a leading business process automation company. We help organizations transform their operations through intelligent automation solutions. Our expertise includes workflow optimization, custom scheduling, AI integration, and process streamlining. We work with businesses of all sizes to improve efficiency and reduce operational costs. Would you like to schedule a consultation to learn more?",
-                    'schedule': "I'd be happy to help you schedule a consultation! Let me open our booking calendar for you.",
-                    'consultation': "Perfect! I can help you schedule a consultation with our team. Let me open our booking calendar.",
-                    'pricing': "Our pricing varies based on your specific needs and project scope. I'd recommend scheduling a consultation so we can discuss your requirements and provide a detailed quote tailored to your business.",
-                    'contact': "You can reach us through our contact form, schedule a consultation through our calendar, or continue chatting with me for immediate assistance. I'm here to help!"
-                };
-                
-                const lowerMessage = message.toLowerCase();
-                let fallbackResponse = "I apologize, but I'm having trouble connecting right now. Please try again later or contact us directly at inquire@maticstudio.net.";
-                
-                for (const [keyword, response] of Object.entries(fallbackResponses)) {
-                    if (lowerMessage.includes(keyword)) {
-                        fallbackResponse = response;
-                        break;
-                    }
-                }
-                
-                addBotMessage(fallbackResponse);
-                
-                // If it's a scheduling request, open Calendly
-                if (lowerMessage.includes('schedule') || lowerMessage.includes('consultation')) {
-                    setTimeout(() => {
-                        openCalendly();
-                    }, 2000);
-                }
-            }
-            
-        } catch (error) {
-            console.error('Error sending message:', error);
-            console.error('Error details:', {
-                message: error.message,
-                type: error.type,
-                name: error.name
-            });
-            hideTypingIndicator();
-            
-            // Fallback responses for common questions
-            const fallbackResponses = {
-                'what do you offer': "MATIC Studio specializes in business process automation solutions. We help businesses streamline operations, reduce manual tasks, and improve efficiency through intelligent automation. Our services include workflow automation, custom scheduling systems, AI integration, and process optimization. Would you like to schedule a consultation to discuss your specific needs?",
-                'learn more about maticstudio': "MATIC Studio is a leading business process automation company. We help organizations transform their operations through intelligent automation solutions. Our expertise includes workflow optimization, custom scheduling, AI integration, and process streamlining. We work with businesses of all sizes to improve efficiency and reduce operational costs. Would you like to schedule a consultation to learn more?",
-                'schedule': "I'd be happy to help you schedule a consultation! Let me open our booking calendar for you.",
-                'consultation': "Perfect! I can help you schedule a consultation with our team. Let me open our booking calendar.",
-                'pricing': "Our pricing varies based on your specific needs and project scope. I'd recommend scheduling a consultation so we can discuss your requirements and provide a detailed quote tailored to your business.",
-                'contact': "You can reach us through our contact form, schedule a consultation through our calendar, or continue chatting with me for immediate assistance. I'm here to help!"
-            };
-            
-            const lowerMessage = message.toLowerCase();
-            let fallbackResponse = "I apologize, but I'm having trouble connecting right now. Please try again later or contact us directly at inquire@maticstudio.net.";
-            
-            for (const [keyword, response] of Object.entries(fallbackResponses)) {
-                if (lowerMessage.includes(keyword)) {
-                    fallbackResponse = response;
-                    break;
-                }
-            }
-            
-            addBotMessage(fallbackResponse);
-            
-            // If it's a scheduling request, open Calendly
-            if (lowerMessage.includes('schedule') || lowerMessage.includes('consultation')) {
-                setTimeout(() => {
-                    openCalendly();
-                }, 2000);
-            }
-        } finally {
-            // Re-enable input
-            input.disabled = false;
-            sendBtn.disabled = false;
-            input.focus();
-            isProcessing = false;
-        }
+  
+    /* ─── UTILS ───────────────────────────────────────────────────── */
+    function newSessionId() {
+      return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
     }
-    
-    // Initialize chat widget when DOM is loaded
+  
+    /* ─── INIT ────────────────────────────────────────────────────── */
+    function init() {
+      injectStyles();
+      buildWidget();
+    }
+  
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', createChatWidget);
+      document.addEventListener('DOMContentLoaded', init);
     } else {
-        createChatWidget();
+      init();
     }
-    
-})();
+  
+  })();
