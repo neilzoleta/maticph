@@ -754,9 +754,446 @@ body {
 @media (min-width: 769px) {
   .mobile-nav { display: none; }
 }
+
+/* ─── ONBOARDING OVERLAY ─── */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.4s ease;
+}
+.onboarding-overlay.hidden { display: none; }
+
+.onboarding-box {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 40px 44px;
+  position: relative;
+}
+
+.onboarding-step { display: none; }
+.onboarding-step.active { display: block; }
+
+.ob-eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+.ob-title {
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.ob-title em { font-style: italic; color: var(--gold2); }
+.ob-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.ob-field { margin-bottom: 18px; }
+.ob-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text2);
+  margin-bottom: 7px;
+  display: block;
+}
+.ob-input, .ob-select, .ob-textarea {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 11px 14px;
+  color: var(--text);
+  font-size: 14px;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.ob-textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
+.ob-input:focus, .ob-select:focus, .ob-textarea:focus { border-color: var(--gold); }
+.ob-input::placeholder, .ob-textarea::placeholder { color: var(--text3); }
+.ob-select option { background: var(--bg3); }
+
+.ob-chips-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ob-chip-btn {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text2);
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: all 0.15s;
+}
+.ob-chip-btn:hover { background: var(--bg4); color: var(--text); }
+.ob-chip-btn.selected { background: var(--gold-bg); border-color: var(--gold-border); color: var(--gold2); }
+
+.ob-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+  align-items: center;
+}
+.ob-btn-primary {
+  flex: 1;
+  padding: 13px 20px;
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius);
+  color: var(--gold2);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ob-btn-primary:hover { background: rgba(201,168,76,0.18); }
+.ob-btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.ob-btn-skip {
+  font-size: 13px;
+  color: var(--text3);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--sans);
+  padding: 8px;
+}
+.ob-btn-skip:hover { color: var(--text2); }
+
+.ob-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+}
+.ob-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--border2);
+  transition: background 0.2s;
+}
+.ob-dot.active { background: var(--gold); }
+.ob-dot.done { background: var(--teal); }
+
+/* ─── AI GAP ANALYSIS ─── */
+.gap-setup-box {
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.gap-setup-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.gap-setup-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.gap-user-summary {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 18px;
+  text-align: left;
+}
+.gap-user-summary strong { color: var(--text); }
+.gap-generate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius);
+  color: var(--gold2);
+  font-size: 14px;
+  font-weight: 500;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.gap-generate-btn:hover { background: rgba(201,168,76,0.18); }
+.gap-generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.gap-loading {
+  display: none;
+  text-align: center;
+  padding: 40px 20px;
+}
+.gap-loading.show { display: block; }
+.gap-spinner {
+  width: 36px; height: 36px;
+  border: 3px solid var(--border2);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.gap-loading-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+.gap-results { display: none; }
+.gap-results.show { display: block; }
+
+.gap-edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius);
+  color: var(--text3);
+  font-size: 12px;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 20px;
+}
+.gap-edit-btn:hover { color: var(--text2); border-color: var(--border2); background: var(--bg3); }
+
+.ai-content p { font-size: 14px; color: var(--text2); line-height: 1.75; margin-bottom: 12px; }
+.ai-content strong { color: var(--text); font-weight: 500; }
+.ai-content h3 { font-family: var(--serif); font-size: 20px; color: var(--text); margin: 24px 0 12px; }
+.ai-content ul { list-style: none; margin-bottom: 14px; }
+.ai-content ul li {
+  display: flex;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.65;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+}
+.ai-content ul li:last-child { border-bottom: none; }
+.ai-content ul li::before {
+  content: '›';
+  color: var(--gold);
+  font-size: 16px;
+  line-height: 1.4;
+  flex-shrink: 0;
+}
+
+.user-profile-badge {
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--gold2);
+}
+.user-profile-badge .badge-icon { font-size: 20px; flex-shrink: 0; }
 </style>
 </head>
 <body>
+
+<!-- ─── ONBOARDING OVERLAY ─── -->
+<div class="onboarding-overlay hidden" id="onboarding-overlay">
+  <div class="onboarding-box">
+
+    <!-- Step 1: Welcome -->
+    <div class="onboarding-step active" id="ob-step-1">
+      <div class="ob-progress">
+        <div class="ob-dot active" id="pd1"></div>
+        <div class="ob-dot" id="pd2"></div>
+        <div class="ob-dot" id="pd3"></div>
+        <div class="ob-dot" id="pd4"></div>
+      </div>
+      <div class="ob-eyebrow">MATIC STUDIO University</div>
+      <h2 class="ob-title">Welcome.<br><em>Let's personalise this.</em></h2>
+      <p class="ob-desc">This program covers Revenue Manager skills from scratch. To give you a gap analysis that's actually useful — not one built for someone else — tell us a bit about yourself first. Takes 2 minutes.</p>
+      <div class="ob-field">
+        <label class="ob-label">Your name (optional, just for personalisation)</label>
+        <input class="ob-input" type="text" id="ob-name" placeholder="e.g. Sarah">
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">What role are you applying for?</label>
+        <input class="ob-input" type="text" id="ob-role" placeholder="e.g. Revenue Manager, STR — Acme Property Co.">
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">What type of property management is this role focused on?</label>
+        <div class="ob-chips-wrap" id="chips-prop-type">
+          <button class="ob-chip-btn" onclick="toggleChip(this,'prop-type')">Short-term rentals (STR)</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'prop-type')">Hotels / hospitality</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'prop-type')">Long-term rentals</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'prop-type')">Mixed / not sure</button>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button class="ob-btn-primary" onclick="obNext(2)">Continue →</button>
+        <button class="ob-btn-skip" onclick="skipOnboarding()">Skip personalisation</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Your background -->
+    <div class="onboarding-step" id="ob-step-2">
+      <div class="ob-progress">
+        <div class="ob-dot done" id="pd1b"></div>
+        <div class="ob-dot active" id="pd2b"></div>
+        <div class="ob-dot" id="pd3b"></div>
+        <div class="ob-dot" id="pd4b"></div>
+      </div>
+      <div class="ob-eyebrow">Step 2 of 4</div>
+      <h2 class="ob-title">Your current<br><em>experience</em></h2>
+      <p class="ob-desc">What's your background? This shapes which gaps are biggest for you specifically.</p>
+      <div class="ob-field">
+        <label class="ob-label">How long have you worked in property / hospitality / revenue-related roles?</label>
+        <select class="ob-select" id="ob-experience">
+          <option value="">Select...</option>
+          <option value="none">No direct experience yet</option>
+          <option value="under1">Under 1 year</option>
+          <option value="1-2">1–2 years</option>
+          <option value="3-5">3–5 years</option>
+          <option value="5plus">5+ years</option>
+        </select>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">Which tools or platforms have you used before? (select all that apply)</label>
+        <div class="ob-chips-wrap" id="chips-tools">
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Airbnb (as host/manager)</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Booking.com extranet</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">PriceLabs</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Wheelhouse</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Guesty / Hostaway / PMS</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Channel manager (any)</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">AirDNA / Transparent</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">Excel / Google Sheets</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'tools')">None of the above</button>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button class="ob-btn-primary" onclick="obNext(3)">Continue →</button>
+        <button class="ob-btn-skip" onclick="obNext(3)" style="color:var(--text3)">← Back</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Skills self-assessment -->
+    <div class="onboarding-step" id="ob-step-3">
+      <div class="ob-progress">
+        <div class="ob-dot done"></div>
+        <div class="ob-dot done"></div>
+        <div class="ob-dot active"></div>
+        <div class="ob-dot"></div>
+      </div>
+      <div class="ob-eyebrow">Step 3 of 4</div>
+      <h2 class="ob-title">Rate yourself<br><em>honestly</em></h2>
+      <p class="ob-desc">No wrong answers — this just helps calibrate your gap analysis. Pick the option that feels most honest right now.</p>
+      <div class="ob-field">
+        <label class="ob-label">Dynamic pricing strategy (adjusting prices based on demand)</label>
+        <select class="ob-select" id="skill-pricing">
+          <option value="">Select your level...</option>
+          <option value="none">No experience</option>
+          <option value="basic">Basic — I know the concept but haven't done it</option>
+          <option value="some">Some experience — I've done this but not systematically</option>
+          <option value="confident">Confident — I do this regularly and get results</option>
+          <option value="expert">Expert — I can teach this</option>
+        </select>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">Analytics & reporting (building dashboards, interpreting KPIs)</label>
+        <select class="ob-select" id="skill-analytics">
+          <option value="">Select your level...</option>
+          <option value="none">No experience</option>
+          <option value="basic">Basic — I can read reports but not build them</option>
+          <option value="some">Some — I've made basic reports</option>
+          <option value="confident">Confident — I build and present reports regularly</option>
+          <option value="expert">Expert</option>
+        </select>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">Portfolio / multi-property management</label>
+        <select class="ob-select" id="skill-portfolio">
+          <option value="">Select your level...</option>
+          <option value="none">No experience</option>
+          <option value="basic">1–5 properties</option>
+          <option value="some">6–30 properties</option>
+          <option value="confident">30–100 properties</option>
+          <option value="expert">100+ properties</option>
+        </select>
+      </div>
+      <div class="ob-actions">
+        <button class="ob-btn-primary" onclick="obNext(4)">Continue →</button>
+        <button class="ob-btn-skip" onclick="obNext(2)" style="color:var(--text3)">← Back</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Biggest concerns -->
+    <div class="onboarding-step" id="ob-step-4">
+      <div class="ob-progress">
+        <div class="ob-dot done"></div>
+        <div class="ob-dot done"></div>
+        <div class="ob-dot done"></div>
+        <div class="ob-dot active"></div>
+      </div>
+      <div class="ob-eyebrow">Step 4 of 4 — Almost there</div>
+      <h2 class="ob-title">What's your<br><em>biggest concern?</em></h2>
+      <p class="ob-desc">This helps us prioritise what your AI gap analysis focuses on.</p>
+      <div class="ob-field">
+        <label class="ob-label">What feels most daunting about this role right now? (optional)</label>
+        <textarea class="ob-textarea" id="ob-concern" placeholder="e.g. I don't know any of the tools they mentioned. Or: I'm worried about the analytics side. Or: I haven't managed more than 3 properties at once..."></textarea>
+      </div>
+      <div class="ob-field">
+        <label class="ob-label">How much time do you have before the application / interview?</label>
+        <div class="ob-chips-wrap" id="chips-timeline">
+          <button class="ob-chip-btn" onclick="toggleChip(this,'timeline')">Less than 1 week</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'timeline')">1–2 weeks</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'timeline')">2–4 weeks</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'timeline')">1–2 months</button>
+          <button class="ob-chip-btn" onclick="toggleChip(this,'timeline')">Just exploring</button>
+        </div>
+      </div>
+      <div class="ob-actions">
+        <button class="ob-btn-primary" onclick="finishOnboarding()">Generate my gap analysis →</button>
+        <button class="ob-btn-skip" onclick="obNext(3)" style="color:var(--text3)">← Back</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <div class="site-wrap">
 
@@ -816,7 +1253,7 @@ body {
     </button>
   </div>
   <div class="sidebar-footer">
-    <p>Built for your RevTech Revenue Manager application. All content assumes zero prior knowledge.</p>
+    <p>Built by MATIC STUDIO. Covers Revenue Manager fundamentals from scratch — personalised to your background.</p>
   </div>
 </nav>
 
@@ -842,15 +1279,15 @@ body {
 ══════════════════════════════════════════ -->
 <section id="page-home" class="page-section active">
   <div class="page-hero">
-    <div class="page-eyebrow">MATIC STUDIO University</div>
-    <h1 class="page-title">Revenue Manager<br><em>Training Program</em></h1>
-    <p class="page-desc">A complete, zero-knowledge-friendly curriculum built specifically for the RevTech Revenue Manager (Short-Term Rentals) role. Every concept, tool, and metric explained from scratch — with a clear 8-week path to job readiness.</p>
+    <div class="page-eyebrow" id="home-eyebrow">MATIC STUDIO University</div>
+    <h1 class="page-title" id="home-title">Revenue Manager<br><em>Training Program</em></h1>
+    <p class="page-desc" id="home-desc">A complete, zero-knowledge-friendly curriculum for aspiring Revenue Managers. Every concept, tool, and metric explained from scratch — with a clear 8-week path to job readiness.</p>
     <div class="hero-chips">
       <span class="chip">8-week program</span>
       <span class="chip">30+ concepts</span>
       <span class="chip">Zero assumed knowledge</span>
       <span class="chip">Interview-ready</span>
-      <span class="chip">RevTech-specific</span>
+      <span class="chip" id="home-role-chip">Revenue Management</span>
     </div>
   </div>
 
@@ -879,7 +1316,7 @@ body {
     </div>
     <div class="card-sm" style="border-left: 3px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0;">
       <div style="font-size:13px;font-weight:500;color:var(--blue);margin-bottom:6px;">Interview Prep</div>
-      <div style="font-size:13px;color:var(--text2);line-height:1.6;">STAR stories from your existing experience, the 30-60-90 day plan, and how to speak RevTech's language — results, speed, improvement.</div>
+      <div style="font-size:13px;color:var(--text2);line-height:1.6;">STAR stories from your existing experience, the 30-60-90 day plan, and how to speak the company's language — results, speed, improvement.</div>
     </div>
     <div class="card-sm" style="border-left: 3px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0;">
       <div style="font-size:13px;font-weight:500;color:var(--gold2);margin-bottom:6px;">On-the-Job Success</div>
@@ -894,9 +1331,9 @@ body {
     <h2 class="section-title">What this job is, in plain English</h2>
   </div>
   <p style="font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px;">A Revenue Manager decides what price a rental property charges on which night — and makes sure that price is correct everywhere it appears online. The goal is to charge as much as guests are willing to pay, without leaving nights empty. Too high and guests book elsewhere. Too low and you leave money on the table.</p>
-  <p style="font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px;">At RevTech, you'd do this across 312+ properties simultaneously. Your job isn't to manually adjust every property every day — it's to set up smart systems, monitor performance, and step in when something falls off track.</p>
+  <p style="font-size:15px;color:var(--text2);line-height:1.75;margin-bottom:16px;">At professional property management companies, you'd do this across dozens or hundreds of properties simultaneously. Your job isn't to manually adjust every property every day — it's to set up smart systems, monitor performance, and step in when something falls off track.</p>
   <div class="highlight highlight-gold">
-    <strong>Your existing advantage:</strong> You already use PriceLabs and have hands-on Airbnb experience. That's the core of this role. This program focuses on filling the gaps — systems, Booking.com, portfolio-scale analytics, and the reporting layer — not starting from zero.
+    <strong>Your gap analysis is personalised to you.</strong> After completing your profile, the Gap Analysis module generates a specific readiness breakdown based on your actual tools experience, background, and target role — not a generic template.
   </div>
 </section>
 
@@ -906,119 +1343,33 @@ body {
 <section id="page-gap" class="page-section">
   <div class="page-hero">
     <div class="page-eyebrow">Module — Gap Analysis</div>
-    <h1 class="page-title">Where you stand<br><em>vs. the role</em></h1>
-    <p class="page-desc">An honest read of your current position against every core requirement in the job spec. Based on your PriceLabs and Airbnb background.</p>
+    <h1 class="page-title" id="gap-title">Where you stand<br><em>vs. the role</em></h1>
+    <p class="page-desc" id="gap-desc">An honest, AI-generated read of your position against the core requirements — personalised to your background and target role.</p>
   </div>
 
-  <div class="grid-3" style="margin-bottom:32px;">
-    <div class="stat-card">
-      <div class="stat-label">Overall readiness</div>
-      <div class="stat-value" style="color:var(--teal)">62%</div>
-      <div class="stat-sub">Strong foundation to build on</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Pricing & OTA</div>
-      <div class="stat-value" style="color:var(--teal)">80%</div>
-      <div class="stat-sub">Your biggest strength</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-label">Systems & tools</div>
-      <div class="stat-value" style="color:var(--gold2)">35%</div>
-      <div class="stat-sub">Main gap to close</div>
-    </div>
+  <!-- Setup state (shown when no profile yet) -->
+  <div id="gap-setup" class="gap-setup-box">
+    <div class="gap-setup-title">Complete your profile first</div>
+    <p class="gap-setup-desc">The gap analysis uses your background, tools experience, and target role to generate a personalised readiness breakdown. You haven't set up your profile yet.</p>
+    <button class="gap-generate-btn" onclick="showOnboarding()">
+      <span>Set up my profile</span> →
+    </button>
   </div>
 
-  <div class="prog-row"><div class="prog-label"><span>Pricing & OTA strategy</span><span class="prog-pct">80%</span></div><div class="prog-track"><div class="prog-fill" style="width:80%;background:var(--teal)"></div></div></div>
-  <div class="prog-row"><div class="prog-label"><span>PriceLabs proficiency</span><span class="prog-pct">75%</span></div><div class="prog-track"><div class="prog-fill" style="width:75%;background:var(--teal)"></div></div></div>
-  <div class="prog-row"><div class="prog-label"><span>Reporting & analytics</span><span class="prog-pct">45%</span></div><div class="prog-track"><div class="prog-fill" style="width:45%;background:var(--gold)"></div></div></div>
-  <div class="prog-row"><div class="prog-label"><span>Portfolio-scale management</span><span class="prog-pct">40%</span></div><div class="prog-track"><div class="prog-fill" style="width:40%;background:var(--gold)"></div></div></div>
-  <div class="prog-row" style="margin-bottom:32px;"><div class="prog-label"><span>PMS & channel manager systems</span><span class="prog-pct">15%</span></div><div class="prog-track"><div class="prog-fill" style="width:15%;background:var(--coral)"></div></div></div>
+  <!-- Generate state (profile exists, not yet generated) -->
+  <div id="gap-generate-area" style="display:none;">
+    <div class="user-profile-badge" id="gap-profile-badge">
+      <span class="badge-icon">👤</span>
+      <span id="gap-profile-text">Profile loaded</span>
+    </div>
 
-  <div class="section-head">
-    <div class="section-label">Requirement by requirement</div>
-    <h2 class="section-title">Full breakdown</h2>
+    <div id="gap-loading" class="gap-loading">
+      <div class="gap-spinner"></div>
+      <div class="gap-loading-text" id="gap-loading-msg">Calculating your readiness...</div>
+    </div>
+    <div id="gap-results" class="gap-results"></div>
   </div>
 
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--teal)"></div>
-    <div class="match-content">
-      <div class="match-req">Dynamic pricing on Airbnb / OTAs</div>
-      <div class="match-note">You already use PriceLabs and manage Airbnb pricing. This is your strongest card — don't undersell it. The skill is proven.</div>
-    </div>
-    <div class="match-status" style="background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--teal)">Have it ✓</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--teal)"></div>
-    <div class="match-content">
-      <div class="match-req">PriceLabs proficiency</div>
-      <div class="match-note">Core tool — you know it. The gap is portfolio-scale use: bulk rules, portfolio analytics, base price calibration across many markets.</div>
-    </div>
-    <div class="match-status" style="background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--teal)">Have it ✓</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--teal)"></div>
-    <div class="match-content">
-      <div class="match-req">Seasonality & demand-based pricing</div>
-      <div class="match-note">Core instinct developed through Airbnb experience. You already think this way. Formalise it into frameworks you can articulate.</div>
-    </div>
-    <div class="match-status" style="background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--teal)">Have it ✓</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--gold)"></div>
-    <div class="match-content">
-      <div class="match-req">Booking.com OTA management</div>
-      <div class="match-note">Different from Airbnb in meaningful ways: extranet navigation, rate plan types, Genius programme, visibility score system. Needs 1–2 weeks of focused practice.</div>
-    </div>
-    <div class="match-status" style="background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--gold2)">Strengthen</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--gold)"></div>
-    <div class="match-content">
-      <div class="match-req">Portfolio-scale management (312+ units)</div>
-      <div class="match-note">Managing at scale is qualitatively different from single properties — bulk edits, automation rules, segmentation, and exception monitoring. A learnable extension of what you already do.</div>
-    </div>
-    <div class="match-status" style="background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--gold2)">Strengthen</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--gold)"></div>
-    <div class="match-content">
-      <div class="match-req">Performance reporting & analytics</div>
-      <div class="match-note">Structured revenue dashboards, KPI tracking, and client-facing reports. The format and habit is new even if the underlying numbers aren't.</div>
-    </div>
-    <div class="match-status" style="background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--gold2)">Strengthen</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--coral)"></div>
-    <div class="match-content">
-      <div class="match-req">PMS systems (Guesty, Hostaway, Hospitable)</div>
-      <div class="match-note">The central software every professional STR company runs on. You've worked directly in OTAs — now you need to understand the layer behind them. Priority gap to close.</div>
-    </div>
-    <div class="match-status" style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)">Build now</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--coral)"></div>
-    <div class="match-content">
-      <div class="match-req">Channel managers (Hostify, RMS)</div>
-      <div class="match-note">Pricing sync, rate plan mapping, availability management across platforms simultaneously. Critical for the 99% sync accuracy KPI. Priority gap to close.</div>
-    </div>
-    <div class="match-status" style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)">Build now</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--coral)"></div>
-    <div class="match-content">
-      <div class="match-req">Wheelhouse tool</div>
-      <div class="match-note">Explicitly named in the job spec alongside PriceLabs. You should be able to describe what it does, how it differs from PriceLabs, and when you'd use each.</div>
-    </div>
-    <div class="match-status" style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)">Build now</div>
-  </div>
-  <div class="match-row">
-    <div class="match-dot" style="background:var(--coral)"></div>
-    <div class="match-content">
-      <div class="match-req">Competitor analysis methodology</div>
-      <div class="match-note">Structured comp-set building, pricing gap identification, and market demand reading using AirDNA or Transparent. Learnable in 1–2 weeks.</div>
-    </div>
-    <div class="match-status" style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)">Build now</div>
-  </div>
 </section>
 
 <!-- ══════════════════════════════════════════
@@ -1043,7 +1394,7 @@ body {
     </div>
     <div class="concept-body">
       <p>A Revenue Manager decides what price a property charges on which night — and ensures that price is correct everywhere it's listed. The goal is to maximise revenue by finding the sweet spot: high enough to capture what guests will pay, low enough to actually fill the calendar.</p>
-      <p>At a company like RevTech managing 312+ properties, you're not doing this manually for each one. You're setting intelligent pricing rules in tools like PriceLabs, monitoring performance dashboards for problems, and intervening when something breaks — a sync failure, an underperforming market, a pricing anomaly.</p>
+      <p>At a professional property company managing dozens to hundreds of properties, you're not doing this manually for each one. You're setting intelligent pricing rules in tools like PriceLabs, monitoring performance dashboards for problems, and intervening when something breaks — a sync failure, an underperforming market, a pricing anomaly.</p>
       <div class="analogy-box"><strong>Think of it like airline pricing.</strong> The same seat costs different amounts depending on when you book, how full the flight is, and the day. A Revenue Manager does the same for rental properties — charging more during peak demand, less during slow periods, and adjusting in real time as bookings come in. Except you're doing it for hundreds of properties across multiple platforms at once.</div>
     </div>
   </div>
@@ -1227,7 +1578,7 @@ body {
       </div>
       <span class="tool-level" style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)">Build now</span>
     </div>
-    <div class="tool-desc">Wheelhouse is PriceLabs' main competitor. The job spec lists both — which means RevTech uses or evaluates both and expects you to know the difference. Wheelhouse has a stronger market intelligence layer (Market Dashboard) and is often preferred for comp-set analysis. PriceLabs has more granular rule control.</div>
+    <div class="tool-desc">Wheelhouse is PriceLabs' main competitor. Both tools are commonly used together at professional STR companies — expect interviewers to ask about both. Wheelhouse has a stronger market intelligence layer (Market Dashboard) and is often preferred for comp-set analysis. PriceLabs has more granular rule control.</div>
     <div class="tool-bar"><div class="tool-fill" style="width:10%;background:var(--coral)"></div></div>
     <div class="tool-bar-label"><span>Current proficiency</span><span>10%</span></div>
     <div style="margin-top:16px">
@@ -1643,7 +1994,7 @@ body {
       <div class="week-num-badge" style="background:var(--purple-bg);color:var(--purple);">5</div>
       <div class="week-meta">
         <div class="week-title">Week 5 — Revenue reporting & dashboards</div>
-        <div class="week-sub">Build the tracking infrastructure RevTech expects</div>
+        <div class="week-sub">Build the tracking infrastructure the role expects</div>
       </div>
       <span class="week-tag" style="background:var(--purple-bg);border:1px solid var(--purple-border);color:var(--purple)">Reporting</span>
       <span class="caret">›</span>
@@ -1668,7 +2019,7 @@ body {
         <div class="task-bullet" style="background:var(--purple)"></div>
         <div class="task-content">
           <div class="task-title">Deliverable: Mock Monthly Revenue Report</div>
-          <div class="task-desc">Invent performance data for a fictional 3-bedroom property in BGC for October. Write a 1-page report: (1) Executive summary — revenue vs baseline in 2 sentences. (2) What drove performance — 3 bullet points. (3) Changes made this month — 3 bullet points. (4) Recommendations for November — 3 bullet points. This is exactly what RevTech's "Reporting & Documentation" responsibility looks like.</div>
+          <div class="task-desc">Invent performance data for a fictional 3-bedroom property in BGC for October. Write a 1-page report: (1) Executive summary — revenue vs baseline in 2 sentences. (2) What drove performance — 3 bullet points. (3) Changes made this month — 3 bullet points. (4) Recommendations for November — 3 bullet points. This is exactly what a Revenue Manager's reporting responsibility looks like.</div>
         </div>
       </div>
     </div>
@@ -1766,7 +2117,7 @@ body {
       <div class="task-item">
         <div class="task-bullet" style="background:var(--blue)"></div>
         <div class="task-content">
-          <div class="task-title">Write your cover note using RevTech's own language</div>
+          <div class="task-title">Write your cover note using the company's language</div>
           <div class="task-desc">Their three principles: Results over promises / Constant improvement / Move fast. Your cover note must echo these. Don't say "I'm passionate about hospitality." Say: "I've managed dynamic pricing across X Airbnb properties, improved shoulder-season occupancy by Y%, and I operate with a test-measure-iterate discipline." Mirror their vocabulary. Signal cultural fit before the interview starts.</div>
         </div>
       </div>
@@ -1851,7 +2202,7 @@ body {
   <div class="page-hero">
     <div class="page-eyebrow">Module 6 — Interview Preparation</div>
     <h1 class="page-title">Walk in<br><em>prepared</em></h1>
-    <p class="page-desc">The exact questions RevTech will likely ask, how to answer them, and how to position your existing experience as an advantage — not an apology.</p>
+    <p class="page-desc">The exact questions interviewers will likely ask, how to answer them, and how to position your existing experience as an advantage — not an apology.</p>
   </div>
 
   <div class="section-head">
@@ -1962,7 +2313,7 @@ body {
   <div class="page-hero">
     <div class="page-eyebrow">Module 7 — On-the-Job Success</div>
     <h1 class="page-title">Thriving<br><em>once you're in</em></h1>
-    <p class="page-desc">Landing the job is step one. Here's how to perform at the level RevTech's KPIs demand from Day 1.</p>
+    <p class="page-desc">Landing the job is step one. Here's how to perform at the level most revenue management roles demand from Day 1.</p>
   </div>
 
   <div class="grid-3" style="margin-bottom:32px;">
@@ -2051,45 +2402,41 @@ body {
 </div>
 
 <script>
+// ─── GLOSSARY ───
 const glossData = [
   {t:"OTA",tag:"Term",d:"Online Travel Agency. Booking platforms like Airbnb, Booking.com, Expedia, and Vrbo. Guests use these to find and book properties. Property owners pay a commission per booking — typically 3–18% depending on the platform."},
   {t:"PMS — Property Management System",tag:"Tool",d:"The central software platform managing all reservations, guest details, rates, availability, and channel connections for a property portfolio. Everything flows through it. Popular examples: Guesty, Hostaway, Hospitable, Lodgify."},
-  {t:"Channel Manager",tag:"Tool",d:"Software that connects a property to multiple OTAs simultaneously and keeps prices, availability, and restrictions in sync. Prevents double-bookings by instantly blocking dates on all platforms when a booking arrives. Examples: Hostify, RMS, Rentals United."},
-  {t:"PriceLabs",tag:"Tool",d:"Dynamic pricing software that automatically sets nightly rates using demand data, competitor pricing, booking pace, and event signals. Your primary pricing engine for this role. Portfolio analytics and bulk rule features are critical at 312+ unit scale."},
-  {t:"Wheelhouse",tag:"Tool",d:"Dynamic pricing tool listed alongside PriceLabs in the job spec. Known for stronger market intelligence dashboards and comp-set visualisation. Use for market research and onboarding new markets; PriceLabs for day-to-day pricing operations."},
-  {t:"AirDNA",tag:"Tool",d:"Market intelligence platform aggregating performance data from millions of STR listings. Shows average ADR, occupancy trends, seasonal patterns, and revenue estimates for any market. Used for comp-set benchmarking and new property underwriting."},
-  {t:"Guesty",tag:"Tool",d:"One of the two leading PMS platforms for professional STR companies. Manages reservations, guest messaging, team tasks, channel connections, and rates across a portfolio. A likely candidate for the PMS used at RevTech."},
+  {t:"Channel Manager",tag:"Tool",d:"Software that connects a property to multiple OTAs simultaneously and keeps prices, availability, and restrictions in sync. Prevents double-bookings by instantly blocking dates on all platforms when a booking arrives."},
+  {t:"PriceLabs",tag:"Tool",d:"Dynamic pricing software that automatically sets nightly rates using demand data, competitor pricing, booking pace, and event signals. Portfolio analytics and bulk rule features are critical at scale."},
+  {t:"Wheelhouse",tag:"Tool",d:"Dynamic pricing tool known for stronger market intelligence dashboards and comp-set visualisation. Often used alongside PriceLabs for market research."},
+  {t:"AirDNA",tag:"Tool",d:"Market intelligence platform aggregating performance data from millions of STR listings. Shows average ADR, occupancy trends, seasonal patterns, and revenue estimates for any market."},
+  {t:"Guesty",tag:"Tool",d:"One of the two leading PMS platforms for professional STR companies. Manages reservations, guest messaging, team tasks, channel connections, and rates across a portfolio."},
   {t:"Hostaway",tag:"Tool",d:"PMS platform comparable to Guesty. Popular with mid-large STR operators. Includes its own basic channel manager alongside third-party channel manager integrations."},
-  {t:"Hostify",tag:"Tool",d:"Channel manager explicitly named in the RevTech job spec. Connects PMS to multiple OTAs and maintains pricing and availability sync. Key skill: rate plan mapping and sync log monitoring."},
-  {t:"Extranet",tag:"Term",d:"Booking.com's management portal for property owners and managers. Where you manage rates, availability, promotions, performance data, and rate plans. Booking.com's equivalent of Airbnb's Host Dashboard."},
-  {t:"RevPAR",tag:"Metric",d:"Revenue Per Available Room/night. Calculated as ADR × Occupancy Rate. The master revenue metric — it rewards both filling nights AND charging good rates. A ₱6,000 ADR at 40% occupancy = ₱2,400 RevPAR. A ₱3,500 ADR at 80% = ₱2,800 RevPAR. RevPAR correctly identifies the latter as higher-performing."},
-  {t:"ADR — Average Daily Rate",tag:"Metric",d:"Total revenue divided by nights booked. If a property earned ₱84,000 across 24 booked nights, ADR = ₱3,500. Measures pricing effectiveness but ignores empty nights — which is why RevPAR is the better master metric."},
-  {t:"Occupancy Rate",tag:"Metric",d:"Percentage of available nights that were booked. 24 booked nights out of 31 available = 77.4%. High occupancy at low ADR suggests underpricing. Low occupancy at high ADR suggests overpricing or listing quality issues."},
-  {t:"Booking Pace",tag:"Metric",d:"How quickly a future date is filling up vs. historical norms. Ahead of pace = filling faster than expected = raise prices. Behind pace = filling slower than expected = investigate and possibly act. Your most important daily operational signal."},
-  {t:"Conversion Rate",tag:"Metric",d:"Bookings divided by listing views × 100. Distinguishes pricing problems (high views, low bookings) from visibility/ranking problems (low views, low bookings). Each requires a completely different fix."},
-  {t:"Lead Time",tag:"Metric",d:"How far in advance guests book relative to their arrival date. Average lead time shapes your pricing curve strategy: last-minute markets need different trigger points than far-ahead planning markets."},
-  {t:"RevPAR Index (RGI)",tag:"Metric",d:"Your RevPAR divided by your comp-set's average RevPAR. Above 1.0 = outperforming market. Below 1.0 = underperforming. Measures competitive position rather than absolute performance — more meaningful than raw RevPAR alone."},
-  {t:"Baseline",tag:"Term",d:"The historical reference point for measuring improvement — typically last year's performance for the same period. RevTech's primary revenue KPI is 'consistent uplift vs. baseline.' Every period should beat its historical equivalent."},
-  {t:"Rate Plan",tag:"Term",d:"A specific combination of price + conditions (cancellation policy, booking window requirements, guest type). One property can offer multiple rate plans simultaneously: Standard, Non-refundable, Early Booker, Mobile Rate. Each attracts different guest behaviour."},
-  {t:"Rate Plan Mapping",tag:"Term",d:"The configuration in a channel manager that links your PMS rate types to the correct rate categories on each OTA. Misconfigured mapping is the most common source of pricing sync errors — e.g. your non-refundable rate showing as your standard flexible rate."},
-  {t:"Sync Accuracy",tag:"Term",d:"The percentage of time your pricing is correctly and consistently displayed across all OTAs. RevTech's hard KPI is 99%. Sync failures occur due to misconfigured channel managers, direct OTA overrides, API drops, or incorrect rate plan mapping."},
-  {t:"Pricing Sync",tag:"Term",d:"The process by which a price change in PriceLabs or your PMS propagates through the channel manager and appears correctly on all OTA listings. The core technical flow you must understand and maintain."},
-  {t:"Minimum Stay Restriction",tag:"Strategy",d:"A rule requiring guests to book at least X nights. Used to prevent 1-night bookings that create orphan gaps around them. Example: 2-night weekend minimum prevents a Saturday-only booking that leaves Friday and Sunday unfillable. Must be managed dynamically based on booking pace — tighten when full, relax when slow."},
-  {t:"Comp-set — Competitive Set",tag:"Strategy",d:"The group of similar properties used as your benchmark for pricing and performance. Typically 5–12 properties with matching type, size, quality tier, and target guest profile. Used via AirDNA, Wheelhouse, or PriceLabs' Market Dashboard to validate pricing decisions."},
-  {t:"Dynamic Pricing",tag:"Strategy",d:"Automatically adjusting nightly rates based on real-time demand signals — competitor pricing, booking pace, events, seasonality — rather than using a static fixed rate. Enables capturing more revenue during peak demand and staying competitive during soft periods."},
-  {t:"Demand Spike",tag:"Term",d:"A sudden increase in demand for specific dates, usually caused by an event (concert, conference, public holiday, sporting event). Revenue managers watch for these 6–8 weeks ahead to raise prices before competing properties react."},
-  {t:"Orphan Gap",tag:"Strategy",d:"An isolated 1–2 night gap in a booking calendar that's too short for most guests to book and difficult to fill. Usually caused by minimum stay restrictions or an awkward booking pattern. Requires either relaxing minimum stay for that gap or accepting the empty nights."},
-  {t:"Booking Window",tag:"Term",d:"The distribution of how far in advance your bookings are made. A property with a short booking window (mostly 0–14 days ahead) needs different last-minute pricing triggers than one with a long window (mostly 30–90+ days ahead)."},
-  {t:"Base Price",tag:"Strategy",d:"The anchor price in PriceLabs from which all automated adjustments are calculated. If the base price is wrong, all your prices are wrong — PriceLabs multiplies or discounts relative to it. Setting it correctly requires market comp research via AirDNA and the property's review score positioning."},
-  {t:"Shoulder Season",tag:"Term",d:"The period between peak season (highest demand) and low season (lowest demand). Revenue management during shoulder season is the highest-leverage activity — peak season fills itself, low season requires deep discounts, but shoulder season is winnable with smart pricing."},
-  {t:"Genius Programme",tag:"Strategy",d:"Booking.com's loyalty programme for frequent bookers. Genius-eligible properties offer discounts (10–15%) to Booking.com's loyalty members. In exchange, they receive higher search placement. A strategic trade-off between margin and visibility that must be actively managed per property."},
-  {t:"Exception-Based Management",tag:"Strategy",d:"The approach to managing large portfolios by focusing attention on properties deviating from expected performance — rather than reviewing every property daily. Requires well-designed automated rules (so 90% runs on autopilot) and reliable exception-flagging dashboards."},
-  {t:"Hyper Local Pulse (HLP)",tag:"Tool",d:"PriceLabs' proprietary data layer showing real-time demand signals at the neighbourhood level. Used to understand micro-market conditions — how demand is trending at postcode level rather than whole-city level. Important for setting accurate base prices in dense urban markets."},
+  {t:"Extranet",tag:"Term",d:"Booking.com's management portal for property owners and managers. Where you manage rates, availability, promotions, performance data, and rate plans."},
+  {t:"RevPAR",tag:"Metric",d:"Revenue Per Available Room/night. Calculated as ADR × Occupancy Rate. The master revenue metric — it rewards both filling nights AND charging good rates."},
+  {t:"ADR — Average Daily Rate",tag:"Metric",d:"Total revenue divided by nights booked. Measures pricing effectiveness but ignores empty nights — which is why RevPAR is the better master metric."},
+  {t:"Occupancy Rate",tag:"Metric",d:"Percentage of available nights that were booked. High occupancy at low ADR suggests underpricing. Low occupancy at high ADR suggests overpricing or listing quality issues."},
+  {t:"Booking Pace",tag:"Metric",d:"How quickly a future date is filling up vs. historical norms. Ahead of pace = raise prices. Behind pace = investigate and possibly act. Your most important daily operational signal."},
+  {t:"Conversion Rate",tag:"Metric",d:"Bookings divided by listing views × 100. Distinguishes pricing problems (high views, low bookings) from visibility/ranking problems (low views, low bookings)."},
+  {t:"Lead Time",tag:"Metric",d:"How far in advance guests book relative to their arrival date. Average lead time shapes your pricing curve strategy."},
+  {t:"RevPAR Index (RGI)",tag:"Metric",d:"Your RevPAR divided by your comp-set's average RevPAR. Above 1.0 = outperforming market. Below 1.0 = underperforming."},
+  {t:"Baseline",tag:"Term",d:"The historical reference point for measuring improvement — typically last year's performance for the same period."},
+  {t:"Rate Plan",tag:"Term",d:"A specific combination of price + conditions (cancellation policy, booking window requirements, guest type). One property can offer multiple rate plans simultaneously."},
+  {t:"Rate Plan Mapping",tag:"Term",d:"The configuration in a channel manager that links your PMS rate types to the correct rate categories on each OTA. Misconfigured mapping is the most common source of pricing sync errors."},
+  {t:"Sync Accuracy",tag:"Term",d:"The percentage of time your pricing is correctly and consistently displayed across all OTAs. Sync failures occur due to misconfigured channel managers, API drops, or incorrect rate plan mapping."},
+  {t:"Pricing Sync",tag:"Term",d:"The process by which a price change in PriceLabs or your PMS propagates through the channel manager and appears correctly on all OTA listings."},
+  {t:"Minimum Stay Restriction",tag:"Strategy",d:"A rule requiring guests to book at least X nights. Used to prevent 1-night bookings that create orphan gaps around them."},
+  {t:"Comp-set — Competitive Set",tag:"Strategy",d:"The group of similar properties used as your benchmark for pricing and performance. Typically 5–12 properties with matching type, size, quality tier, and target guest profile."},
+  {t:"Dynamic Pricing",tag:"Strategy",d:"Automatically adjusting nightly rates based on real-time demand signals — competitor pricing, booking pace, events, seasonality — rather than using a static fixed rate."},
+  {t:"Demand Spike",tag:"Term",d:"A sudden increase in demand for specific dates, usually caused by an event. Revenue managers watch for these 6–8 weeks ahead to raise prices before competitors react."},
+  {t:"Orphan Gap",tag:"Strategy",d:"An isolated 1–2 night gap in a booking calendar that's too short for most guests to book. Requires relaxing minimum stay or accepting the empty nights."},
+  {t:"Base Price",tag:"Strategy",d:"The anchor price in PriceLabs from which all automated adjustments are calculated. If the base price is wrong, all your prices are wrong."},
+  {t:"Shoulder Season",tag:"Term",d:"The period between peak and low season. The highest-leverage period for revenue management — winnable with smart pricing."},
+  {t:"Genius Programme",tag:"Strategy",d:"Booking.com's loyalty programme. Genius-eligible properties offer discounts to loyalty members in exchange for higher search placement."},
+  {t:"Exception-Based Management",tag:"Strategy",d:"Managing large portfolios by focusing on properties deviating from expected performance, rather than reviewing every property daily."},
 ];
 
-let activeTag = 'All';
-let searchQ = '';
-
+let activeTag = 'All', searchQ = '';
 function renderGloss() {
   const grid = document.getElementById('gloss-grid');
   const tagClass = { Tool:'gtag-tool', Term:'gtag-term', Metric:'gtag-metric', Strategy:'gtag-strategy' };
@@ -2098,21 +2445,13 @@ function renderGloss() {
     const matchQ = !searchQ || g.t.toLowerCase().includes(searchQ) || g.d.toLowerCase().includes(searchQ);
     return matchTag && matchQ;
   });
-  if (!filtered.length) {
-    grid.innerHTML = '<div class="gloss-empty">No terms match your search.</div>';
-    return;
-  }
+  if (!filtered.length) { grid.innerHTML = '<div class="gloss-empty">No terms match your search.</div>'; return; }
   grid.innerHTML = filtered.map(g => `
     <div class="gloss-card">
-      <div class="gloss-term-row">
-        <span class="gloss-term">${g.t}</span>
-        <span class="gloss-tag ${tagClass[g.tag]||''}">${g.tag}</span>
-      </div>
+      <div class="gloss-term-row"><span class="gloss-term">${g.t}</span><span class="gloss-tag ${tagClass[g.tag]||''}">${g.tag}</span></div>
       <div class="gloss-def">${g.d}</div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
-
 function filterGloss(q) { searchQ = q.toLowerCase(); renderGloss(); }
 function filterTag(tag, btn) {
   activeTag = tag;
@@ -2120,7 +2459,6 @@ function filterTag(tag, btn) {
   btn.classList.add('active');
   renderGloss();
 }
-
 renderGloss();
 
 function goTo(id, el) {
@@ -2130,9 +2468,362 @@ function goTo(id, el) {
   if (el) el.classList.add('active');
   document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 function togC(id) { document.getElementById(id).classList.toggle('open'); }
 function togW(id) { document.getElementById(id).classList.toggle('open'); }
+
+// ─── ONBOARDING ───
+let userProfile = null;
+const chipGroups = {};
+
+function toggleChip(btn, group) {
+  if (!chipGroups[group]) chipGroups[group] = [];
+  btn.classList.toggle('selected');
+  const label = btn.textContent.trim();
+  if (btn.classList.contains('selected')) {
+    if (!chipGroups[group].includes(label)) chipGroups[group].push(label);
+  } else {
+    chipGroups[group] = chipGroups[group].filter(l => l !== label);
+  }
+}
+
+function obNext(step) {
+  document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('ob-step-' + step);
+  if (el) el.classList.add('active');
+}
+
+function showOnboarding() {
+  document.getElementById('onboarding-overlay').classList.remove('hidden');
+}
+
+function skipOnboarding() {
+  document.getElementById('onboarding-overlay').classList.add('hidden');
+  updateGapPage();
+}
+
+function finishOnboarding() {
+  userProfile = {
+    name: document.getElementById('ob-name').value.trim() || 'You',
+    role: document.getElementById('ob-role').value.trim() || 'Revenue Manager role',
+    propType: (chipGroups['prop-type'] || []).join(', ') || 'Not specified',
+    experience: document.getElementById('ob-experience').value || 'none',
+    toolsList: chipGroups['tools'] || [],
+    skillPricing: document.getElementById('skill-pricing').value || 'none',
+    skillAnalytics: document.getElementById('skill-analytics').value || 'none',
+    skillPortfolio: document.getElementById('skill-portfolio').value || 'none',
+    concern: document.getElementById('ob-concern').value.trim() || '',
+    timeline: (chipGroups['timeline'] || ['Just exploring'])[0] || 'Just exploring',
+  };
+
+  if (userProfile.name !== 'You') {
+    document.getElementById('home-eyebrow').textContent = `Welcome, ${userProfile.name} — MATIC STUDIO University`;
+  }
+  document.getElementById('home-role-chip').textContent = userProfile.role;
+  document.getElementById('onboarding-overlay').classList.add('hidden');
+  sessionStorage.setItem('maticProfile', JSON.stringify(userProfile));
+  updateGapPage();
+  goTo('gap', document.querySelector('.nav-item[onclick*="gap"]'));
+  generateGapAnalysis();
+}
+
+function updateGapPage() {
+  const setup = document.getElementById('gap-setup');
+  const genArea = document.getElementById('gap-generate-area');
+  if (!userProfile) { setup.style.display = 'block'; genArea.style.display = 'none'; return; }
+  setup.style.display = 'none';
+  genArea.style.display = 'block';
+  document.getElementById('gap-profile-text').textContent =
+    `${userProfile.name} · ${userProfile.role} · ${userProfile.experience} experience`;
+}
+
+function resetGapAnalysis() {
+  userProfile = null;
+  sessionStorage.removeItem('maticProfile');
+  document.getElementById('gap-results').classList.remove('show');
+  document.getElementById('gap-results').innerHTML = '';
+  updateGapPage();
+  showOnboarding();
+}
+
+// ─── RULES-BASED GAP ANALYSIS ENGINE ───
+function generateGapAnalysis() {
+  if (!userProfile) return;
+
+  const loading = document.getElementById('gap-loading');
+  const results = document.getElementById('gap-results');
+  loading.classList.add('show');
+  results.classList.remove('show');
+
+  // Small delay so spinner shows briefly
+  setTimeout(() => {
+    loading.classList.remove('show');
+    results.innerHTML = buildGapHTML(userProfile);
+    results.classList.add('show');
+  }, 600);
+}
+
+function skillScore(val) {
+  return { none: 0, basic: 1, some: 2, confident: 3, expert: 4 }[val] ?? 0;
+}
+function expScore(val) {
+  return { none: 0, under1: 1, '1-2': 2, '3-5': 3, '5plus': 4 }[val] ?? 0;
+}
+function hasTool(profile, name) {
+  return profile.toolsList.some(t => t.toLowerCase().includes(name.toLowerCase()));
+}
+
+function buildGapHTML(p) {
+  const tools = p.toolsList;
+  const exp = expScore(p.experience);
+  const pricingScore = skillScore(p.skillPricing);
+  const analyticsScore = skillScore(p.skillAnalytics);
+  const portfolioScore = skillScore(p.skillPortfolio);
+
+  // ── Compute dimension scores (0–100) ──
+  const dims = {
+    'Dynamic Pricing': Math.min(100, pricingScore * 25 + (hasTool(p,'PriceLabs') ? 15 : 0) + (hasTool(p,'Wheelhouse') ? 10 : 0)),
+    'OTA Management': Math.min(100, (hasTool(p,'Airbnb') ? 35 : 0) + (hasTool(p,'Booking.com') ? 35 : 0) + (exp >= 2 ? 20 : exp * 7) + 10),
+    'PMS & Systems': Math.min(100, (hasTool(p,'Guesty') || hasTool(p,'Hostaway') || hasTool(p,'PMS') ? 55 : 0) + (hasTool(p,'Channel') ? 30 : 0) + (exp >= 3 ? 15 : 0)),
+    'Analytics & Reporting': Math.min(100, analyticsScore * 20 + (hasTool(p,'AirDNA') ? 15 : 0) + (hasTool(p,'Excel') ? 10 : 0)),
+    'Portfolio Management': Math.min(100, portfolioScore * 20 + (exp >= 2 ? 15 : 0) + (hasTool(p,'PMS') || hasTool(p,'Guesty') || hasTool(p,'Hostaway') ? 20 : 0)),
+  };
+
+  const overall = Math.round(Object.values(dims).reduce((a,b) => a+b, 0) / Object.keys(dims).length);
+
+  // ── Bar colour by score ──
+  function barColor(s) {
+    if (s >= 70) return 'var(--teal)';
+    if (s >= 40) return 'var(--gold)';
+    return 'var(--coral)';
+  }
+  function statusBadge(s) {
+    if (s >= 70) return `style="background:var(--teal-bg);border:1px solid var(--teal-border);color:var(--teal)"`;
+    if (s >= 40) return `style="background:var(--gold-bg);border:1px solid var(--gold-border);color:var(--gold2)"`;
+    return `style="background:var(--coral-bg);border:1px solid var(--coral-border);color:var(--coral)"`;
+  }
+  function statusLabel(s) {
+    if (s >= 70) return 'Strong ✓';
+    if (s >= 40) return 'Strengthen';
+    return 'Build now';
+  }
+  function overallColour(s) {
+    if (s >= 65) return 'var(--teal)';
+    if (s >= 40) return 'var(--gold2)';
+    return 'var(--coral)';
+  }
+  function overallLabel(s) {
+    if (s >= 65) return 'Strong foundation';
+    if (s >= 40) return 'Good starting point';
+    return 'Plenty of room to grow';
+  }
+
+  // ── Strengths (score >= 55) ──
+  const strengths = Object.entries(dims).filter(([,s]) => s >= 55);
+  // ── Gaps (score < 55), sorted weakest first ──
+  const gaps = Object.entries(dims).filter(([,s]) => s < 55).sort((a,b) => a[1]-b[1]);
+
+  // ── Gap advice map ──
+  const gapAdvice = {
+    'Dynamic Pricing': {
+      why: 'The core technical skill of the role. Interviewers will probe how you set base prices, respond to demand signals, and use automation rules.',
+      action: hasTool(p,'PriceLabs')
+        ? 'Explore PriceLabs\' Portfolio Analytics and bulk rules features — this is the scale layer you\'ll need to learn.'
+        : 'Sign up for a free PriceLabs trial and explore the Portfolio dashboard. Set a test base price calibrated to a market you know.',
+    },
+    'OTA Management': {
+      why: 'Revenue managers work across multiple platforms simultaneously. Each OTA has different rate plan structures, ranking signals, and management portals.',
+      action: !hasTool(p,'Booking.com')
+        ? 'Create a free Booking.com partner account and explore the Extranet — focus on rate plan setup and visibility score.'
+        : 'Study how OTA ranking algorithms differ: Airbnb\'s acceptance rate signals vs Booking.com\'s Visibility Score and Genius programme.',
+    },
+    'PMS & Systems': {
+      why: 'Professional property companies run everything through a PMS. Understanding the flow from pricing tool → PMS → channel manager → OTA is interview-critical.',
+      action: 'Book a free Guesty or Hostaway demo this week. During the demo, ask: "Walk me through how a PriceLabs price change reaches a guest on Airbnb."',
+    },
+    'Analytics & Reporting': {
+      why: 'Revenue managers are expected to build dashboards, track KPIs, and deliver monthly client reports. The data habit matters as much as the skills.',
+      action: 'Build a simple Google Sheets revenue dashboard with columns for: Revenue, Available nights, Booked nights, Occupancy %, ADR, RevPAR, and vs Last Month %.',
+    },
+    'Portfolio Management': {
+      why: 'Managing 50+ properties requires exception-based thinking, automation rules, and bulk tools — not one-by-one manual work.',
+      action: 'Study PriceLabs\' bulk editing and automation rule features. Practice building a rule that adjusts minimum stay based on booking pace.',
+    },
+  };
+
+  // ── Timeline-specific focus plan ──
+  const timelinePlans = {
+    'Less than 1 week': [
+      'Start with the <strong>Gap Analysis</strong> concepts and Core Concepts (Module 1) today.',
+      `Your biggest gap is <strong>${gaps[0]?.[0] || 'systems knowledge'}</strong> — focus all remaining time here.`,
+      'Use the Glossary to memorise the 10 most important terms before your interview.',
+      'Prepare one STAR story for each skill area you do have — make it specific and quantified.',
+    ],
+    '1–2 weeks': [
+      `Week 1: Core Concepts + Tools Deep Dive. Priority: <strong>${gaps[0]?.[0] || 'systems'}</strong>.`,
+      `Week 2: Metrics & KPIs + build your gap-closing actions (${gaps.slice(0,2).map(g=>g[0]).join(' and ')}).`,
+      'Use the Interview Prep module to prepare STAR answers and your 30-60-90 day plan.',
+      'Deliverable: one competitor analysis report to show in the interview.',
+    ],
+    '2–4 weeks': [
+      'Weeks 1–2: Foundations — Core Concepts, Tools Deep Dive, Metrics & KPIs.',
+      'Week 3: Strategy Skills + close your top 2 tool gaps with demos or free trials.',
+      'Week 4: Interview Prep — STAR stories, 30-60-90 plan, and one portfolio deliverable.',
+      `Priority gap to action this week: <strong>${gaps[0]?.[0] || 'systems knowledge'}</strong>.`,
+    ],
+    '1–2 months': [
+      'Follow the full 8-Week Roadmap (Module 4) — it\'s designed for exactly this timeline.',
+      `Weeks 1–2: Core Concepts and Systems. Close the <strong>${gaps[0]?.[0] || 'systems'}</strong> gap first.`,
+      'Weeks 3–4: Tools, analytics, and your first portfolio deliverable.',
+      'Weeks 5–6: Strategy Skills and mock reporting.',
+      'Weeks 7–8: Interview prep and application polish.',
+    ],
+    'Just exploring': [
+      'Start with the Overview and Core Concepts (Module 1) — no pressure, just build familiarity.',
+      'Use the Glossary to learn the language of the industry at your own pace.',
+      'The Gap Analysis gives you a baseline — revisit it when you\'re ready to target a specific role.',
+      'The 8-Week Roadmap (Module 4) is there whenever you decide to accelerate.',
+    ],
+  };
+  const focusPlan = timelinePlans[p.timeline] || timelinePlans['Just exploring'];
+
+  // ── Opening summary ──
+  let openingSummary = '';
+  if (overall >= 65) {
+    openingSummary = `You're coming in with a genuinely strong foundation for a Revenue Manager role. Your experience in ${strengths.map(s=>s[0]).join(' and ')} puts you ahead of many candidates — the gaps that remain are learnable, not fundamental.`;
+  } else if (overall >= 40) {
+    openingSummary = `You have a solid starting point with clear strengths in ${strengths.length ? strengths.map(s=>s[0]).join(' and ') : 'areas relevant to the role'}. The gaps are real but closeable — most can be addressed with 1–3 weeks of focused effort on the right things.`;
+  } else {
+    openingSummary = `You're earlier in the journey, but this program is built for exactly where you are. The good news: Revenue Management skills are learnable from scratch, and having zero bad habits to unlearn is actually an advantage. Focus on the priority gaps below first.`;
+  }
+
+  // ── Assemble HTML ──
+  let html = `<button class="gap-edit-btn" onclick="resetGapAnalysis()">✎ Update profile & recalculate</button>`;
+
+  // Overall + dim stats
+  html += `
+  <div class="grid-3" style="margin-bottom:28px;">
+    <div class="stat-card">
+      <div class="stat-label">Overall readiness</div>
+      <div class="stat-value" style="color:${overallColour(overall)}">${overall}%</div>
+      <div class="stat-sub">${overallLabel(overall)}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Biggest strength</div>
+      <div class="stat-value" style="font-size:16px;color:var(--teal);line-height:1.3;">${strengths[0]?.[0] || 'Building up'}</div>
+      <div class="stat-sub">${strengths[0] ? strengths[0][1]+'% readiness' : 'All areas are growth opportunities'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Priority gap</div>
+      <div class="stat-value" style="font-size:16px;color:var(--coral);line-height:1.3;">${gaps[0]?.[0] || 'Maintaining standards'}</div>
+      <div class="stat-sub">${gaps[0] ? 'Focus here first' : 'You\'re well-rounded'}</div>
+    </div>
+  </div>`;
+
+  // Progress bars
+  Object.entries(dims).forEach(([label, score]) => {
+    html += `
+    <div class="prog-row">
+      <div class="prog-label"><span>${label}</span><span class="prog-pct">${score}%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${score}%;background:${barColor(score)}"></div></div>
+    </div>`;
+  });
+
+  // Opening
+  html += `<hr class="divider"><div class="ai-content"><p>${openingSummary}</p>`;
+
+  // Strengths
+  if (strengths.length) {
+    html += `<h3>Your Strengths ✓</h3><ul>`;
+    strengths.forEach(([dim, score]) => {
+      const advice = {
+        'Dynamic Pricing': `Your ${hasTool(p,'PriceLabs') ? 'hands-on PriceLabs experience' : 'pricing instinct'} is a core strength — this is what most revenue manager roles centre on.`,
+        'OTA Management': `You know how OTAs work from the inside${hasTool(p,'Booking.com') ? ' — including Booking.com\'s extranet and rate plan structure' : ''}. This gives you practical credibility.`,
+        'PMS & Systems': `Understanding ${hasTool(p,'Guesty')||hasTool(p,'Hostaway')||hasTool(p,'PMS') ? 'PMS platforms' : 'property systems'} is what separates operational candidates from theoretical ones.`,
+        'Analytics & Reporting': `${analyticsScore >= 3 ? 'Confident reporting skills' : 'Your analytics foundation'} means you can track KPIs and tell the story behind the numbers — a key client-facing skill.`,
+        'Portfolio Management': `Having managed ${portfolioScore >= 3 ? '30+ properties' : portfolioScore >= 2 ? 'multiple properties' : 'properties at scale'} means you understand the operational reality, not just the theory.`,
+      };
+      html += `<li><strong>${dim} (${score}%)</strong> — ${advice[dim] || 'Strong area relative to your overall profile.'}</li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Gaps
+  if (gaps.length) {
+    html += `<h3>Priority Gaps to Close</h3><ul>`;
+    gaps.forEach(([dim, score]) => {
+      const info = gapAdvice[dim] || { why: 'Key requirement for the role.', action: 'Work through the relevant module in this program.' };
+      html += `<li><strong>${dim} (${score}%)</strong> — ${info.why} <br><span style="color:var(--gold2);font-size:12.5px;">→ This week: ${info.action}</span></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Focus plan
+  const planLabel = {
+    'Less than 1 week': 'This Week\'s Focus',
+    '1–2 weeks': 'Your 2-Week Plan',
+    '2–4 weeks': 'Your 30-Day Plan',
+    '1–2 months': 'Your 8-Week Plan',
+    'Just exploring': 'Where to Start',
+  }[p.timeline] || 'Your Study Plan';
+
+  html += `<h3>${planLabel}</h3><ul>`;
+  focusPlan.forEach(item => { html += `<li>${item}</li>`; });
+  html += `</ul>`;
+
+  // Concern response
+  if (p.concern && p.concern.length > 10) {
+    html += `<h3>About Your Main Concern</h3><p>You mentioned: <em>"${p.concern}"</em> — that's a common concern at this stage. The best approach is to go specific: pick the one module most relevant to that worry and work through it completely before moving on. Breadth comes after depth.</p>`;
+  }
+
+  // Closing
+  html += `<p style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);color:var(--text3);font-size:13px;">This analysis is based on your self-reported background. As you work through the modules and gain hands-on tool experience, revisit this page — your scores will reflect real growth.</p>`;
+  html += `</div>`;
+
+  // Full requirement breakdown
+  html += `<hr class="divider">
+  <div class="section-head">
+    <div class="section-label">Requirement by requirement</div>
+    <h2 class="section-title">Full breakdown</h2>
+  </div>`;
+
+  const reqRows = [
+    { req: 'Dynamic pricing strategy', dim: 'Dynamic Pricing', note: `You rated yourself: <strong>${p.skillPricing || 'not specified'}</strong>. Dynamic pricing is how you maximise revenue across seasons and demand cycles — it's the most frequently tested skill in interviews.` },
+    { req: 'OTA platform management', dim: 'OTA Management', note: `Tools you've used: <strong>${tools.filter(t=>['Airbnb','Booking.com'].some(x=>t.includes(x))).join(', ') || 'none listed'}</strong>. Knowing how each OTA's ranking and rate plan system works is essential.` },
+    { req: 'PMS & channel manager systems', dim: 'PMS & Systems', note: `Tools you've used: <strong>${tools.filter(t=>['Guesty','Hostaway','PMS','Channel'].some(x=>t.includes(x))).join(', ') || 'none listed'}</strong>. Understanding the full pricing flow (PriceLabs → PMS → Channel Manager → OTA) is interview-critical.` },
+    { req: 'Analytics, KPIs & reporting', dim: 'Analytics & Reporting', note: `You rated yourself: <strong>${p.skillAnalytics || 'not specified'}</strong>. Building dashboards, tracking RevPAR/ADR/Occupancy, and writing client-facing reports are core deliverables.` },
+    { req: 'Portfolio-scale management', dim: 'Portfolio Management', note: `You've managed: <strong>${p.skillPortfolio || 'not specified'}</strong> properties. Managing at scale requires exception-based thinking and automation rules, not manual review of every property.` },
+  ];
+
+  reqRows.forEach(row => {
+    const score = dims[row.dim];
+    html += `
+    <div class="match-row">
+      <div class="match-dot" style="background:${barColor(score)}"></div>
+      <div class="match-content">
+        <div class="match-req">${row.req}</div>
+        <div class="match-note">${row.note}</div>
+      </div>
+      <div class="match-status" ${statusBadge(score)}>${statusLabel(score)}</div>
+    </div>`;
+  });
+
+  return html;
+}
+
+// ─── INIT ───
+const saved = sessionStorage.getItem('maticProfile');
+if (saved) {
+  try {
+    userProfile = JSON.parse(saved);
+    if (userProfile.name !== 'You') {
+      document.getElementById('home-eyebrow').textContent = `Welcome back, ${userProfile.name} — MATIC STUDIO University`;
+      document.getElementById('home-role-chip').textContent = userProfile.role;
+    }
+    updateGapPage();
+  } catch(e) {}
+} else {
+  setTimeout(() => document.getElementById('onboarding-overlay').classList.remove('hidden'), 400);
+}
 </script>
 </body>
 </html>
